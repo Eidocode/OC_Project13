@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'inventory_db',
         'USER': 'admdjango',
         'PASSWORD': 'django',
-        'HOST': '192.168.1.46',
+        'HOST': '192.168.1.44',
         'PORT': '5432',
     }
 }
