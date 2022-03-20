@@ -1,24 +1,47 @@
+"""
+    This file contains the models used for the PSQL Database
+"""
+
 from django.db import models
 
 
 class Brand(models.Model):
-    # Brand model
+    """
+    Class used for the brand model
+    ----------
+    name
+        Contains the names of the brands used
+    """
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class Category(models.Model):
-    # Category model
+    """
+    Class used for the category model
+    ----------
+    name
+        Contains the names of the categories used
+    """
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
-class Model(models.Model):
-    # Category model
+class Product(models.Model):
+    """
+    Class used for the product model
+    ----------
+    name
+        Contains the names of the products used
+    brand
+        Foreign Key that points to the Brand table
+    category
+        Foreign Key that points to the Category table
+    """
     name = models.CharField(max_length=50, unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -28,14 +51,33 @@ class Model(models.Model):
 
 
 class CpuBrand(models.Model):
+    """
+    Class used for the CpuBrand model
+    ----------
+    name
+        Contains the names of the Cpu Brands
+    """
     name = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class Cpu(models.Model):
-    # CPU model
+    """
+    Class used for the Cpu model
+    ----------
+    brand
+        Foreign Key that points to the CpuBrand table
+    name
+        Contains the names of the Cpu models
+    frequency
+        Contains the CPU frequency
+    nb_core
+        Contains the number of physical cores
+    smt
+        Indicates the presence of simultaneous multithreading technology
+    """
     brand = models.ForeignKey(CpuBrand, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, unique=True)
     frequency = models.FloatField()
@@ -47,7 +89,22 @@ class Cpu(models.Model):
 
 
 class Inventory(models.Model):
-    # Inventory model
+    """
+    Class used for the Inventory model
+    ----------
+    hostname
+        Contains the hostname of the device
+    serial
+        Contains the serial number of the device
+    warranty_end
+        Indicates the end date of the guarantee
+    cpu
+        Foreign key that points to the Cpu table
+    addr_mac
+        Contains the mac address of the device
+    storage
+        Indicates the size of the storage
+    """
     hostname = models.CharField(max_length=25)
     serial = models.CharField(max_length=50, unique=True)
     warranty_end = models.DateTimeField(null=True)
@@ -57,19 +114,27 @@ class Inventory(models.Model):
     storage = models.IntegerField()
 
     def __str__(self):
-        return f'{self.hostname} ' \
-               f'--> S/N : {self.serial}' \
-               f'--> {self.cpu.brand.name} {self.cpu.name}@{self.cpu.frequency}' \
-               f'--> Ram : {self.ram} Go' \
-               f'--> Storage : {self.storage} Go'
+        return f'{self.hostname} with {self.cpu.name}' \
+            f'--> S/N : {self.serial}' \
+            f'--> Ram : {self.ram} Go' \
+            f'--> Storage : {self.storage} Go'
 
     class Meta:
-        # Constraint of unicity on the association hostname & serial
+        """ Constraint of unicity on the association hostname & serial """
         unique_together = ('hostname', 'serial')
 
 
 class DeviceUser(models.Model):
-    # Device User model
+    """
+    Class used for the DeviceUser model
+    ----------
+    first_name
+        Contains the first name of the user assigned to the device
+    last_name
+        Contains the last name of the user assigned to the device
+    uid
+        Contains the UID of the user assigned to the device
+    """
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     uid = models.CharField(max_length=10, unique=True)
@@ -79,48 +144,86 @@ class DeviceUser(models.Model):
 
 
 class Site(models.Model):
-    # Site model
+    """
+    Class used for the Site model
+    ----------
+    name
+        Contains the names of the different sites
+    """
     name = models.CharField(max_length=25, unique=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
-class Localisation(models.Model):
-    # Localisation model
+class Location(models.Model):
+    """
+    Class used for the Location model
+    ----------
+    name
+        Contains the names of the different location
+    loc_number
+        Contains the inventory number of the location
+    site
+        Foreign Key that points to the Site table
+    """
     name = models.CharField(max_length=25)
+    loc_number = models.IntegerField()
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.site} : {self.name}'
 
     class Meta:
-        # Constraint of unicity on the association name & site
-        unique_together = ('name', 'site')
+        """ Constraint of unicity on the association name & site """
+        unique_together = ('name', 'loc_number', 'site')
 
 
 class Immo(models.Model):
-    # Immo model
+    """
+    Class used for the Immo model
+    ----------
+    bc_number
+        Contains the purchase order number
+    buy_date
+        Contains the date of purchase of the device
+    inventory_number
+        Contains the inventory number of the device
+    location
+        Foreign key that points to the Location table
+    cost_center
+        Contains the name of the cost center
+    """
     bc_number = models.IntegerField(null=True)
     buy_date = models.DateTimeField(null=True)
     inventory_number = models.IntegerField(unique=True)
-    localisation = models.ForeignKey(Localisation, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
     cost_center = models.CharField(max_length=25, null=True)
 
     def __str__(self):
-        return f'{self.inventory_number} {self.localisation} {self.cost_center}'
+        return f'{self.inventory_number} {self.location} {self.cost_center}'
 
 
 class Device(models.Model):
-    # Product model
-    model = models.ForeignKey(Model, on_delete=models.CASCADE)
+    """
+    Class used for the Device model
+    ----------
+    product
+        Foreign key that points to the Product table
+    added_date
+        Date the device was added to the database
+    inventory
+        Foreign key that points to the Inventory table
+    device_user
+        Foreign key that points to the DeviceUser table
+    immo
+        Foreign key that points to the Immo table
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     added_date = models.DateTimeField(auto_now_add=True)
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     device_user = models.ForeignKey(DeviceUser, on_delete=models.CASCADE)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.added_date} {self.model.brand.name} {self.model.name} ' \
-               f'--> {self.inventory.hostname} ' \
-               f'--> {self.device_user.last_name} {self.device_user.first_name}' \
-               f'--> {self.immo.inventory_number} {self.immo.localisation}'
+        return f'{self.added_date} {self.product.name}'

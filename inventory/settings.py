@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'inventory_db',
         'USER': 'admdjango',
         'PASSWORD': 'django',
-        'HOST': '192.168.56.20',
+        'HOST': os.environ.get('PSQL_SRV'),
         'PORT': '5432',
     }
 }
