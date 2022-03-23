@@ -43,11 +43,15 @@ class Product(models.Model):
         Foreign Key that points to the Category table
     """
     name = models.CharField(max_length=50, unique=True)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self):
         return f'[{self.category.name}] {self.brand.name} {self.name}'
+
+    class Meta:
+        """ Constraint of unicity on the association name, brand & category """
+        unique_together = ('name', 'brand', 'category')
 
 
 class CpuBrand(models.Model):
@@ -57,7 +61,7 @@ class CpuBrand(models.Model):
     name
         Contains the names of the Cpu Brands
     """
-    name = models.CharField(max_length=10, unique=True)
+    name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -78,14 +82,14 @@ class Cpu(models.Model):
     smt
         Indicates the presence of simultaneous multithreading technology
     """
-    brand = models.ForeignKey(CpuBrand, on_delete=models.CASCADE)
+    cpu_brand = models.ForeignKey(CpuBrand, on_delete=models.PROTECT)
     name = models.CharField(max_length=50, unique=True)
     frequency = models.FloatField()
     nb_core = models.IntegerField()
     smt = models.BooleanField()
 
     def __str__(self):
-        return f'{self.brand.name} {self.name}@{self.frequency}'
+        return f'{self.cpu_brand.name} {self.name}@{self.frequency}'
 
 
 class Inventory(models.Model):
@@ -108,7 +112,7 @@ class Inventory(models.Model):
     hostname = models.CharField(max_length=25)
     serial = models.CharField(max_length=50, unique=True)
     warranty_end = models.DateTimeField(null=True)
-    cpu = models.ForeignKey(Cpu, on_delete=models.CASCADE)
+    cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
     ram = models.IntegerField()
     addr_mac = models.CharField(max_length=12, unique=True)
     storage = models.IntegerField()
@@ -169,7 +173,7 @@ class Location(models.Model):
     """
     name = models.CharField(max_length=25)
     loc_number = models.IntegerField()
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    site = models.ForeignKey(Site, on_delete=models.PROTECT)
 
     def __str__(self):
         return f'{self.site} : {self.name}'
@@ -197,7 +201,7 @@ class Immo(models.Model):
     bc_number = models.IntegerField(null=True)
     buy_date = models.DateTimeField(null=True)
     inventory_number = models.IntegerField(unique=True)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.PROTECT)
     cost_center = models.CharField(max_length=25, null=True)
 
     def __str__(self):
@@ -219,10 +223,10 @@ class Device(models.Model):
     immo
         Foreign key that points to the Immo table
     """
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
     added_date = models.DateTimeField(auto_now_add=True)
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    device_user = models.ForeignKey(DeviceUser, on_delete=models.CASCADE)
+    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE)
 
     def __str__(self):
