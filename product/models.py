@@ -84,8 +84,8 @@ class Cpu(models.Model):
     """
     cpu_brand = models.ForeignKey(CpuBrand, on_delete=models.PROTECT)
     name = models.CharField(max_length=50, unique=True)
-    frequency = models.FloatField()
-    nb_core = models.IntegerField()
+    frequency = models.DecimalField()
+    nb_cores = models.IntegerField()
     smt = models.BooleanField()
 
     def __str__(self):
@@ -109,9 +109,9 @@ class Inventory(models.Model):
     storage
         Indicates the size of the storage
     """
-    hostname = models.CharField(max_length=25)
+    hostname = models.CharField(max_length=50)
     serial = models.CharField(max_length=50, unique=True)
-    warranty_end = models.DateTimeField(null=True)
+    warranty_end = models.DateField(null=True)
     cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
     ram = models.IntegerField()
     addr_mac = models.CharField(max_length=12, unique=True)
@@ -199,7 +199,7 @@ class Immo(models.Model):
         Contains the name of the cost center
     """
     bc_number = models.IntegerField(null=True)
-    buy_date = models.DateTimeField(null=True)
+    buy_date = models.DateField(null=True)
     inventory_number = models.IntegerField(unique=True)
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
     cost_center = models.CharField(max_length=25, null=True)
