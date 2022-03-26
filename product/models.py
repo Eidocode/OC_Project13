@@ -7,7 +7,7 @@ from django.db import models
 
 class Brand(models.Model):
     """
-    Class used for the brand model
+    Class used for the brand_id model
     ----------
     name
         Contains the names of the brands used
@@ -20,7 +20,7 @@ class Brand(models.Model):
 
 class Category(models.Model):
     """
-    Class used for the category model
+    Class used for the category_id model
     ----------
     name
         Contains the names of the categories used
@@ -33,25 +33,25 @@ class Category(models.Model):
 
 class Product(models.Model):
     """
-    Class used for the product model
+    Class used for the product_id model
     ----------
     name
         Contains the names of the products used
-    brand
+    brand_id
         Foreign Key that points to the Brand table
-    category
+    category_id
         Foreign Key that points to the Category table
     """
     name = models.CharField(max_length=50, unique=True)
-    brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    brand_id = models.ForeignKey(Brand, on_delete=models.PROTECT)
+    category_id = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'[{self.category.name}] {self.brand.name} {self.name}'
+        return f'[{self.category_id.name}] {self.brand_id.name} {self.name}'
 
     class Meta:
-        """ Constraint of unicity on the association name, brand & category """
-        unique_together = ('name', 'brand', 'category')
+        """ Constraint of unicity on name, brand_id & category_id """
+        unique_together = ('name', 'brand_id', 'category_id')
 
 
 class CpuBrand(models.Model):
@@ -71,7 +71,7 @@ class Cpu(models.Model):
     """
     Class used for the Cpu model
     ----------
-    brand
+    brand_id
         Foreign Key that points to the CpuBrand table
     name
         Contains the names of the Cpu models
@@ -82,14 +82,14 @@ class Cpu(models.Model):
     smt
         Indicates the presence of simultaneous multithreading technology
     """
-    cpu_brand = models.ForeignKey(CpuBrand, on_delete=models.PROTECT)
+    cpu_brand_id = models.ForeignKey(CpuBrand, on_delete=models.PROTECT)
     name = models.CharField(max_length=50, unique=True)
-    frequency = models.DecimalField()
+    frequency = models.DecimalField(max_digits=5, decimal_places=3)
     nb_cores = models.IntegerField()
     smt = models.BooleanField()
 
     def __str__(self):
-        return f'{self.cpu_brand.name} {self.name}@{self.frequency}'
+        return f'{self.cpu_brand_id.name} {self.name}@{self.frequency}'
 
 
 class Inventory(models.Model):
@@ -102,7 +102,7 @@ class Inventory(models.Model):
         Contains the serial number of the device
     warranty_end
         Indicates the end date of the guarantee
-    cpu
+    cpu_id
         Foreign key that points to the Cpu table
     addr_mac
         Contains the mac address of the device
@@ -112,13 +112,13 @@ class Inventory(models.Model):
     hostname = models.CharField(max_length=50)
     serial = models.CharField(max_length=50, unique=True)
     warranty_end = models.DateField(null=True)
-    cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
+    cpu_id = models.ForeignKey(Cpu, on_delete=models.PROTECT)
     ram = models.IntegerField()
     addr_mac = models.CharField(max_length=12, unique=True)
     storage = models.IntegerField()
 
     def __str__(self):
-        return f'{self.hostname} with {self.cpu.name}' \
+        return f'{self.hostname} with {self.cpu_id.name}' \
             f'--> S/N : {self.serial}' \
             f'--> Ram : {self.ram} Go' \
             f'--> Storage : {self.storage} Go'
@@ -165,22 +165,22 @@ class Location(models.Model):
     Class used for the Location model
     ----------
     name
-        Contains the names of the different location
+        Contains the names of the different location_id
     loc_number
-        Contains the inventory number of the location
-    site
+        Contains the inventory_id number of the location_id
+    site_id
         Foreign Key that points to the Site table
     """
     name = models.CharField(max_length=25)
     loc_number = models.IntegerField()
-    site = models.ForeignKey(Site, on_delete=models.PROTECT)
+    site_id = models.ForeignKey(Site, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.site} : {self.name}'
+        return f'{self.site_id} : {self.name}'
 
     class Meta:
-        """ Constraint of unicity on the association name & site """
-        unique_together = ('name', 'loc_number', 'site')
+        """ Constraint of unicity on the association name & site_id """
+        unique_together = ('name', 'loc_number', 'site_id')
 
 
 class Immo(models.Model):
@@ -192,8 +192,8 @@ class Immo(models.Model):
     buy_date
         Contains the date of purchase of the device
     inventory_number
-        Contains the inventory number of the device
-    location
+        Contains the inventory_id number of the device
+    location_id
         Foreign key that points to the Location table
     cost_center
         Contains the name of the cost center
@@ -201,33 +201,33 @@ class Immo(models.Model):
     bc_number = models.IntegerField(null=True)
     buy_date = models.DateField(null=True)
     inventory_number = models.IntegerField(unique=True)
-    location = models.ForeignKey(Location, on_delete=models.PROTECT)
+    location_id = models.ForeignKey(Location, on_delete=models.PROTECT)
     cost_center = models.CharField(max_length=25, null=True)
 
     def __str__(self):
-        return f'{self.inventory_number} {self.location} {self.cost_center}'
+        return f'{self.inventory_number} {self.location_id} {self.cost_center}'
 
 
 class Device(models.Model):
     """
     Class used for the Device model
     ----------
-    product
+    product_id
         Foreign key that points to the Product table
     added_date
         Date the device was added to the database
-    inventory
+    inventory_id
         Foreign key that points to the Inventory table
-    device_user
+    device_user_id
         Foreign key that points to the DeviceUser table
     immo
         Foreign key that points to the Immo table
     """
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    product_id = models.ForeignKey(Product, on_delete=models.PROTECT)
     added_date = models.DateTimeField(auto_now_add=True)
-    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
+    inventory_id = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    device_user_id = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.added_date} {self.product.name}'
+        return f'{self.added_date} {self.product_id.name}'
