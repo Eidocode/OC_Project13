@@ -52,102 +52,24 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>2021-07-12</td>
-                            <td>Desktop</td>
-                            <td>Apple</td>
-                            <td>iMac</td>
-                            <td>PR-DISI-01</td>
-                            <td>SJ5JB03</td>
-                            <td>Core i7@4.3GHz</td>
-                            <td>16</td>
-                            <td>reubri</td>
-                            <td>59892</td>
-                            <td>5159</td>
-                            <td>ECO</td>
-                            <td>2020-09-24</td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>2021-07-12</td>
-                            <td>Desktop</td>
-                            <td>Apple</td>
-                            <td>Mac Mini</td>
-                            <td>PR-DISI-02</td>
-                            <td>JG1NX65</td>
-                            <td>Core i7@4.3GHz</td>
-                            <td>32</td>
-                            <td>aidodo</td>
-                            <td>59171</td>
-                            <td>5227</td>
-                            <td>IAE</td>
-                            <td>2021-03-12</td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>2021-07-12</td>
-                            <td>Desktop</td>
-                            <td>HP</td>
-                            <td>ProBook 635</td>
-                            <td>PR-DISI-03</td>
-                            <td>TF9CC29</td>
-                            <td>Core i9@3.8GHz</td>
-                            <td>32</td>
-                            <td>dexave</td>
-                            <td>59399</td>
-                            <td>5575</td>
-                            <td>BIOFLOW</td>
-                            <td>2020-09-03</td>
-                        </tr>
-                        <tr>
-                            <th>4</th>
-                            <td>2021-07-12</td>
-                            <td>Mobile Workstation</td>
-                            <td>HP</td>
-                            <td>Zbook 15</td>
-                            <td>PR-DISI-04</td>
-                            <td>WU1QR93</td>
-                            <td>Core i7@4.3GHz</td>
-                            <td>16</td>
-                            <td>saipau</td>
-                            <td>59374</td>
-                            <td>5561</td>
-                            <td>OFRE</td>
-                            <td>2020-08-29</td>
-                        </tr>
-                        <tr>
-                            <th>5</th>
-                            <td>2021-07-12</td>
-                            <td>Mobile Workstation</td>
-                            <td>Dell</td>
-                            <td>Precision 5550</td>
-                            <td>PR-DISI-05</td>
-                            <td>SW3FK32</td>
-                            <td>Core i5@3.4GHz</td>
-                            <td>32</td>
-                            <td>nayspe</td>
-                            <td>59452</td>
-                            <td>5508</td>
-                            <td>DISI</td>
-                            <td>2021-04-16</td>
-                        </tr>
-                        <tr>
-                            <th>6</th>
-                            <td>2021-07-12</td>
-                            <td>Tablet</td>
-                            <td>HP</td>
-                            <td>HP Slate 10</td>
-                            <td>PR-DISI-06</td>
-                            <td>UL2GA14</td>
-                            <td>Core i5@3.4GHz</td>
-                            <td>16</td>
-                            <td>dawnie</td>
-                            <td>59022</td>
-                            <td>5144</td>
-                            <td>EDYSAN</td>
-                            <td>2021-01-24</td>
-                        </tr>
+                        {% for device in devices %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <td>{{ device.added_date }}</td>
+                                <td>{{ device.product.category.name }}</td>
+                                <td>{{ device.product.brand.name }}</td>
+                                <td>{{ device.product.name }}</td>
+                                <td>{{ device.inventory.hostname }}</td>
+                                <td>{{ device.inventory.serial }}</td>
+                                <td>{{ device.inventory.cpu.cpu_brand }} {{ device.inventory.cpu.name }}@{{ device.inventory.cpu.frequency }}Ghz</td>
+                                <td>{{ device.inventory.ram }}</td>
+                                <td>{{ device.device_user.uid }}</td>
+                                <td>{{ device.immo.inventory_number }}</td>
+                                <td>{{ device.immo.location.loc_number }}</td>
+                                <td>{{ device.immo.cost_center }}</td>
+                                <td>{{ device.immo.buy_date }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

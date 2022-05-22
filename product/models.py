@@ -198,7 +198,7 @@ class Immo(models.Model):
     cost_center
         Contains the name of the cost center
     """
-    bc_number = models.IntegerField(null=True)
+    bc_number = models.PositiveBigIntegerField(null=True)
     buy_date = models.DateField(null=True)
     inventory_number = models.IntegerField(unique=True)
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
