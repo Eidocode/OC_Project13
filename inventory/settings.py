@@ -84,8 +84,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'inventory_test',
-        'USER': 'admdjango',
-        'PASSWORD': 'django',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PWD'),
         'HOST': os.environ.get('PSQL_SRV'),
         'PORT': '5432',
     }
