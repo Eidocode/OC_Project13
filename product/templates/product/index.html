@@ -28,9 +28,7 @@
                             <th>Ram (Go)</th>
                             <th>UserID</th>
                             <th>Inventory Number</th>
-                            <th>Localisation</th>
-                            <th>Cost Center</th>
-                            <th>Buy date</th>
+                            <th>Location</th>
                         </tr>
                     </thead>
                     <tfoot class="thead-light">
@@ -46,9 +44,7 @@
                             <th>Ram (Go)</th>
                             <th>UserID</th>
                             <th>Inventory Number</th>
-                            <th>Localisation</th>
-                            <th>Cost Center</th>
-                            <th>Buy date</th>
+                            <th>Location</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -65,9 +61,7 @@
                                 <td>{{ device.inventory.ram }}</td>
                                 <td>{{ device.device_user.uid }}</td>
                                 <td>{{ device.immo.inventory_number }}</td>
-                                <td>{{ device.immo.location.loc_number }}</td>
-                                <td>{{ device.immo.cost_center }}</td>
-                                <td>{{ device.immo.buy_date }}</td>
+                                <td>{{ device.immo.location.name }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

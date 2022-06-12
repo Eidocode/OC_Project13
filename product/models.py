@@ -86,7 +86,6 @@ class Cpu(models.Model):
     name = models.CharField(max_length=50, unique=True)
     frequency = models.DecimalField(max_digits=5, decimal_places=3)
     nb_cores = models.IntegerField()
-    smt = models.BooleanField()
 
     def __str__(self):
         return f'{self.cpu_brand.name} {self.name}@{self.frequency}'
@@ -111,7 +110,6 @@ class Inventory(models.Model):
     """
     hostname = models.CharField(max_length=50)
     serial = models.CharField(max_length=50, unique=True)
-    warranty_end = models.DateField(null=True)
     cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
     ram = models.IntegerField()
     addr_mac = models.CharField(max_length=12, unique=True)
@@ -199,13 +197,11 @@ class Immo(models.Model):
         Contains the name of the cost center
     """
     bc_number = models.PositiveBigIntegerField(null=True)
-    buy_date = models.DateField(null=True)
     inventory_number = models.IntegerField(unique=True)
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
-    cost_center = models.CharField(max_length=25, null=True)
 
     def __str__(self):
-        return f'{self.inventory_number} {self.location} {self.cost_center}'
+        return f'{self.inventory_number} {self.location}'
 
 
 class Device(models.Model):
