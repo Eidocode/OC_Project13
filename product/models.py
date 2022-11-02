@@ -12,7 +12,7 @@ class Brand(models.Model):
     name
         Contains the names of the brands used
     """
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=15, unique=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -25,7 +25,7 @@ class Category(models.Model):
     name
         Contains the names of the categories used
     """
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=15, unique=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -42,7 +42,7 @@ class Product(models.Model):
     category
         Foreign Key that points to the Category table
     """
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=25, unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
@@ -83,9 +83,9 @@ class Cpu(models.Model):
         Indicates the presence of simultaneous multithreading technology
     """
     cpu_brand = models.ForeignKey(CpuBrand, on_delete=models.PROTECT)
-    name = models.CharField(max_length=50, unique=True)
-    frequency = models.DecimalField(max_digits=5, decimal_places=3)
-    nb_cores = models.IntegerField()
+    name = models.CharField(max_length=20, unique=True)
+    frequency = models.DecimalField(max_digits=4, decimal_places=2, null=True)
+    nb_cores = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
         return f'{self.cpu_brand.name} {self.name}@{self.frequency}'
@@ -108,22 +108,18 @@ class Inventory(models.Model):
     storage
         Indicates the size of the storage
     """
-    hostname = models.CharField(max_length=50)
-    serial = models.CharField(max_length=50, unique=True)
+    hostname = models.CharField(max_length=20)
+    serial = models.CharField(max_length=20, unique=True)
     cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
-    ram = models.IntegerField()
-    addr_mac = models.CharField(max_length=12, unique=True)
-    storage = models.IntegerField()
+    ram = models.PositiveSmallIntegerField(null=True)
+    addr_mac = models.CharField(max_length=12, unique=True, null=True)
+    storage = models.PositiveIntegerField(null=True)
 
     def __str__(self):
         return f'{self.hostname} with {self.cpu.name}' \
             f'--> S/N : {self.serial}' \
             f'--> Ram : {self.ram} Go' \
             f'--> Storage : {self.storage} Go'
-
-    class Meta:
-        """ Constraint of unicity on the association hostname & serial """
-        unique_together = ('hostname', 'serial')
 
 
 class DeviceUser(models.Model):
@@ -137,22 +133,22 @@ class DeviceUser(models.Model):
     uid
         Contains the UID of the user assigned to the device
     """
-    first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
+    first_name = models.CharField(max_length=15)
+    last_name = models.CharField(max_length=15)
     uid = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} with {self.uid}'
 
 
-class Site(models.Model):
+class Entity(models.Model):
     """
     Class used for the Site model
     ----------
     name
         Contains the names of the different sites
     """
-    name = models.CharField(max_length=25, unique=True)
+    name = models.CharField(max_length=15, unique=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -169,9 +165,9 @@ class Location(models.Model):
     site
         Foreign Key that points to the Site table
     """
-    name = models.CharField(max_length=25)
-    loc_number = models.IntegerField()
-    site = models.ForeignKey(Site, on_delete=models.PROTECT)
+    name = models.CharField(max_length=6)
+    loc_number = models.PositiveIntegerField()
+    site = models.ForeignKey(Entity, on_delete=models.PROTECT)
 
     def __str__(self):
         return f'{self.site} : {self.name}'
@@ -196,7 +192,7 @@ class Immo(models.Model):
     cost_center
         Contains the name of the cost center
     """
-    bc_number = models.PositiveBigIntegerField(null=True)
+    bc_number = models.CharField(max_length=12, null=True)
     inventory_number = models.IntegerField(unique=True)
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
 
@@ -221,7 +217,7 @@ class Device(models.Model):
     """
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     added_date = models.DateTimeField(auto_now_add=True)
-    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
     device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE)
 
