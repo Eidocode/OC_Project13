@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
-
 from pathlib import Path
+
+from tools import const
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,11 +84,11 @@ WSGI_APPLICATION = 'inventory.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'inventory_test',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PWD'),
-        'HOST': os.environ.get('PSQL_SRV'),
-        'PORT': '5432',
+        'NAME': const.MAIN_DB_NAME,
+        'USER': const.USER_ID,
+        'PASSWORD': const.USER_PWD,
+        'HOST': const.SRV_IP,
+        'PORT': const.PSQL_PORT,
     }
 }
 
