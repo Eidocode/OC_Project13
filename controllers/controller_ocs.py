@@ -1,22 +1,17 @@
-import random
-import sys
-
-from api.ocs_db import OcsDbHandler
 from api.inventory_db import InventoryDbHandler
 
 
 class ControllerOcs:
     def __init__(self):
-        self.ocs_db_handler = OcsDbHandler()
         self.inv_db_handler = InventoryDbHandler()
 
     def is_data_exist_in_table(self, table_name, p_key, data):
-        """Checks that the specified data is already present in the database."""
+        """Checks that the specified data is already present in the databases"""
         inv_table = self.inv_db_handler.get_data_from_table(table_name, p_key)
         return any(data == item['field'] for item in inv_table)
 
     def _set_enum_to_db_and_get_id(self, table_name, field_name, data_to_check):
-        """Return id for enum tables (brand, category, cpu_brand)"""
+        """Returns id for enum tables (brand, category, cpu_brand)"""
         if self.is_data_exist_in_table(table_name, field_name, data_to_check):
             print(f'Item in {table_name} already exists, getting id...')
             return self.inv_db_handler.get_id_field_from_table(

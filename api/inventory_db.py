@@ -1,4 +1,4 @@
-from database.database_manager import DatabaseManager
+from databases.database_manager import DatabaseManager
 
 from tools import const
 
@@ -63,5 +63,56 @@ class InventoryDbHandler:
         return self.get_id_field_from_table(
             'product_inventory', 'serial', serial_val)
 
+    def set_data_to_entity_table_and_return_id(self, name_val):
+        db_manager = DatabaseManager(const.MAIN_DB_NAME)
+        new_request = f"""
+            INSERT INTO product_entity (name) 
+            VALUES ('{name_val}')
+        """
+        db_manager.set_query(new_request)
+        return self.get_id_field_from_table('product_entity', 'name', name_val)
 
+    def set_data_to_location_table_and_return_id(
+            self, location_val, loc_number_val, entity_id_val):
+        # TODO : Rename site field with entity in location table
+        db_manager = DatabaseManager(const.MAIN_DB_NAME)
+        new_request = f"""
+            INSERT INTO product_location (name, loc_number, site_id) 
+            VALUES ('{location_val}', {loc_number_val}, {entity_id_val})
+        """
+        db_manager.set_query(new_request)
+        return self.get_id_field_from_table(
+            'product_location', 'loc_number', loc_number_val)
 
+    def set_data_to_immo_table_and_return_id(
+            self, bc_num_val, inv_num_val, loc_id_val):
+        db_manager = DatabaseManager(const.MAIN_DB_NAME)
+        new_request = f"""
+            INSERT INTO product_immo (bc_number, inventory_number, location_id) 
+            VALUES ('{bc_num_val}', {inv_num_val}, {loc_id_val})
+        """
+        db_manager.set_query(new_request)
+        return self.get_id_field_from_table(
+            'product_immo', 'inventory_number', inv_num_val)
+
+    def set_data_to_deviceuser_table_and_return_id(
+            self, fname_val, lname_val, uid_val):
+        db_manager = DatabaseManager(const.MAIN_DB_NAME)
+        new_request = f"""
+            INSERT INTO product_deviceuser (first_name, last_name, uid) 
+            VALUES ('{fname_val}', '{lname_val}', '{uid_val}')
+        """
+        db_manager.set_query(new_request)
+        return self.get_id_field_from_table('product_deviceuser', 'uid', uid_val)
+
+    def set_data_to_device_table(
+            self, device_user_id_val, immo_id_val, inventory_id_val, product_id_val):
+        db_manager = DatabaseManager(const.MAIN_DB_NAME)
+        new_request = f"""
+            INSERT INTO product_device 
+                (device_user_id, immo_id, inventory_id, product_id) 
+            VALUES 
+                ({device_user_id_val}, {immo_id_val}, {inventory_id_val}, 
+                {product_id_val})
+        """
+        db_manager.set_query(new_request)

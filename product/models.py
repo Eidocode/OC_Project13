@@ -207,7 +207,7 @@ class Device(models.Model):
     product
         Foreign key that points to the Product table
     added_date
-        Date the device was added to the database
+        Date the device was added to the databases
     inventory
         Foreign key that points to the Inventory table
     device_user

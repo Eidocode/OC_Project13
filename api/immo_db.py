@@ -1,11 +1,11 @@
-from database.database_manager import DatabaseManager
+from databases.database_manager import DatabaseManager
 
-from tools import const, func_db
+from tools import const
 
 
 class ImmoDbHandler:
     def __init__(self):
-        self.immos = func_db.convert_to_array(self._get_raw_data_from_db())
+        self.immos = self.convert_to_array(self._get_raw_data_from_db())
 
     def _get_raw_data_from_db(self):
         immo_db_manager = DatabaseManager(const.IMMO_DB_NAME)
@@ -23,3 +23,16 @@ class ImmoDbHandler:
             INNER JOIN db_entity ON
                 db_entity.id = db_location.id_db_entity"""
         return immo_db_manager.get_query(this_query)
+
+    def convert_to_array(self, raw_data):
+        return [{
+            'bc_number': item[0],
+            'inventory_number': item[1],
+            'serial': item[2],
+            'first_name': item[3],
+            'last_name': item[4],
+            'uid': item[5],
+            'location': item[6],
+            'loc_number': item[7],
+            'entity': item[8],
+        } for item in raw_data]

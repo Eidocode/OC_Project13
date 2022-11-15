@@ -1,25 +1,6 @@
 import random
 import sys
 
-from database.database_manager import DatabaseManager
-
-
-def convert_to_array(raw_data):
-    return [{
-        'hostname': item[0],
-        'serial': item[1],
-        'ram': item[2],
-        'addr_mac': item[3],
-        'storage': item[4],
-        'product': item[5],
-        'brand': item[6],
-        'catg': item[7],
-        'cpu': item[8],
-        'freq': item[9],
-        'cores': item[10],
-        'cpu_brand': item[11]
-    } for item in raw_data]
-
 
 def get_x_line_from_data_lst(nb_item: int, db_handler_data):
     """Returns x lines of data specified in the parameters"""

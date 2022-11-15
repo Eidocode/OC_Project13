@@ -1,6 +1,6 @@
 """
-    Script file used to fill the main database with data from the OCS external
-    database.
+    Script file used to fill the main databases with data from the OCS external
+    databases.
 """
 
 from random import randrange
@@ -17,7 +17,7 @@ class Command(BaseCommand):
         Class used to add a new parameter fill_db_from_ocs to manage.py
     """
 
-    help = 'Adds new entries in oc_inventory database'
+    help = 'Adds new entries in oc_inventory databases'
 
     def add_arguments(self, parser):
         """Adds int argument for command line"""
