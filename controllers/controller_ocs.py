@@ -1,14 +1,34 @@
 from api.inventory_db import InventoryDbHandler
 
 
+
 class ControllerOcs:
     def __init__(self):
         self.inv_db_handler = InventoryDbHandler()
+
+
+    def is_new_data_exists_in_table(self, model_name, data_to_check):
+        datas = model_name.objects.all()
+        return any(data_to_check == data.name for data in datas)
+
 
     def is_data_exist_in_table(self, table_name, p_key, data):
         """Checks that the specified data is already present in the databases"""
         inv_table = self.inv_db_handler.get_data_from_table(table_name, p_key)
         return any(data == item['field'] for item in inv_table)
+
+
+
+
+    def set_new_data_brand_to_db(self, table_name, field_name, data_to_check):
+        pass
+
+
+
+
+
+
+
 
     def _set_enum_to_db_and_get_id(self, table_name, field_name, data_to_check):
         """Returns id for enum tables (brand, category, cpu_brand)"""

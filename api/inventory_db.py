@@ -1,5 +1,6 @@
 from databases.database_manager import DatabaseManager
 
+from product.models import Brand
 from tools import const
 
 
@@ -22,6 +23,16 @@ class InventoryDbHandler:
             FROM {table_name} 
             WHERE {field_name} = '{field_value}'"""
         return db_manager.get_query(this_query)[0][0]
+
+
+
+    def set_new_data_to_brand_table(self, data):
+        pass
+
+
+
+
+
 
     def set_data_to_enum_table_and_return_id(self, table_name, field, value):
         db_manager = DatabaseManager(const.MAIN_DB_NAME)
