@@ -1,9 +1,8 @@
 """
     This file contains the models used for the PSQL Database
 """
-from datetime import datetime
-
 from django.db import models
+from django.utils import timezone
 
 
 class Brand(models.Model):
@@ -217,7 +216,7 @@ class Device(models.Model):
         Foreign key that points to the Immo table
     """
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    added_date = models.DateTimeField(default=datetime.now())
+    added_date = models.DateTimeField(default=timezone.now())
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
     device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE)

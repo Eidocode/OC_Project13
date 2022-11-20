@@ -1,8 +1,8 @@
 from controllers.controller_immo import ControllerImmo
-from controllers.controller_ocs import ControllerOcs
+from controllers.controller_ocs import ControllerDevice
 from api.ocs_db import OcsDbHandler
 from api.immo_db import ImmoDbHandler
-from api.inventory_db import InventoryDbHandler
+from product.models import Device
 
 import tools.func_db
 
@@ -10,12 +10,11 @@ import tools.func_db
 class Controller:
     def __init__(self):
         self.controller_immo = ControllerImmo()
-        self.controller_ocs = ControllerOcs()
+        self.controller_device = ControllerDevice()
         self.ocs_db_handler = OcsDbHandler()
         self.immo_db_handler = ImmoDbHandler()
-        self.inv_db_handler = InventoryDbHandler()
 
-    def set_device_to_inventory_db(self, nb_devices):
+    def set_items_to_inventory_db(self, nb_devices):
         """Set all data to inventory db"""
         all_devices = self.ocs_db_handler.devices
         all_immos = self.immo_db_handler.immos
@@ -27,25 +26,20 @@ class Controller:
             print(f"****** {count} ******")
             for immo in all_immos:
                 if device['serial'] == immo['serial']:
-                    device_user_id_val = self.controller_immo.set_device_user_to_db_and_get_id(immo)
-                    immo_id_val = self.controller_immo.set_immo_to_db_and_get_id(immo)
-                    inventory_id_val = self.controller_ocs.set_inventory_to_db_and_get_id(device)
-                    product_id_val = self.controller_ocs.set_product_to_db_and_get_id(device)
+                    device_user_instance = self.controller_immo.get_or_set_in_device_user_table(immo)
+                    immo_instance = self.controller_immo.get_or_set_in_immo_table(immo)
+                    inventory_instance = self.controller_device.get_or_set_in_inventory_table(device)
+                    product_instance = self.controller_device.get_or_set_in_product_table(device)
+                    Device.objects.get_or_create(
+                        product= product_instance, inventory=inventory_instance,
+                        device_user=device_user_instance, immo= immo_instance)
+            print("")
 
-                    self.inv_db_handler.set_data_to_device_table(
-                        device_user_id_val, immo_id_val, inventory_id_val, product_id_val)
-
-
-        # TODO Checks auto_now in models for added_date
-
-        # if isinstance(data_to_set, dict):
-        #     old_dict = data_to_set
-        #     data_to_set = [old_dict]
-
-        # device_user_id_val = self.controller_immo.set_device_user_to_db_and_get_id(data_to_set)
-        # immo_id_val = self.controller_immo.set_immo_to_db_and_get_id(data_to_set)
-        # inventory_id_val = self.controller_ocs.set_inventory_to_db_and_get_id(data_to_set)
-        # product_id_val = self.controller_ocs.set_product_to_db_and_get_id(data_to_set)
-        #
-        # self.inv_db_handler.set_data_to_device_table(
-        #     device_user_id_val, immo_id_val, inventory_id_val, product_id_val)
+        # TODO :
+        #   - Checks auto_now in models for added_date
+        #   - Adds only new devices :
+        #       - device['product']
+        #       - device['inventory']
+        #       - immo['immo']
+        #   - Adds only new users :
+        #       - immo['device_user']

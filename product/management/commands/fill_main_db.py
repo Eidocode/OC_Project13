@@ -3,13 +3,9 @@
     databases.
 """
 
-from random import randrange
-
 from django.core.management.base import BaseCommand
 
-import requests
-
-from product.models import Brand
+from controllers.controller import Controller
 
 
 class Command(BaseCommand):
@@ -19,6 +15,10 @@ class Command(BaseCommand):
 
     help = 'Adds new entries in oc_inventory databases'
 
+    def __init__(self):
+        super().__init__()
+        self.controller = Controller()
+
     def add_arguments(self, parser):
         """Adds int argument for command line"""
 
@@ -27,15 +27,13 @@ class Command(BaseCommand):
             type=int,
             nargs='?',
             default=2,
-            help='Indicates the number of categories to be created',
+            help='Indicates the number of devices/immos to be created',
         )
 
     def handle(self, *args, **options):
         """Contains the method called when executed the command line
         (XXXX) with the specified int argument"""
 
-        nb_dv = options['nb_devices']
-        self.stdout.write(f"Processing for {nb_dv} devices...")
-        # Launch class to execute
-
-    
+        nb_device = options['nb_devices']
+        self.stdout.write(f"Processing for {nb_device} devices/immos...")
+        self.controller.set_items_to_inventory_db(nb_device)
