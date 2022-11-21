@@ -28,9 +28,12 @@ class ControllerImmo:
 
     def get_or_set_in_immo_table(self, data_to_check):
         """Returns data_to_check id in Immo model"""
-        location_instance = self._get_or_set_in_location_table(data_to_check)
+        loc_instance = self._get_or_set_in_location_table(data_to_check)
+        bc_num = data_to_check['bc_number']
+        inv_num = data_to_check['inventory_number']
         this_data = Immo.objects.get_or_create(
-            bc_number=data_to_check['bc_number'],
-            inventory_number=data_to_check['inventory_number'],
-            location=location_instance)
+            bc_number=bc_num,
+            inventory_number=inv_num,
+            location=loc_instance)
+        print(f"Added BC N°{bc_num} with immo {inv_num}")
         return this_data[0]

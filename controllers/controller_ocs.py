@@ -23,9 +23,11 @@ class ControllerDevice:
         """Returns data_to_check id in Product model"""
         brand_instance = self._get_or_set_in_brand_table(data_to_check)
         catg_instance = self._get_or_set_in_category_table(data_to_check)
+        product = data_to_check['product']
         this_data = Product.objects.get_or_create(
-            name=data_to_check['product'], brand=brand_instance,
+            name=product, brand=brand_instance,
             category=catg_instance)
+        print(f"Added {product}")
         return this_data[0]
 
     def _get_or_set_in_cpu_table(self, data_to_check):
@@ -41,9 +43,14 @@ class ControllerDevice:
     def get_or_set_in_inventory_table(self, data_to_check):
         """Returns data_to_check id in Inventory model"""
         cpu_instance = self._get_or_set_in_cpu_table(data_to_check)
+        host = data_to_check['hostname']
+        serial = data_to_check['serial']
+        ram = data_to_check['ram']
+        storage = data_to_check['storage']
         this_data = Inventory.objects.get_or_create(
-            hostname=data_to_check['hostname'], serial=data_to_check['serial'],
-            cpu=cpu_instance, ram=data_to_check['ram'],
+            hostname=host, serial=serial,
+            cpu=cpu_instance, ram=ram,
             addr_mac=data_to_check['addr_mac'], storage=data_to_check['storage']
         )
+        print(f"Added device {host} with serial {serial}")
         return this_data[0]

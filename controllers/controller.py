@@ -23,7 +23,7 @@ class Controller:
             nb_devices, all_devices)
 
         for count, device in enumerate(devices_to_process, start=1):
-            print(f"****** {count} ******")
+            print(f"****** {count}. {device['serial']} ******")
             for immo in all_immos:
                 if device['serial'] == immo['serial']:
                     device_user_instance = self.controller_immo.get_or_set_in_device_user_table(immo)
