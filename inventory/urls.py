@@ -24,7 +24,7 @@ from product import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^product/', include('product.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^manage-admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
