@@ -7,7 +7,8 @@ def index(request):
     """
     Used for index page
     """
-    devices = Device.objects.all()
+    devices = Device.objects.filter().order_by('-added_date')[:5]
+    current_user = request.user
 
     context = {
         'devices': devices

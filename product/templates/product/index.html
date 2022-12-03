@@ -4,9 +4,9 @@
 {% block content %}
 
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Inventaire</h1>
+        <h1 class="mt-4">Inventory</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Inventaire</li>
+            <li class="breadcrumb-item active">Inventory</li>
         </ol>
         <div class="card mb-4 shadow">
             <div class="card-header shadow-sm">
@@ -18,14 +18,11 @@
                     <thead class="thead-light">
                         <tr>
                             <th>#</th>
-                            <th>Added date</th>
                             <th>Type</th>
                             <th>Brand</th>
                             <th>Model</th>
                             <th>Hostname</th>
                             <th>Serial</th>
-                            <th>CPU</th>
-                            <th>Ram (Go)</th>
                             <th>UserID</th>
                             <th>Inventory Number</th>
                             <th>Location</th>
@@ -34,14 +31,11 @@
                     <tfoot class="thead-light">
                         <tr>
                             <th>#</th>
-                            <th>Added date</th>
                             <th>Type</th>
                             <th>Brand</th>
                             <th>Model</th>
                             <th>Hostname</th>
                             <th>Serial</th>
-                            <th>CPU</th>
-                            <th>Ram (Go)</th>
                             <th>UserID</th>
                             <th>Inventory Number</th>
                             <th>Location</th>
@@ -51,14 +45,11 @@
                         {% for device in devices %}
                             <tr>
                                 <th>{{ forloop.counter }}</th>
-                                <td>{{ device.added_date }}</td>
                                 <td>{{ device.product.category.name }}</td>
                                 <td>{{ device.product.brand.name }}</td>
                                 <td>{{ device.product.name }}</td>
                                 <td>{{ device.inventory.hostname }}</td>
                                 <td>{{ device.inventory.serial }}</td>
-                                <td>{{ device.inventory.cpu.cpu_brand }} {{ device.inventory.cpu.name }}@{{ device.inventory.cpu.frequency }}Ghz</td>
-                                <td>{{ device.inventory.ram }}</td>
                                 <td>{{ device.device_user.uid }}</td>
                                 <td>{{ device.immo.inventory_number }}</td>
                                 <td>{{ device.immo.location.name }}</td>

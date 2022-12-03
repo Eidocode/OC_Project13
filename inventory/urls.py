@@ -22,7 +22,8 @@ from product import views
 
 
 urlpatterns = [
-    url(r'^$', views.index),
+    url(r'^$', views.index, name='index'),
+    url(r'^users/', include('users.urls')),
     url(r'^product/', include('product.urls')),
     url(r'^manage-admin/', admin.site.urls),
 ]
