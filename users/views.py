@@ -23,3 +23,9 @@ def signup(request):
         form = SignupForm()
 
     return render(request, 'users/signup.html', {'form': form})
+
+def account(request):
+    """
+    Used for user account page
+    """
+    return render(request, 'users/account.html')

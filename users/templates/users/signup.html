@@ -15,8 +15,13 @@
                     <form method="POST" class="ml-auto my-2 my-lg-0">
                         {% csrf_token %}
                         {{ form|crispy }}
+                        <br/>
                         <button id="logon_btn" class="btn btn-primary" type="submit">Valider</button>
                     </form>
+                    <br/>
+                    <p class="font-weight-lighter font-italic">
+                        <i>Vous êtes déjà enregistré ? Authentifiez-vous <a href="/users/login">ici</a></i>
+                    </p>
                 </div>
             </div>
         </div>
