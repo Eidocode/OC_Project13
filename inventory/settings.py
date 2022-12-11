@@ -142,6 +142,7 @@ EMAIL_HOST = const.EMAIL_HOST
 EMAIL_HOST_USER = const.EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = const.EMAIL_HOST_PWD
 EMAIL_PORT = 587
+PASSWORD_RESET_TIMEOUT = 14400
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

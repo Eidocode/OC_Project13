@@ -9,7 +9,7 @@ class SignupForm(UserCreationForm):
     """
     first_name = forms.CharField()
     last_name = forms.CharField()
-    email = forms.EmailField()
+    email = forms.EmailField(max_length=200, help_text='Enter a valid address')
 
     class Meta:
         model = User
