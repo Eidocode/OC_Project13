@@ -32,10 +32,10 @@ def signup(request):
 
 
 def activate(request, uidb64, token):
-    User = get_user_model()
+    user_model = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
+        user = user_model.objects.get(pk=uid)
     except:
         user = None
 
