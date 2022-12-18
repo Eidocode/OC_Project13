@@ -1,7 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -80,3 +81,22 @@ def account(request):
     Used for user account page
     """
     return render(request, 'users/account.html')
+
+
+def change_password(request):
+    """
+    Used when user change his password
+    """
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Update user session with new password
+            update_session_auth_hash(request, user)
+            return redirect('account')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'users/change_password.html', {
+        'form': form,
+    })
