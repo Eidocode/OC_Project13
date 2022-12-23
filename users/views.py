@@ -106,53 +106,53 @@ def change_password(request):
     })
 
 
-# def reset_password(request):
-#     if request.method == 'POST':
-#         form = PasswordResetForm(request.POST)
-#         if form.is_valid():
-#             user_email = form.cleaned_data['email']
-#             associated_user = get_user_model().objects.filter(email=user_email).first()
-#             if associated_user:
-#                 subject = 'Password reset request'
-#                 message = render_to_string("users/mail_reset_password.html", {
-#                     'user': associated_user,
-#                     'domain': get_current_site(request).domain,
-#                     'uid': urlsafe_base64_encode(force_bytes(associated_user.pk)),
-#                     'token': token_generator.make_token(associated_user),
-#                     'protocol': 'https' if request.is_secure() else 'http'
-#                 })
-#                 email = EmailMessage(subject, message, to=[associated_user.email])
-#                 if email.send():
-#                     messages.success(request, "Email sent successfully, check your mailbox")
-#                     return redirect('login')
-#                 else:
-#                     messages.error(request, "Problem sending reset password email")
-#
-#     form = PasswordResetForm()
-#     return render(request, 'users/reset_password.html', {'form': form})
-#
-#
-# def reset_password_confirm(request, uidb64, token):
-#     User = get_user_model()
-#     try:
-#         uid = force_str(urlsafe_base64_decode(uidb64))
-#         user = User.objects.get(pk=uid)
-#     except:
-#         user = None
-#
-#     if user is not None and token_generator.check_token(user, token):
-#         if request.method == 'POST':
-#             form = SetPasswordForm(user, request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 messages.success(request, 'Your password has been set. You may go ahead and <b>log in</b> now.')
-#                 return redirect('login')
-#             else:
-#                 for error in list(form.errors.values()):
-#                     messages.error(request, error)
-#
-#         form = SetPasswordForm(user)
-#         return render(request, 'users/reset_password_confirm.html', {form: form})
-#     else:
-#         messages.error(request, 'Link is expired...')
-#     return redirect('login')
+def reset_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            user_email = form.cleaned_data['email']
+            associated_user = get_user_model().objects.filter(email=user_email).first()
+            if associated_user:
+                subject = 'Password reset request'
+                message = render_to_string("users/mail_reset_password.html", {
+                    'user': associated_user,
+                    'domain': get_current_site(request).domain,
+                    'uid': urlsafe_base64_encode(force_bytes(associated_user.pk)),
+                    'token': token_generator.make_token(associated_user),
+                    'protocol': 'https' if request.is_secure() else 'http'
+                })
+                email = EmailMessage(subject, message, to=[associated_user.email])
+                if email.send():
+                    messages.success(request, "Email sent successfully, check your mailbox")
+                    return redirect('login')
+                else:
+                    messages.error(request, "Problem sending reset password email")
+
+    form = PasswordResetForm()
+    return render(request, 'registration/password_reset_form.html', {'form': form})
+
+
+def reset_password_confirm(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    if user is not None and token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your password has been set. You may go ahead and <b>log in</b> now.')
+                return redirect('login')
+            else:
+                for error in list(form.errors.values()):
+                    messages.error(request, error)
+
+        form = SetPasswordForm(user)
+        return render(request, 'registration/password_reset_confirm.html', {form: form})
+    else:
+        messages.error(request, 'Link is expired...')
+    return redirect('login')

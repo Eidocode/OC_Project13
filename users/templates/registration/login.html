@@ -17,7 +17,7 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <p class="font-weight-lighter font-italic mt-1">
-                            <i>Mot de passe oublié ? <a href="/users/password_reset">Cliquez ici</a></i>
+                            <i>Mot de passe oublié ? <a href={%  url 'reset_password' %}>Cliquez ici</a></i>
                         </p>
                         <button id="login_btn" class="btn btn-outline-success my-3" type="submit">Se connecter</button>
                         <hr class="divider my-4" />
