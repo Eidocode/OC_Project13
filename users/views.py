@@ -133,11 +133,11 @@ def reset_password(request):
 
 
 def reset_password_confirm(request, uidb64, token):
-    User = get_user_model()
+    UserModel = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except:
+        user = UserModel.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
 
     if user is not None and token_generator.check_token(user, token):
@@ -152,7 +152,8 @@ def reset_password_confirm(request, uidb64, token):
                     messages.error(request, error)
 
         form = SetPasswordForm(user)
-        return render(request, 'registration/password_reset_confirm.html', {form: form})
+        return render(request, 'registration/password_reset_confirm.html', {'form': form})
     else:
         messages.error(request, 'Link is expired...')
+
     return redirect('login')
