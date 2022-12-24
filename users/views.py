@@ -30,7 +30,7 @@ def signup(request):
     else:
         form = SignupForm()
 
-    return render(request, 'users/signup.html', {'form': form})
+    return render(request, 'users/account/signup.html', {'form': form})
 
 
 def activate(request, uidb64, token):
@@ -61,12 +61,11 @@ def activate_mail(request, user, to_email):
         'token': token_generator.make_token(user),
         'protocol': 'https' if request.is_secure() else 'http'
     }
-    message_plain_text = render_to_string('users/activate_account_fulltext.html', data_to_insert)
-    message_html = render_to_string('users/activate_account.html', data_to_insert)
+    message_plain_text = render_to_string(
+        'users/mails/mail_activate_account_fulltext.html', data_to_insert)
+    message_html = render_to_string('users/mails/mail_activate_account.html', data_to_insert)
     email = EmailMultiAlternatives(mail_subject, message_plain_text, to=[to_email])
     email.attach_alternative(message_html, "text/html")
-    print(email.body)
-    print(email.alternatives)
 
     if email.send():
         messages.success(request, f'Dear <b>{user}</b>, please, click on \
@@ -81,7 +80,7 @@ def account(request):
     """
     Used for user account page
     """
-    return render(request, 'users/account.html')
+    return render(request, 'users/account/account.html')
 
 
 def change_password(request):
@@ -101,7 +100,7 @@ def change_password(request):
                 messages.error(request, error)
 
     form = PasswordChangeForm(request.user)
-    return render(request, 'users/change_password.html', {
+    return render(request, 'users/account/change_password.html', {
         'form': form,
     })
 
@@ -114,7 +113,7 @@ def reset_password(request):
             associated_user = get_user_model().objects.filter(email=user_email).first()
             if associated_user:
                 subject = 'Password reset request'
-                message = render_to_string("users/mail_reset_password.html", {
+                message = render_to_string("users/mails/mail_reset_password.html", {
                     'user': associated_user,
                     'domain': get_current_site(request).domain,
                     'uid': urlsafe_base64_encode(force_bytes(associated_user.pk)),
