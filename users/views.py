@@ -30,7 +30,7 @@ def signup(request):
     else:
         form = SignupForm()
 
-    return render(request, 'users/account/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def activate(request, uidb64, token):
