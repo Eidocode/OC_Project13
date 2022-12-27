@@ -18,15 +18,53 @@ class SignupForm(UserCreationForm):
         self.fields['password2'].help_text = """
             Saisir le même mot de passe que précédemment 
         """
-        self.helper.form_class = 'blueForms'
 
-    username = UsernameField(label='Identifiant', max_length=50)
-    first_name = forms.CharField(label='Prénom', max_length=50)
-    last_name = forms.CharField(label='Nom', max_length=50)
-    email = forms.EmailField(
-        label='E-mail',
+    username = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Identifiant...',
+            'class': 'rounded-pill form-control'
+        })
+    )
+    email = forms.CharField(
+        label='',
         max_length=100,
-        help_text="L'adresse est utilisée pour confirmer la création du compte"
+        help_text="L'adresse est utilisée pour confirmer la création du compte",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Adresse e-mail...',
+            'class': 'rounded-pill form-control'
+        })
+    )
+    first_name = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Prénom...',
+            'class': 'rounded-pill form-control'
+        })
+    )
+    last_name = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Nom...',
+            'class': 'rounded-pill form-control'
+        })
+    )
+    password1 = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Mot de passe...',
+            'class': 'rounded-pill form-control'
+        })
+    )
+    password2 = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Confirmation...',
+            'class': 'rounded-pill form-control'
+        })
     )
 
 
