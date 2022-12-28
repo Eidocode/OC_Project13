@@ -1,6 +1,36 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        label='',
+        max_length=50,
+        widget = forms.TextInput(
+            attrs={
+                'placeholder': 'Identifiant...',
+                'class': 'rounded-pill form-control'
+            }
+        )
+    )
+    password = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Mot de passe...',
+                'class': 'rounded-pill form-control'
+            }
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'password'
+        )
 
 
 class SignupForm(UserCreationForm):
@@ -9,15 +39,8 @@ class SignupForm(UserCreationForm):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'].help_text = """
-            <ul>
-            <li>Minimum 8 caractères</li>
-            <li>Pas entièrement numérique</li>
-            </ul>
-        """
-        self.fields['password2'].help_text = """
-            Saisir le même mot de passe que précédemment 
-        """
+        self.fields['password1'].help_text = ""
+        self.fields['password2'].help_text = ""
 
     username = forms.CharField(
         label='',
@@ -30,7 +53,7 @@ class SignupForm(UserCreationForm):
     email = forms.CharField(
         label='',
         max_length=100,
-        help_text="L'adresse est utilisée pour confirmer la création du compte",
+        help_text="    L'adresse est utilisée pour confirmer la création du compte",
         widget=forms.TextInput(attrs={
             'placeholder': 'Adresse e-mail...',
             'class': 'rounded-pill form-control'
@@ -66,7 +89,6 @@ class SignupForm(UserCreationForm):
             'class': 'rounded-pill form-control'
         })
     )
-
 
     class Meta:
         model = User
