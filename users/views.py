@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model, update_session_auth_hash
+from django.contrib.auth import get_user_model, update_session_auth_hash, \
+    authenticate, login
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, \
     SetPasswordForm
 from django.contrib.sites.shortcuts import get_current_site
@@ -13,12 +14,23 @@ from users.forms import SignupForm, LoginForm
 from users.token import token_generator
 
 
-def login(request):
+def login_page(request):
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            pass
+            user = authenticate(
+                username = form.cleaned_data['username'],
+                password = form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Hello {user.username}! You have been logged in...')
+                return redirect('/')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+
     return render(request, 'registration/login.html', {'form': form})
 
 

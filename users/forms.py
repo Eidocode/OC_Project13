@@ -10,7 +10,7 @@ class LoginForm(forms.Form):
         widget = forms.TextInput(
             attrs={
                 'placeholder': 'Identifiant...',
-                'class': 'rounded-pill form-control'
+                'class': 'rounded-pill form-control shadow-sm'
             }
         )
     )
@@ -20,7 +20,7 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Mot de passe...',
-                'class': 'rounded-pill form-control'
+                'class': 'rounded-pill form-control shadow-sm'
             }
         )
     )

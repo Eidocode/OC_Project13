@@ -7,7 +7,7 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
             <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
-                <h2 class="mb-4 text-center">Authentification</h2>
+                <h2 class="mb-4 text-center">Se connecter</h2>
                 <hr class="divider"/>
                 <form method="POST" class="py-4">
                     {% csrf_token %}
@@ -21,16 +21,22 @@
                     </div>
 
                     <div class="text-center mt-5">
-                        <button id="logon_btn" class="col-12 btn btn-outline-dark rounded-pill text-center py-2" type="submit">
+                        <button id="logon_btn" class="col-12 shadow-sm btn btn-outline-dark rounded-pill text-center py-2" type="submit">
                             Se connecter
                         </button>
                     </div>
 
+
                 </form>
-                <hr class="divider mb-0 mt-3"/>
+                <hr class="divider mb-0 mt-2"/>
                 <p class="my-1 font-weight-lighter font-italic text-end">
                     <i>Mot de passe oublié ? <a href={%  url 'reset_password' %}>Cliquez ici</a></i>
                 </p>
+                <div class="text-center mt-5">
+                    <p class="border shadow-sm col-12 text-center bg-white rounded-pill py-2">
+                        <a href={%  url 'signup' %}>Pas encore inscrit ? Créer un compte</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
