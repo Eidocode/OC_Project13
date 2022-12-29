@@ -3,7 +3,8 @@
 
 {% load crispy_forms_tags %}
 {% block content %}
-    <section class="page-section sign mt-5" id="login_page">
+
+<section class="page-section sign mt-5" id="login_page">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
             <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
@@ -25,8 +26,6 @@
                             Se connecter
                         </button>
                     </div>
-
-
                 </form>
                 <hr class="divider mb-0 mt-2"/>
                 <p class="my-1 font-weight-lighter font-italic text-end">
@@ -34,7 +33,7 @@
                 </p>
                 <div class="text-center mt-5">
                     <p class="border shadow-sm col-12 text-center bg-white rounded-pill py-2">
-                        <a href={%  url 'signup' %}>Pas encore inscrit ? Créer un compte</a>
+                        <a href='/logout'>Pas encore inscrit ? Créer un compte</a>
                     </p>
                 </div>
             </div>

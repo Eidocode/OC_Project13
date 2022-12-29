@@ -53,7 +53,7 @@ class SignupForm(UserCreationForm):
     email = forms.CharField(
         label='',
         max_length=100,
-        help_text="    L'adresse est utilisée pour confirmer la création du compte",
+        help_text="L'adresse est utilisée pour confirmer la création du compte",
         widget=forms.TextInput(attrs={
             'placeholder': 'Adresse e-mail...',
             'class': 'rounded-pill form-control'
