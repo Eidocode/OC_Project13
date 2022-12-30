@@ -11,19 +11,22 @@
                 <hr class="divider"/>
 
                 <div class="row">
-                    <div class="border font-weight-bold col-lg-4 text-center">
+                    <div class="border font-weight-bold col-4 text-center">
                         <i class="">Email</i>
                     </div>
-                    <input class="col-lg-6 border text-center rounded-pill" value="{{ user.email }}" disabled/>
+                    <input class="col-7 border text-center rounded-pill" value="{{ user.email }}" disabled/>
+                    <div class="col-1 text-center">
+                        <img class="text-center" src="https://img.icons8.com/tiny-color/16/null/pencil.png"/>
+                    </div>
                 </div>
                 <div class="row mt-3 pb-4">
-                    <div class="font-weight-bold col-lg-4 ml-auto text-center">
-                        <p>Password</p>
+                    <div class="col-4 text-center">
+                        Password
                     </div>
-                    <input class="col-lg-6 border text-center rounded-pill" value="••••••••" disabled/>
-                    <div class="col-lg-2 mr-auto text-center">
-                        <a id="reset_btn" class="shadow btn btn-success btn-sm" role="button" href={% url 'change_password' %}>Modifier</a>
-                    </div>
+                    <input class="col-7 border text-center rounded-pill" value="••••••••" disabled/>
+                    <a id="reset_btn" class="col-1 text-center btn" href={% url 'change_password' %}>
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
                 </div>
                 <hr>
 
@@ -45,7 +48,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="font-weight-bold col-lg-4 ml-auto text-center">
-                        <p>Créé le</p>
+                        <p>Créé</p>
                     </div>
                     <div class="col-lg-6 mr-auto text-center">
                         <p>{{ user.date_joined }}</p>
@@ -53,7 +56,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="font-weight-bold col-lg-4 ml-auto text-center">
-                        <p>Dernière connexion le</p>
+                        <p>Dernière connexion</p>
                     </div>
                     <div class="col-lg-6 mr-auto text-center">
                         <p>{{ user.last_login }}</p>
