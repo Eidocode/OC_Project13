@@ -1,16 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, update_session_auth_hash, \
     authenticate, login
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, \
-    SetPasswordForm
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from users.forms import SignupForm, LoginForm
+from users.forms import SignupForm, LoginForm, ChangePasswordForm, \
+    ResetPasswordForm, ResetPasswordConfirmForm
 from users.token import token_generator
 
 
@@ -25,7 +24,7 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                messages.success(request, f'Hello {user.username}! You have been logged in...')
+                messages.success(request, f'Bonjour {user.username}! Vous êtes maintenant connecté...')
                 return redirect('/')
         else:
             for error in list(form.errors.values()):
@@ -65,16 +64,16 @@ def activate(request, uidb64, token):
     if user is not None and token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        messages.success(request, 'Thank you for email confirmation. Now, \
-            you can login to your account.')
+        messages.success(request, "Merci d'avoir confirmé votre compte. Vous \
+            pouvez maintenant vous connecter")
         return redirect('login')
 
-    messages.error(request, 'Activation link is invalid...')
+    messages.error(request, "Le lien d'activation n'est plus valide...")
     return redirect('/')
 
 
 def activate_mail(request, user, to_email):
-    mail_subject = "Activate your OC-Inventory account"
+    mail_subject = '[NO-REPLY] Activer votre compte OC-Inventory'
     data_to_insert = {
         'user': user,
         'domain': get_current_site(request).domain,
@@ -89,12 +88,12 @@ def activate_mail(request, user, to_email):
     email.attach_alternative(message_html, "text/html")
 
     if email.send():
-        messages.success(request, f'Dear <b>{user}</b>, please, click on \
-                    received activation link to confirm and complete the \
-                    registration process.')
+        messages.success(request, f"Cher <b>{user}</b>, merci de cliquer sur \
+                    le lien d'activation, dans votre boîte mail pour confirmer \
+                    et compléter le processus d'enregistrement.")
     else:
-        messages.error(request, f'Problem sending email to {to_email}, check \
-            if you typed it correctly.')
+        messages.error(request, f"Problème lors de l'envoi de l'email à \
+            l'adresse {to_email}, vérifiez que la saisie est correcte...")
 
 
 def account(request):
@@ -109,18 +108,18 @@ def change_password(request):
     Used when user change his password
     """
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = ChangePasswordForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             # Update user session with new password
             update_session_auth_hash(request, user)
-            messages.success(request, 'The password has been successfully changed.')
+            messages.success(request, 'Mot de passe modifié avec succès...')
             return redirect('account')
         else:
             for error in list(form.errors.values()):
                 messages.error(request, error)
 
-    form = PasswordChangeForm(request.user)
+    form = ChangePasswordForm(request.user)
     return render(request, 'users/account/change_password.html', {
         'form': form,
     })
@@ -128,27 +127,34 @@ def change_password(request):
 
 def reset_password(request):
     if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
+        form = ResetPasswordForm(request.POST)
         if form.is_valid():
             user_email = form.cleaned_data['email']
             associated_user = get_user_model().objects.filter(email=user_email).first()
             if associated_user:
-                subject = 'Password reset request'
-                message = render_to_string("users/mails/mail_reset_password.html", {
+                mail_subject = '[NO-REPLY] Réinitialiser votre mot de passe'
+                datas = {
                     'user': associated_user,
                     'domain': get_current_site(request).domain,
                     'uid': urlsafe_base64_encode(force_bytes(associated_user.pk)),
                     'token': token_generator.make_token(associated_user),
                     'protocol': 'https' if request.is_secure() else 'http'
-                })
-                email = EmailMessage(subject, message, to=[associated_user.email])
+                }
+                message_plain_text = render_to_string(
+                    'users/mails/mail_reset_password_fulltext.html', datas)
+                message_html = render_to_string(
+                    'users/mails/mail_reset_password.html', datas)
+                email = EmailMultiAlternatives(mail_subject, message_plain_text,
+                                               to=[associated_user.email])
+                email.attach_alternative(message_html, "text/html")
+
                 if email.send():
-                    messages.success(request, "Email sent successfully, check your mailbox")
+                    messages.success(request, "Email envoyé avec succès, consultez votre boîte mail...")
                     return redirect('login')
                 else:
-                    messages.error(request, "Problem sending reset password email")
+                    messages.error(request, "Problème lors de l'envoi de l'email nécessaire pour engager la réinitialisation du mot de passe...")
 
-    form = PasswordResetForm()
+    form = ResetPasswordForm()
     return render(request, 'registration/password_reset_form.html', {'form': form})
 
 
@@ -162,18 +168,18 @@ def reset_password_confirm(request, uidb64, token):
 
     if user is not None and token_generator.check_token(user, token):
         if request.method == 'POST':
-            form = SetPasswordForm(user, request.POST)
+            form = ResetPasswordConfirmForm(user, request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Your password has been set. You may go ahead and <b>log in</b> now.')
+                messages.success(request, 'Mot de passe modifié. Vous pouvez maintenant vous <b>connecter<b>...')
                 return redirect('login')
             else:
                 for error in list(form.errors.values()):
                     messages.error(request, error)
 
-        form = SetPasswordForm(user)
+        form = ResetPasswordConfirmForm(user)
         return render(request, 'registration/password_reset_confirm.html', {'form': form})
     else:
-        messages.error(request, 'Link is expired...')
+        messages.error(request, 'Le lien a expiré...')
 
     return redirect('login')
