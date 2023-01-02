@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^users/', include('users.urls')),
     url(r'^product/', include('product.urls')),
+    url(r'^product_user/', include('product_user.urls')),
     url(r'^manage-admin/', admin.site.urls),
 ]
 
