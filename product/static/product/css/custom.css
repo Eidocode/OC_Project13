@@ -1,0 +1,39 @@
+/* Remove asterisk from labels form fields */
+.asteriskField {
+  display: none;
+}
+
+/* Reduce opacity of an element when disabled */
+.is_disabled {
+  opacity: 30%;
+}
+
+/* blue hover class  */
+.blue_hover {
+  color: black;
+}
+
+.blue_hover:hover {
+  color: dodgerblue;
+}
+
+/* Class for button outline teal */
+.btn-outline-teal {
+  background-color: white;
+  box-shadow: 0 0.4em 0.3em rgba(0,0,0,0.2);
+}
+
+.btn-outline-teal:hover {
+  background-color: teal;
+  color: white;
+  box-shadow: inset 0 0.4em 0.3em rgba(0,0,0,0.3);
+}
+
+/* Class for field white hover  */
+.field_white_hover {
+  background: whitesmoke;
+}
+
+.field_white_hover:hover {
+  background: white;
+}

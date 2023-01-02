@@ -21,19 +21,23 @@
                       {{ form.password|as_crispy_field }}
                     </div>
 
-                    <div class="text-center mt-5">
-                        <button id="logon_btn" class="col-12 shadow-sm btn btn-outline-dark rounded-pill text-center py-2" type="submit">
-                            Se connecter
-                        </button>
-                    </div>
+                    <div class="mt-5">
+                    <button id="login_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
+                        <i style="padding-right: 1%" class="fa-solid fa-right-to-bracket"></i>
+                        <b>Se connecter</b>
+                    </button>
+                </div>
                 </form>
                 <hr class="divider mb-0 mt-2"/>
                 <p class="my-1 font-weight-lighter font-italic text-end">
                     <i>Mot de passe oublié ? <a href={%  url 'reset_password' %}>Cliquez ici</a></i>
                 </p>
-                <div class="text-center mt-5">
-                    <p class="border shadow-sm col-12 text-center bg-white rounded-pill py-2">
-                        <a href='/users/signup'>Pas encore inscrit ? Créer un compte</a>
+                <div class="mt-5">
+                    <p class="border shadow-sm col-12 text-center field_white_hover rounded-pill py-2">
+                        <a href='/users/signup'>
+                            <i style="padding-right: 1%" class="fa-solid fa-user-plus"></i>
+                            Pas encore inscrit ? Créer un compte
+                        </a>
                     </p>
                 </div>
             </div>

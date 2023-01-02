@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Identifiant...',
-                'class': 'rounded-pill form-control shadow-sm'
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
     )
@@ -21,7 +21,7 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Mot de passe...',
-                'class': 'rounded-pill form-control shadow-sm'
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
     )
@@ -48,7 +48,7 @@ class SignupForm(UserCreationForm):
         max_length=50,
         widget=forms.TextInput(attrs={
             'placeholder': 'Identifiant...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
     email = forms.CharField(
@@ -57,7 +57,7 @@ class SignupForm(UserCreationForm):
         help_text="L'adresse est utilisée pour confirmer la création du compte",
         widget=forms.TextInput(attrs={
             'placeholder': 'Adresse e-mail...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
     first_name = forms.CharField(
@@ -65,7 +65,7 @@ class SignupForm(UserCreationForm):
         max_length=50,
         widget=forms.TextInput(attrs={
             'placeholder': 'Prénom...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
     last_name = forms.CharField(
@@ -73,21 +73,21 @@ class SignupForm(UserCreationForm):
         max_length=50,
         widget=forms.TextInput(attrs={
             'placeholder': 'Nom...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
     password1 = forms.CharField(
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
     password2 = forms.CharField(
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Confirmation...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -110,7 +110,7 @@ class ChangePasswordForm(PasswordChangeForm):
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Ancien mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -118,7 +118,7 @@ class ChangePasswordForm(PasswordChangeForm):
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Nouveau mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -126,7 +126,7 @@ class ChangePasswordForm(PasswordChangeForm):
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Confirmation du mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -134,6 +134,36 @@ class ChangePasswordForm(PasswordChangeForm):
         model = User
         fields = (
             'old_password','new_password1', 'new_password2'
+        )
+
+
+class ChangeFullnameForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].help_text = ""
+        self.fields['last_name'].help_text = ""
+
+    first_name = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Prénom...',
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
+        })
+    )
+    last_name = forms.CharField(
+        label='',
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Nom...',
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            'first_name','last_name'
         )
 
 
@@ -147,7 +177,7 @@ class ResetPasswordForm(PasswordResetForm):
         max_length=100,
         widget=forms.TextInput(attrs={
             'placeholder': 'Adresse e-mail...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -166,7 +196,7 @@ class ResetPasswordConfirmForm(SetPasswordForm):
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Nouveau mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
 
@@ -174,6 +204,6 @@ class ResetPasswordConfirmForm(SetPasswordForm):
         label='',
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Confirmation du mot de passe...',
-            'class': 'rounded-pill form-control shadow-sm'
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )

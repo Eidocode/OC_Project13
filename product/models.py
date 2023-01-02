@@ -3,7 +3,11 @@
 """
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
+
+# Adds a unique contraint to the email field in the user table
+User._meta.get_field('email')._unique = True
 
 class Brand(models.Model):
     """

@@ -9,7 +9,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from users.forms import SignupForm, LoginForm, ChangePasswordForm, \
-    ResetPasswordForm, ResetPasswordConfirmForm
+    ResetPasswordForm, ResetPasswordConfirmForm, ChangeFullnameForm
 from users.token import token_generator
 
 
@@ -103,6 +103,26 @@ def account(request):
     return render(request, 'users/account/account.html')
 
 
+def change_fullname(request):
+    """
+    Used when user change his firstname and lastname
+    """
+    form = ChangeFullnameForm()
+    if request.method == 'POST':
+        form = ChangeFullnameForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Vos informations ont été mises à jour...')
+            return redirect('account')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+
+    return render(request, 'users/account/change_fullname.html', {
+        'form': form,
+    })
+
+
 def change_password(request):
     """
     Used when user change his password
@@ -171,7 +191,7 @@ def reset_password_confirm(request, uidb64, token):
             form = ResetPasswordConfirmForm(user, request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Mot de passe modifié. Vous pouvez maintenant vous <b>connecter<b>...')
+                messages.success(request, "Mot de passe modifié. Vous pouvez maintenant vous connecter...")
                 return redirect('login')
             else:
                 for error in list(form.errors.values()):

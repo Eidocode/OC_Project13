@@ -12,63 +12,65 @@
                 <hr class="divider"/>
 
                 <div class="row pt-4">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-user"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="{{ user.get_username }}" disabled/>
-                    <a class="col-1 text-center btn btn-sm disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_username }}" disabled/>
+                    <span class="col-1 text-center align-self-center is_disabled">
                         <i class="fa-solid fa-ban"></i>
-                    </a>
+                    </span>
                 </div>
                 <div class="row mt-3 pb-4">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-key"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="••••••••" disabled/>
-                    <a id="reset_pwd_btn" class="col-1 text-center btn btn-sm" role="button" href={% url 'change_password' %} "disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="••••••••" disabled/>
+                    <a id="reset_pwd_btn" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_password' %}">
                         <i class="fa-solid fa-pencil"></i>
                     </a>
                 </div>
                 <hr>
                 <div class="row pt-4">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-envelope"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="{{ user.email }}" disabled/>
-                    <a class="col-1 text-center btn btn-sm disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email }}" disabled/>
+                    <span class="col-1 text-center align-self-center is_disabled">
                         <i class="fa-solid fa-ban"></i>
-                    </a>
+                    </span>
                 </div>
                 <div class="row mt-3">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-id-card"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="{{ user.get_full_name }}" disabled/>
-                    <a class="col-1 text-center btn btn-sm disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_full_name }}" disabled/>
+                    <a id="change_fullname" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_fullname' %}">
                         <i class="fa-solid fa-pencil"></i>
                     </a>
                 </div>
                 <div class="row mt-3">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-user-plus"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="{{ user.date_joined }}" disabled/>
-                    <a class="col-1 text-center btn btn-sm disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.date_joined }}" disabled/>
+                    <span class="col-1 text-center align-self-center is_disabled">
                         <i class="fa-solid fa-ban"></i>
-                    </a>
+                    </span>
                 </div>
                 <div class="row mt-3 pb-4">
-                    <a class="col-2 text-center btn btn-sm disabled">
+                    <span class="col-2 text-center align-self-center">
                         <i class="fa-solid fa-right-to-bracket"></i>
-                    </a>
-                    <input class="col-8 border text-center rounded-pill" value="{{ user.last_login }}" disabled/>
-                    <a class="col-1 text-center btn btn-sm disabled">
+                    </span>
+                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.last_login }}" disabled/>
+                    <span class="col-1 text-center align-self-center is_disabled">
                         <i class="fa-solid fa-ban"></i>
-                    </a>
+                    </span>
                 </div>
-
                 <div class="text-center mt-4">
-                    <a id="logout_btn" class="col-12 shadow-sm btn btn-outline-dark rounded-pill text-center py-2" role="button" href='/users/logout'>Se déconnecter</a>
+                    <a id="logout_btn" class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" role="button" href='/users/logout'>
+                        <i style="padding-right: 1%" class="fa-solid fa-right-from-bracket"></i>
+                        Se déconnecter
+                    </a>
                 </div>
             </div>
         </div>
