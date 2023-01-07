@@ -13,3 +13,6 @@ def show_product_user(request):
         'device_users': users
     }
     return render(request, 'product_user.html', context)
+
+def show_user_info(request):
+    return render(request, 'user_info.html')

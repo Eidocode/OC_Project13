@@ -1,4 +1,5 @@
-from product.models import Entity, Location, Immo, DeviceUser
+from product.models import Entity, Location, Immo, DeviceUser, Status, Assignment
+
 
 class ControllerImmo:
 
@@ -7,10 +8,26 @@ class ControllerImmo:
         fname = data_to_check['first_name']
         lname = data_to_check['last_name']
         uid = data_to_check['uid']
+        email = data_to_check['email']
+        status = self._get_or_set_in_status_table(data_to_check)
+        assignment = self._get_or_set_in_assignment_table(data_to_check)
         this_data = DeviceUser.objects.get_or_create(
-            first_name=fname,
-            last_name=lname, uid=uid)
-        print(f"Added user {fname} {lname} with uid {uid}")
+            first_name=fname, last_name=lname, email=email,
+            uid=uid, status=status, assignment=assignment
+        )
+        print(f"Added user {fname} {lname} with uid {uid} ({email})")
+        return this_data[0]
+
+    def _get_or_set_in_status_table(self, data_to_check):
+        """Returns data_to_check id in Status model"""
+        this_data = Status.objects.get_or_create(name=data_to_check['status'])
+        return this_data[0]
+
+    def _get_or_set_in_assignment_table(self, data_to_check):
+        """Returns data_to_check id in Assignment model"""
+        this_data = Assignment.objects.get_or_create(
+            name=data_to_check['assignment']
+        )
         return this_data[0]
 
     def _get_or_set_in_entity_table(self, data_to_check):

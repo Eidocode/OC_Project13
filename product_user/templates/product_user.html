@@ -47,6 +47,14 @@
                                         <td>{{ user.uid }}</td>
                                         <td>{{ user.last_name }}</td>
                                         <td>{{ user.first_name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.assignment.name }}</td>
+                                        <td>{{ user.status.name }}</td>
+                                        <td class="text-center">
+                                            <a id="more_details" class="blue_hover" href="{% url 'show_user_info' %}">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

@@ -31,8 +31,8 @@ class Controller:
                     inventory_instance = self.controller_device.get_or_set_in_inventory_table(device)
                     product_instance = self.controller_device.get_or_set_in_product_table(device)
                     Device.objects.get_or_create(
-                        product= product_instance, inventory=inventory_instance,
-                        device_user=device_user_instance, immo= immo_instance)
+                        product=product_instance, inventory=inventory_instance,
+                        device_user=device_user_instance, immo=immo_instance)
             print("")
 
         # TODO :

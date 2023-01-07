@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 # Adds a unique contraint to the email field in the user table
 User._meta.get_field('email')._unique = True
 
+
 class Brand(models.Model):
     """
     Class used for the brand model
@@ -126,6 +127,26 @@ class Inventory(models.Model):
             f'--> Storage : {self.storage} Go'
 
 
+class Status(models.Model):
+    """
+    Class used for the Status model
+    ----------
+    name
+        Contains the names of the user status
+    """
+    name = models.CharField(max_length=20, unique=True)
+
+
+class Assignment(models.Model):
+    """
+    Class used for the Assignment model
+    ----------
+    name
+        Contains the names of the user assignment
+    """
+    name = models.CharField(max_length=15, unique=True)
+
+
 class DeviceUser(models.Model):
     """
     Class used for the DeviceUser model
@@ -139,7 +160,10 @@ class DeviceUser(models.Model):
     """
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
+    email = models.EmailField(max_length=70, unique=True, null=True)
     uid = models.CharField(max_length=10, unique=True)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
+    assignment = models.ForeignKey(Assignment, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} with {self.uid}'
