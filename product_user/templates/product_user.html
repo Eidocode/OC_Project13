@@ -23,7 +23,6 @@
                                     <th>UID</th>
                                     <th>Nom</th>
                                     <th>Prénom</th>
-                                    <th>E-Mail</th>
                                     <th>Affectation</th>
                                     <th>Statut</th>
                                     <th>Action</th>
@@ -35,7 +34,6 @@
                                     <th>UID</th>
                                     <th>Nom</th>
                                     <th>Prénom</th>
-                                    <th>E-Mail</th>
                                     <th>Affectation</th>
                                     <th>Action</th>
                                 </tr>
@@ -47,11 +45,10 @@
                                         <td>{{ user.uid }}</td>
                                         <td>{{ user.last_name }}</td>
                                         <td>{{ user.first_name }}</td>
-                                        <td>{{ user.email }}</td>
                                         <td>{{ user.assignment.name }}</td>
                                         <td>{{ user.status.name }}</td>
                                         <td class="text-center">
-                                            <a id="more_details" class="blue_hover" href="{% url 'show_user_info' %}">
+                                            <a id="more_details" class="blue_hover" href="{% url 'show_user_info' user_id=user.id%}">
                                                 <i class="fa-solid fa-magnifying-glass"></i>
                                             </a>
                                         </td>
