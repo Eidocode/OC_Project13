@@ -3,52 +3,56 @@
 
 {% block content %}
 
-<section class="page-section sign mt-5" id="product_user_page">
+<section class="page-section sign mt-5" id="last_device_page">
     <div class="container ">
         <div class="row align-items-center justify-content-center">
             <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-12 border">
-                <h2 class="mb-4 text-center">Derniers utilisateurs ajoutés</h2>
+                <h2 class="mb-4 text-center">Derniers périphériques ajoutés</h2>
                 <hr class="divider"/>
 
                 <div class="card mb-4 shadow">
                     <div class="card-header shadow-sm">
                         <i class="fas fa-table me-1"></i>
-                        Utilisateurs
+                        Périphériques
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple" class="table">
                             <thead class="thead-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>UID</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Affectation</th>
-                                    <th>Statut</th>
+                                    <th>Hostname</th>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>N° de Série</th>
+                                    <th>N° d'inventaire</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot class="thead-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>UID</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Affectation</th>
+                                    <th>Hostname</th>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>N° de Série</th>
+                                    <th>N° d'inventaire</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {% for user in device_users %}
+                                {% for device in devices %}
                                     <tr>
                                         <th>{{ forloop.counter }}</th>
-                                        <td>{{ user.uid }}</td>
-                                        <td>{{ user.last_name }}</td>
-                                        <td>{{ user.first_name }}</td>
-                                        <td>{{ user.assignment.name }}</td>
-                                        <td>{{ user.status.name }}</td>
+                                        <td>{{ device.inventory.hostname }}</td>
+                                        <td>{{ device.product.category.name }}</td>
+                                        <td>{{ device.product.brand.name }}</td>
+                                        <td>{{ device.product.name }}</td>
+                                        <td>{{ device.inventory.serial }}</td>
+                                        <td>{{ device.immo.inventory_number }}</td>
                                         <td class="text-center">
-                                            <a id="more_details" class="blue_hover" href="{% url 'show_user_info' user_id=user.id%}">
+                                            <a id="more_details" class="blue_hover" href="">
                                                 <i class="fa-solid fa-magnifying-glass"></i>
                                             </a>
                                         </td>
