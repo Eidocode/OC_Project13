@@ -52,7 +52,7 @@
                                         <td>{{ device.inventory.serial }}</td>
                                         <td>{{ device.immo.inventory_number }}</td>
                                         <td class="text-center">
-                                            <a id="more_details" class="blue_hover" href="">
+                                            <a id="more_details" class="blue_hover" href="{%  url 'show_device_info' device_id=device.id %}">
                                                 <i class="fa-solid fa-magnifying-glass"></i>
                                             </a>
                                         </td>

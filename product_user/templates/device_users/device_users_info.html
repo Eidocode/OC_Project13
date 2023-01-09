@@ -3,12 +3,12 @@
 
 {% block content %}
 
-<section class="page-section sign mt-5" id="device_info-page">
+<section class="page-section sign mt-5" id="UserInfo-page">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
             <div class="shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
 
-                <h2 class="mb-4 text-center">Informations concernant le périphérique</h2>
+                <h2 class="mb-4 text-center">Informations concernant l'utilisateur</h2>
 
 
                 <h6 class="small mt-5">INFORMATIONS</h6>
@@ -64,7 +64,7 @@
                             <i class="fa-solid fa-computer"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.fullname }}" disabled/>
-                        <a id="device_detail" class="col-1 blue_hover text-center align-self-center" href="">
+                        <a id="device_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_device_info' device_id=device.id%}">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </a>
                     </div>

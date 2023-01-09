@@ -10,5 +10,6 @@ urlpatterns = [
 
     url(r'^last_devices/', views.show_last_devices, name='show_last_devices'),
     url(r'^all_devices/', views.show_all_devices, name='show_all_devices'),
-    url(r'^device_info/', views.show_all_devices, name='show_device_info'),
+    url(r'^device_info/(?P<device_id>[0-9]+)/$', views.show_device_info, name='show_device_info'),
+    url(r'^add_device/', views.add_device, name='add_new_device'),
 ]

@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from product.models import DeviceUser, Device
+from product_user.forms import AddDeviceForm
 
 
 def show_last_users(request):
@@ -12,7 +13,7 @@ def show_last_users(request):
     context = {
         'device_users': users
     }
-    return render(request, 'last_device_users.html', context)
+    return render(request, 'device_users/last_device_users.html', context)
 
 
 def show_all_users(request):
@@ -24,7 +25,7 @@ def show_all_users(request):
     context = {
         'device_users': users
     }
-    return render(request, 'device_users.html', context)
+    return render(request, 'device_users/device_users.html', context)
 
 
 def show_user_info(request, user_id):
@@ -45,13 +46,12 @@ def show_user_info(request, user_id):
         }
         devices.append(this_item)
 
-
     context = {
         'user': user,
         'devices': devices,
     }
 
-    return render(request, 'device_users_info.html', context)
+    return render(request, 'device_users/device_users_info.html', context)
 
 
 def show_last_devices(request):
@@ -63,7 +63,7 @@ def show_last_devices(request):
     context = {
         'devices': devices
     }
-    return render(request, 'last_devices.html', context)
+    return render(request, 'devices/last_devices.html', context)
 
 
 def show_all_devices(request):
@@ -75,7 +75,7 @@ def show_all_devices(request):
     context = {
         'devices': devices
     }
-    return render(request, 'all_devices.html', context)
+    return render(request, 'devices/all_devices.html', context)
 
 
 def show_device_info(request, device_id):
@@ -85,18 +85,22 @@ def show_device_info(request, device_id):
 
     # Gets a device designated by product_id or returns 404
     device = get_object_or_404(Device, pk=device_id)
-    get_user = DeviceUser.objects.filter(device_id=device.id)
-
-    for item in get_users:
-        user_fullname = f"{item.user.first_name} {item.user.last_name}"
-        this_item = {
-            'id': item.id,
-            'fullname': user_fullname,
-        }
-        users.append(this_item)
 
     context = {
         'device': device,
     }
-    return render(request, 'device_info.html', context)
+    return render(request, 'devices/device_info.html', context)
 
+
+def add_device(request):
+    """
+    Used for add_device page
+    """
+    form = AddDeviceForm()
+    if request.method == 'POST':
+        form = AddDeviceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('show_all_devices')
+
+    return render(request, 'devices/add_device.html', {'form': form})
