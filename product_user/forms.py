@@ -1,6 +1,6 @@
 from django import forms
 
-from product.models import Device
+from product.models import Device, Brand, Product, Category
 
 
 class AddDeviceForm(forms.Form):
@@ -15,10 +15,14 @@ class AddDeviceForm(forms.Form):
         )
     )
 
-    brand = forms.CharField(
+    categories = Category.objects.all()
+    CATG_CHOICES = [
+        (category.name.lower(), category.name.upper()) for category in categories
+    ]
+    category = forms.CharField(
         label='',
-        max_length=50,
-        widget=forms.TextInput(
+        widget=forms.Select(
+            choices=CATG_CHOICES,
             attrs={
                 'placeholder': 'Brand...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
@@ -26,17 +30,29 @@ class AddDeviceForm(forms.Form):
         )
     )
 
-    FRUIT_CHOICES = [
-        ('test1', 'Test1'),
-        ('test2', 'Test2'),
-        ('test3', 'Test3'),
-        ('test4', 'Test4'),
+    brands = Brand.objects.all()
+    BRAND_CHOICES = [
+        (brand.name.lower(), brand.name.upper()) for brand in brands
     ]
+    brand = forms.CharField(
+        label='',
+        widget=forms.Select(
+            choices=BRAND_CHOICES,
+            attrs={
+                'placeholder': 'Brand...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
 
+    products = Product.objects.all()
+    PRODUCT_CHOICES = [
+        (product.name.lower(), product.name.upper()) for product in products
+    ]
     product = forms.CharField(
         label='',
         widget=forms.Select(
-            choices=FRUIT_CHOICES,
+            choices=PRODUCT_CHOICES,
             attrs={
                 'placeholder': 'Brand...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
