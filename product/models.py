@@ -93,7 +93,7 @@ class Cpu(models.Model):
     nb_cores = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
-        return f'{self.cpu_brand.name} {self.name}@{self.frequency}'
+        return f'{self.cpu_brand.name} {self.name}@{self.frequency}GHz'
 
 
 class Inventory(models.Model):

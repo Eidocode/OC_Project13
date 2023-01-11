@@ -8,51 +8,65 @@
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
             <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border">
-                <h2 class="mb-4 text-center">Nouveau périphérique</h2>
-                <hr class="divider"/>
+                <h2 class=" text-center">Nouveau périphérique</h2>
                 <form method="POST" class="py-4">
                     {% csrf_token %}
 
-                    <div class="mb-4">
-                        {{ form.hostname|as_crispy_field }}
-                    </div>
+                    <h6 class="small mt-4">INFORMATIONS</h6>
+                    <hr class="divider mt-0"/>
 
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                          {{ form.category|as_crispy_field }}
+                    <div class="form-group row mb-2">
+                        <div class="col-sm-7">
+                          {{ form.hostname|as_crispy_field }}
                         </div>
-                        <div class="col-sm-4">
-                          {{ form.brand|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                           {{ form.product|as_crispy_field }}
                         </div>
                     </div>
-{##}
-{#                    <div class="mt-2">#}
-{#                        {{ form.email|as_crispy_field }}#}
-{#                    </div>#}
-{##}
-{#                    <div class="form-group mt-4 row">#}
-{#                        <div class="col-sm-6">#}
-{#                          {{ form.password1|as_crispy_field }}#}
-{#                        </div>#}
-{#                        <div class="col-sm-6">#}
-{#                          {{ form.password2|as_crispy_field }}#}
-{#                        </div>#}
-{#                    </div>#}
+                    <div class="form-group row pt-1">
+                        <div class="col-sm-5">
+                          {{ form.serial|as_crispy_field }}
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-6">
+                          {{ form.addr_mac|as_crispy_field }}
+                        </div>
+                    </div>
 
-{#                    <div class="mt-5">#}
-{#                        <button id="logon_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">#}
-{#                            <i style="padding-right: 1%" class="fa-solid fa-user-plus"></i>#}
-{#                            <b>Valider mon inscription</b>#}
-{#                        </button>#}
-{#                    </div>#}
+                    <h6 class="small mt-5">CONFIGURATION</h6>
+                    <hr class="divider mt-0"/>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                          {{ form.cpu|as_crispy_field }}
+                        </div>
+                        <div class="col-sm-3">
+                          {{ form.ram|as_crispy_field }}
+                        </div>
+                        <div class="col-sm-3">
+                          {{ form.storage|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <h6 class="small mt-5">IMMOBILISATION</h6>
+                    <hr class="divider mt-0"/>
+
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                          {{ form.bc_number|as_crispy_field }}
+                        </div>
+                        <div class="col-sm-4">
+                          {{ form.inv_number|as_crispy_field }}
+                        </div>
+                    </div>
+
                 </form>
-{#                <hr class="divider mb-0 mt-3"/>#}
-{#                <p class="my-1 font-weight-lighter font-italic text-end">#}
-{#                    <i> Déjà inscrit ? <a href="/users/login">Se connecter</a></i>#}
-{#                </p>#}
+                <div class="mt-5">
+                    <button id="add_device_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
+                        <i style="padding-right: 1%" class="fa-solid fa-circle-plus"></i>
+                        <b>Ajouter le périphérique</b>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
