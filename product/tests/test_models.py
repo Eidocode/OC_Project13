@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from product.models import Brand, Category, Product, CpuBrand, Cpu, Inventory, \
-    Status, Assignment, DeviceUser, Entity, Location
+    Status, Assignment, DeviceUser, Entity, Location, Immo
 
 
 class BrandModelTest(TestCase):
@@ -703,7 +703,7 @@ class LocationModelTest(TestCase):
         """
         Location.objects.create(
             name="Loc1",
-            loc_number="1",
+            loc_number=1,
             site=Entity.objects.create(
                 name="Entity1",
             )
@@ -736,4 +736,4 @@ class LocationModelTest(TestCase):
         Test the Brand name blank.
         """
         location = Location.objects.get(id=1)
-        self.assertEqual(location.loc_number, '1')
+        self.assertEqual(location.loc_number, 1)
