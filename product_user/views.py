@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from product.models import DeviceUser, Device
+from product.models import DeviceUser, Device, Inventory, Immo
 from product_user.forms import AddDeviceForm
 
 
@@ -92,7 +92,7 @@ def show_device_info(request, device_id):
     return render(request, 'devices/device_info.html', context)
 
 
-def add_device(request):
+def add_new_device(request):
     """
     Used for add_device page
     """
@@ -100,7 +100,15 @@ def add_device(request):
     if request.method == 'POST':
         form = AddDeviceForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('show_all_devices')
+            new_device = form.cleaned_data
+            # this_form = Device(
+            #     product_id=new_device['product'],
+            #     inventory_id=new_device['inventory'],
+            #     immo_id=Immo(
+            #         bc_number=new_device['bc_number'],
+            #         inventory_number=new_device['inv_number'],
+            #
+            #     )
+            # )
 
-    return render(request, 'devices/add_device.html', {'form': form})
+    return render(request, 'devices/add_new_device.html', {'form': form})

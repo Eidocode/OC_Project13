@@ -1,6 +1,6 @@
 from django import forms
 
-from product.models import Device, Brand, Product, Category, Cpu, Inventory
+from product.models import Device, Product, Cpu, Location, Entity
 
 
 class AddDeviceForm(forms.Form):
@@ -11,28 +11,6 @@ class AddDeviceForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Hostname...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-
-    category = forms.ModelChoiceField(
-        label='',
-        queryset=Category.objects.all(),
-        empty_label="Catégorie...",
-        widget=forms.Select(
-            attrs={
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-
-    brand = forms.ModelChoiceField(
-        label='',
-        queryset=Brand.objects.all(),
-        empty_label="Marque...",
-        widget=forms.Select(
-            attrs={
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
@@ -109,7 +87,7 @@ class AddDeviceForm(forms.Form):
         max_length=6,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'N° Inventaire...',
+                'placeholder': 'Etiquette...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
@@ -121,6 +99,39 @@ class AddDeviceForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'N° BC...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+
+    entity = forms.ModelChoiceField(
+        label='',
+        queryset=Entity.objects.all(),
+        empty_label="Entité...",
+        widget=forms.Select(
+            attrs={
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+
+    loc_name = forms.CharField(
+        label='',
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Salle...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+
+    loc_num = forms.CharField(
+        label='',
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Localisation...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
