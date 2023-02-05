@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
 from product.models import DeviceUser, Device
-from product_user.forms import AddDeviceForm
+from product_user.forms import InventoryForm, ImmoForm, LocationForm, \
+    ProductForm
 
 
 def show_last_users(request):
@@ -96,14 +97,33 @@ def add_new_device(request):
     """
     Used for add_device page
     """
-    form = AddDeviceForm()
+    product_form = ProductForm()
+    inventory_form = InventoryForm()
+    immo_form = ImmoForm()
+    location_form = LocationForm()
     if request.method == 'POST':
-        form = AddDeviceForm(request.POST)
-        if form.is_valid():
-            print('SUCCESS')
+        product_form = ProductForm(request.POST)
+        inventory_form = InventoryForm(request.POST)
+        immo_form = ImmoForm(request.POST)
+        location_form = LocationForm(request.POST)
+        if product_form.is_valid() and inventory_form.is_valid() and \
+                immo_form.is_valid() and location_form.is_valid():
+            this_product = product_form.cleaned_data['name']
+            this_inventory = inventory_form.save()
+            this_location = location_form.save()
+            this_immo = immo_form.save()
+
+            # new_device = Device(
+            #     product_id=this_product.id,
+            #     inventory_id=this_inventory.id,
+            # )
+
             return redirect('show_all_devices')
 
     context = {
-        'form': form
+        'product_form': product_form,
+        'inventory_form': inventory_form,
+        'immo_form': immo_form,
+        'location_form': location_form,
     }
-    return render(request, 'devices/add_new_device.html', context)
+    return render(request, 'devices/test_add_new_device.html', context)

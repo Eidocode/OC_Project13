@@ -1,10 +1,22 @@
 from django import forms
 
-from product.models import Device, Product, Cpu, Location, Entity
+from product.models import Inventory, Cpu, Location, Immo, Entity, Product
 
 
-class AddDeviceForm(forms.Form):
+class ProductForm(forms.Form):
+    name = forms.ModelChoiceField(
+        label='',
+        queryset=Product.objects.all(),
+        empty_label="Product...",
+        widget=forms.Select(
+            attrs={
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        ),
+    )
 
+
+class InventoryForm(forms.ModelForm):
     hostname = forms.CharField(
         label='',
         max_length=50,
@@ -15,18 +27,16 @@ class AddDeviceForm(forms.Form):
             }
         )
     )
-
-    product = forms.ModelChoiceField(
+    serial = forms.CharField(
         label='',
-        queryset=Product.objects.all(),
-        empty_label="Modèle...",
-        widget=forms.Select(
+        max_length=50,
+        widget=forms.TextInput(
             attrs={
+                'placeholder': 'N° Série...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
     )
-
     cpu = forms.ModelChoiceField(
         label='',
         queryset=Cpu.objects.all(),
@@ -37,7 +47,6 @@ class AddDeviceForm(forms.Form):
             }
         )
     )
-
     ram = forms.CharField(
         label='',
         max_length=5,
@@ -48,7 +57,16 @@ class AddDeviceForm(forms.Form):
             }
         )
     )
-
+    addr_mac = forms.CharField(
+        label='',
+        max_length=20,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': '@MAC...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
     storage = forms.CharField(
         label='',
         max_length=6,
@@ -60,51 +78,70 @@ class AddDeviceForm(forms.Form):
         )
     )
 
-    serial = forms.CharField(
-        label='',
-        max_length=50,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'N° Série...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
+    class Meta:
+        model = Inventory
+        fields = (
+            'hostname',
+            'serial',
+            'cpu',
+            'ram',
+            'addr_mac',
+            'storage',
         )
-    )
 
-    addr_mac = forms.CharField(
-        label='',
-        max_length=20,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': '@MAC...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
 
-    inv_number = forms.CharField(
-        label='',
-        max_length=6,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Etiquette...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-
+class ImmoForm(forms.ModelForm):
     bc_number = forms.CharField(
         label='',
         max_length=12,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'N° BC...',
+                'placeholder': 'N°BC...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+    inventory_number = forms.CharField(
+        label='',
+        max_length=12,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'N°Inventaire...',
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
         )
     )
 
-    entity = forms.ModelChoiceField(
+    class Meta:
+        model = Immo
+        fields = (
+            'bc_number',
+            'inventory_number',
+        )
+
+
+class LocationForm(forms.ModelForm):
+    name = forms.CharField(
+        label='',
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Localisation...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+    loc_number = forms.CharField(
+        label='',
+        max_length=6,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'N°Loc...',
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
+    site = forms.ModelChoiceField(
         label='',
         queryset=Entity.objects.all(),
         empty_label="Entité...",
@@ -115,30 +152,10 @@ class AddDeviceForm(forms.Form):
         )
     )
 
-    loc_name = forms.CharField(
-        label='',
-        max_length=6,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Salle...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-
-    loc_num = forms.CharField(
-        label='',
-        max_length=6,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Localisation...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-
     class Meta:
-        model = Device
+        model = Location
         fields = (
-            'device'
+            'name',
+            'loc_number',
+            'site',
         )
