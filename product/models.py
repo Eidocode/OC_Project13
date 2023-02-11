@@ -198,7 +198,7 @@ class Location(models.Model):
     site = models.ForeignKey(Entity, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.site} : {self.name}'
+        return f'{self.site} : {self.name}({self.loc_number})'
 
     class Meta:
         """ Constraint of unicity on the association name & site """
@@ -246,8 +246,8 @@ class Device(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     added_date = models.DateTimeField(default=timezone.now())
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
-    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT)
-    immo = models.ForeignKey(Immo, on_delete=models.CASCADE)
+    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT, null=True)
+    immo = models.ForeignKey(Immo, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.added_date} {self.product.name}'

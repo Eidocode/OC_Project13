@@ -17,19 +17,19 @@
 
                     <div class="form-group row mb-2">
                         <div class="col-sm-7">
-                          {{ form.hostname|as_crispy_field }}
+                          {{ inventory_form.hostname|as_crispy_field }}
                         </div>
                         <div class="col-sm-5">
-                          {{ form.product|as_crispy_field }}
+                          {{ product_form.name|as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-group row pt-1">
                         <div class="col-sm-5">
-                          {{ form.serial|as_crispy_field }}
+                          {{ inventory_form.serial|as_crispy_field }}
                         </div>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-6">
-                          {{ form.addr_mac|as_crispy_field }}
+                          {{ inventory_form.addr_mac|as_crispy_field }}
                         </div>
                     </div>
 
@@ -38,13 +38,13 @@
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                          {{ form.cpu|as_crispy_field }}
+                          {{ inventory_form.cpu|as_crispy_field }}
                         </div>
                         <div class="col-sm-3">
-                          {{ form.ram|as_crispy_field }}
+                          {{ inventory_form.ram|as_crispy_field }}
                         </div>
                         <div class="col-sm-3">
-                          {{ form.storage|as_crispy_field }}
+                          {{ inventory_form.storage|as_crispy_field }}
                         </div>
                     </div>
 
@@ -53,21 +53,15 @@
 
                     <div class="form-group row mb-2">
                         <div class="col-sm-3">
-                          {{ form.bc_number|as_crispy_field }}
+                          {{ immo_form.bc_number|as_crispy_field }}
                         </div>
                         <div class="col-sm-2">
-                          {{ form.inv_number|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-3">
-                          {{ form.entity|as_crispy_field }}
+                          {{ immo_form.inventory_number|as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-group row pt-1">
                         <div class="col-sm-3">
-                          {{ form.loc_name|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-3">
-                          {{ form.loc_num|as_crispy_field }}
+                          {{ location_form.loc_name|as_crispy_field }}
                         </div>
                     </div>
 

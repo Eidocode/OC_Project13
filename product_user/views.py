@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 
-from product.models import DeviceUser, Device
+from product.models import DeviceUser, Device, Location
 from product_user.forms import InventoryForm, ImmoForm, LocationForm, \
     ProductForm
 
@@ -99,31 +99,37 @@ def add_new_device(request):
     """
     product_form = ProductForm()
     inventory_form = InventoryForm()
-    immo_form = ImmoForm()
     location_form = LocationForm()
+    immo_form = ImmoForm()
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
         inventory_form = InventoryForm(request.POST)
-        immo_form = ImmoForm(request.POST)
         location_form = LocationForm(request.POST)
-        if product_form.is_valid() and inventory_form.is_valid() and \
-                immo_form.is_valid() and location_form.is_valid():
+        immo_form = ImmoForm(request.POST)
+        if product_form.is_valid() and inventory_form.is_valid() and location_form.is_valid() and immo_form.is_valid():
             this_product = product_form.cleaned_data['name']
             this_inventory = inventory_form.save()
-            this_location = location_form.save()
-            this_immo = immo_form.save()
+            this_location = location_form.cleaned_data['loc_name']
 
-            # new_device = Device(
-            #     product_id=this_product.id,
-            #     inventory_id=this_inventory.id,
-            # )
+            this_immo = immo_form.save(commit=False)
+            this_immo.location = Location.objects.get(pk=this_location.id)
+            this_immo.save()
+
+            new_device = Device(
+                product_id=this_product.id,
+                inventory_id=this_inventory.id,
+                immo_id=this_immo.id,
+            )
+            new_device.save()
+
+            print(f'{this_inventory.hostname} recorded to the database...')
 
             return redirect('show_all_devices')
 
     context = {
         'product_form': product_form,
         'inventory_form': inventory_form,
-        'immo_form': immo_form,
         'location_form': location_form,
+        'immo_form': immo_form,
     }
-    return render(request, 'devices/test_add_new_device.html', context)
+    return render(request, 'devices/add_new_device.html', context)

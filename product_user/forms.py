@@ -120,42 +120,14 @@ class ImmoForm(forms.ModelForm):
         )
 
 
-class LocationForm(forms.ModelForm):
-    name = forms.CharField(
+class LocationForm(forms.Form):
+    loc_name = forms.ModelChoiceField(
         label='',
-        max_length=6,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Localisation...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-    loc_number = forms.CharField(
-        label='',
-        max_length=6,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'N°Loc...',
-                'class': 'rounded-pill form-control field_white_hover shadow-sm'
-            }
-        )
-    )
-    site = forms.ModelChoiceField(
-        label='',
-        queryset=Entity.objects.all(),
-        empty_label="Entité...",
+        queryset=Location.objects.all(),
+        empty_label="Localisation...",
         widget=forms.Select(
             attrs={
                 'class': 'rounded-pill form-control field_white_hover shadow-sm'
             }
-        )
+        ),
     )
-
-    class Meta:
-        model = Location
-        fields = (
-            'name',
-            'loc_number',
-            'site',
-        )
