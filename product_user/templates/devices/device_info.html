@@ -86,16 +86,19 @@
                 </div>
 
                 <hr class="divider mt-0"/>
-
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-user"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.device_user.first_name }} {{ device.device_user.last_name }}" disabled/>
-                    <a id="user_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_user_info' user_id=device.device_user.id%}">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </a>
-                </div>
+                    {% if device.device_user is null %}
+                        <div class="row pt-2"></div>
+                    {% else %}
+                        <div class="row pt-2">
+                            <span class="col-2 text-center align-self-center">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.device_user.first_name }} {{ device.device_user.last_name }}" disabled/>
+                            <a id="user_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_user_info' user_id=device.device_user.id%}">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+                        </div>
+                    {% endif %}
 
                 <div class="text-center mt-5">
                     <a id="" class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" role="button" href='#'>
