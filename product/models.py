@@ -19,8 +19,12 @@ class Brand(models.Model):
     """
     name = models.CharField(max_length=15, unique=True)
 
+    class Meta:
+        verbose_name = 'Marque'
+        verbose_name_plural = 'Marques'
+
     def __str__(self):
-        return f'{self.name}'
+        return self.name
 
 
 class Category(models.Model):
@@ -31,6 +35,10 @@ class Category(models.Model):
         Contains the names of the categories used
     """
     name = models.CharField(max_length=15, unique=True)
+
+    class Meta:
+        verbose_name = 'Catégorie'
+        verbose_name_plural = 'Catégories'
 
     def __str__(self):
         return f'{self.name}'
@@ -51,12 +59,14 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
-    def __str__(self):
-        return f'[{self.category.name}] {self.brand.name} {self.name}'
-
     class Meta:
         """ Constraint of unicity on name, brand & category """
         unique_together = ('name', 'brand', 'category')
+        verbose_name = 'Produit'
+        verbose_name_plural = 'Produits'
+
+    def __str__(self):
+        return f'[{self.category.name}] {self.brand.name} {self.name}'
 
 
 class CpuBrand(models.Model):
@@ -121,10 +131,11 @@ class Inventory(models.Model):
     storage = models.PositiveIntegerField(null=True)
 
     def __str__(self):
-        return f'{self.hostname} with {self.cpu.name}' \
-            f'--> S/N : {self.serial}' \
-            f'--> Ram : {self.ram} Go' \
-            f'--> Storage : {self.storage} Go'
+        return self.hostname
+
+    class Meta:
+        verbose_name = 'Inventaire'
+        verbose_name_plural = 'Inventaires'
 
 
 class Status(models.Model):
@@ -136,6 +147,9 @@ class Status(models.Model):
     """
     name = models.CharField(max_length=20, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Assignment(models.Model):
     """
@@ -145,6 +159,9 @@ class Assignment(models.Model):
         Contains the names of the user assignment
     """
     name = models.CharField(max_length=15, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class DeviceUser(models.Model):
@@ -165,8 +182,12 @@ class DeviceUser(models.Model):
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
     assignment = models.ForeignKey(Assignment, on_delete=models.PROTECT, null=True)
 
+    class Meta:
+        verbose_name = 'Utilisateur'
+        verbose_name_plural = 'Utilisateurs'
+
     def __str__(self):
-        return f'{self.first_name} {self.last_name} with {self.uid}'
+        return f'{self.first_name} {self.last_name} ({self.uid})'
 
 
 class Entity(models.Model):
@@ -250,4 +271,4 @@ class Device(models.Model):
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.added_date} {self.product.name}'
+        return self.inventory.hostname
