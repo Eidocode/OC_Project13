@@ -1,0 +1,49 @@
+<!-- Registration page -->
+{% extends 'product/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<section class="page-section sign mt-5">
+    <h4 class="mb-4 text-center"><b>Vous rencontrez un problème avec l'application ou vous avez des questions ?</b></h4>
+
+
+    <div class="container h-100">
+        <div class="row align-items-center justify-content-center">
+            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border">
+                <h2 class="mb-4 text-center">Contactez-nous</h2>
+                <hr class="divider"/>
+                <form method="POST" class="py-4">
+                    {% csrf_token %}
+
+                    <div class="form-group row mb-2">
+                        <div class="col-sm-6">
+                          {{ form.first_name|as_crispy_field }}
+                        </div>
+                        <div class="col-sm-6">
+                          {{ form.last_name|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.message|as_crispy_field }}
+                    </div>
+
+                    <div class="mt-5">
+                        <button id="logon_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
+                            <i style="padding-right: 1%" class="fa-solid fa-paper-plane"></i>
+                            <b>Envoyer le message</b>
+                        </button>
+                    </div>
+                </form>
+                <hr class="divider mb-0 mt-3"/>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
