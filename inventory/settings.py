@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'users.apps.UserConfig',
     'product_user.apps.ProductUserConfig',
-    'product.apps.InventoryAdminConfig',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

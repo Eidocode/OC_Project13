@@ -18,7 +18,6 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from product.admin import admin_inventory_site
 from product import views
 
 
@@ -28,7 +27,7 @@ urlpatterns = [
     url(r'^users/', include('users.urls')),
     url(r'^product/', include('product.urls')),
     url(r'^product_user/', include('product_user.urls')),
-    url(r'^manage-admin/', admin_inventory_site.urls),
+    url(r'^manage-admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

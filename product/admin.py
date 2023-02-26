@@ -1,51 +1,88 @@
 from django.contrib import admin
 
-import django.apps
-
-from .models import Inventory, DeviceUser, Device, Product, Brand, Category, \
-    Entity, Location, Status, Assignment, CpuBrand, Cpu
+from .models import DeviceUser, Device, Category, Entity, Status, Assignment
 
 
-class InventoryAdminArea(admin.AdminSite):
-    site_header = 'OC-Inventory Admin Area'
+admin.site.site_header = 'OC-Inventory Admin Area'
 
 
-admin_inventory_site = InventoryAdminArea(name='inventory_admin')
+@admin.register(Device)
+class DeviceAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
 
-admin_inventory_site.register(Inventory)
+    def get_serial(self, obj):
+        return obj.inventory.serial
+    get_serial.short_description = 'Serial'
 
-# class InventoryInline(admin.TabularInline):
-#     model = Device
-#     fieldsets = [
-#         (None, {'fields': ['device_user']}),
-#     ]
-#     extra = 0
-#     verbose_name = 'Utilisateur affecté'
-#     verbose_name_plural = 'Utilisateurs affectés'
-#
-#
-# @admin.register(Inventory)
-# class InventoryAdmin(admin.ModelAdmin):
-#     inlines = [InventoryInline]
-#     exclude = ("hostname", "serial", "cpu", "ram", "addr_mac", "storage")
-#     readonly_fields = ("hostname", "serial", "cpu", "ram", "addr_mac", "storage")
+    def get_brand(self, obj):
+        return obj.product.brand.name
+    get_brand.short_description = 'Brand'
+
+    search_fields = [
+        'inventory__hostname',
+        "inventory__serial",
+        "inventory__addr_mac",
+    ]
+    list_display = ('inventory', 'get_serial', 'get_brand')
+    list_filter = (
+        'product__category__name',
+        'product__brand__name',
+        'inventory__cpu__cpu_brand__name',
+        'inventory__storage',
+        'inventory__ram',
+    )
+
+    fieldsets = (
+        ('Informations', {
+            'fields': ('inventory', 'product', 'added_date'),
+        }),
+        ('Immobilisation', {
+            'fields': ('immo', 'device_user'),
+        })
+    )
+    readonly_fields = ("added_date", "product", "inventory", "immo")
+    exclude = ()
 
 
-# @admin.register(Device, Product)
-# class DeviceAdmin(admin.ModelAdmin):
-#     exclude = ("added_date",)
-#     readonly_fields = ("added_date",)
+class ProductInline(admin.TabularInline):
+    model = Device
+    max_num = 0
+    fieldsets = (
+        ('Informations', {
+            'fields': ('inventory', 'product', 'added_date'),
+        }),
+        ('Immobilisation', {
+            'fields': ('immo', 'device_user'),
+        })
+    )
+    readonly_fields = ("added_date", "product", "inventory", "immo")
+    verbose_name = 'Périphérique associé'
+    verbose_name_plural = 'Périphériques associés'
 
-#
-# @admin.register(Brand)
-# class DeviceAdmin(admin.ModelAdmin):
-#     def get_model_perms(self, request):
-#         """
-#         Return empty perms dict thus hiding the model from admin index.
-#         """
-#         return {}
-#
-#
+
+@admin.register(DeviceUser)
+class DeviceUserAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    search_fields = ["uid", "first_name", "last_name"]
+    list_display = ("uid", "first_name", "last_name", "email")
+    list_filter = ("status", "assignment")
+
+    fieldsets = (
+        ('Informations', {
+            'fields': ('uid', 'first_name', 'last_name', 'email'),
+        }),
+        ('Affectation', {
+            'fields': ('status', 'assignment'),
+        }),
+    )
+    inlines = [ProductInline]
+    readonly_fields = ("uid", "first_name", "last_name", "email")
+
+
+
 # @admin.register(Category)
 # class CategoryAdmin(admin.ModelAdmin):
 #     def get_model_perms(self, request):
@@ -77,30 +114,3 @@ admin_inventory_site.register(Inventory)
 #         """
 #         return {}
 #
-#
-# @admin.register(DeviceUser)
-# class DeviceUserAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(CpuBrand)
-# class CpuBrandAdmin(admin.ModelAdmin):
-#     def get_model_perms(self, request):
-#         """
-#         Return empty perms dict thus hiding the model from admin index.
-#         """
-#         return {}
-#
-#
-# @admin.register(Cpu)
-# class CpuAdmin(admin.ModelAdmin):
-#     def get_model_perms(self, request):
-#         """
-#         Return empty perms dict thus hiding the model from admin index.
-#         """
-#         return {}
-#
-#
-# @admin.register(Inventory)
-# class InventoryAdmin(admin.ModelAdmin):
-#     pass

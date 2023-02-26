@@ -246,7 +246,7 @@ class Immo(models.Model):
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.inventory_number} {self.location}'
+        return f'{self.inventory_number}'
 
 
 class Device(models.Model):
@@ -269,6 +269,10 @@ class Device(models.Model):
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
     device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT, null=True)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = 'Périphérique'
+        verbose_name_plural = 'Périphériques'
 
     def __str__(self):
         return self.inventory.hostname
