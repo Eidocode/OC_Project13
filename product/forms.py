@@ -25,6 +25,14 @@ class ContactUsForm(forms.Form):
             'class': 'rounded-pill form-control field_white_hover shadow-sm'
         })
     )
+    subject = forms.CharField(
+        label='',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Objet...',
+            'class': 'rounded-pill form-control field_white_hover shadow-sm'
+        }),
+    )
     message = forms.CharField(
         label='',
         max_length=500,

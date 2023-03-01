@@ -10,7 +10,7 @@
 
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border">
+            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 my-5 py-5 col-lg-8 border">
                 <h2 class="mb-4 text-center">Contactez-nous</h2>
                 <hr class="divider"/>
                 <form method="POST" class="py-4">
@@ -24,9 +24,12 @@
                           {{ form.last_name|as_crispy_field }}
                         </div>
                     </div>
-
                     <div class="mb-4">
                         {{ form.email|as_crispy_field }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.subject|as_crispy_field }}
                     </div>
                     <div class="mb-4">
                         {{ form.message|as_crispy_field }}
