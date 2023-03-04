@@ -1,5 +1,5 @@
 <!-- Index page from base template -->
-{% extends 'product/base.html' %}
+{% extends 'product/base_body.html' %}
 
 {% block content %}
 
@@ -74,7 +74,7 @@
                     <script>
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var myChart = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'doughnut',
                         data: {
                             labels: {{ labels|safe }},
                             datasets: [{

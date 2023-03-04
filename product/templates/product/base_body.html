@@ -1,0 +1,127 @@
+{% extends 'product/base.html' %}
+{% load static %}
+
+{% block body_content %}
+
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="/">OC-Inventory</a>
+
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            {% if user.is_authenticated %}
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    {% if user.is_staff %}
+                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'account' %}">Afficher le profil</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
+                </ul>
+            {% else %}
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'login' %}" title="Login">Se connecter</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="{% url 'signup' %}" title="Logon">S'enregistrer</a></li>
+                </ul>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <a class="nav-link" href="index_old.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Interface</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users-line"></i></div>
+                            Utilisateurs
+                        <div class="sb-sidenav-collapse-arrow"><i class="fa-solid fa-circle-chevron-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <ul class="list-group">
+                                <a class="nav-link" href="{% url 'show_last_users' %}"><li>Derniers ajouts</li></a>
+                                <a class="nav-link" href="{% url 'show_all_users' %}"><li>Tous les utilisateurs</li></a>
+                            </ul>
+                        </nav>
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-desktop"></i></div>
+                            Périphériques
+                        <div class="sb-sidenav-collapse-arrow"><i class="fa-solid fa-circle-chevron-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <ul class="list-group">
+                                <a class="nav-link" href="{% url 'show_last_devices' %}"><li>Derniers ajouts</li></a>
+                                <a class="nav-link" href="{% url 'show_all_devices' %}"><li>Tous les périphériques</li></a>
+                                <a class="nav-link" href="{% url 'add_new_device' %}"><li>Nouveau périphérique</li></a>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Addons</div>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Charts
+                    </a>
+                    <a class="nav-link" href="tables.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Tables
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Utilisateur connecté :
+                    {% if user.is_authenticated %}
+                        <i class="font-weight-bold text-white">{{ user.get_username }}</i>
+                    {% else %}
+                        <i class="font-weight-bold text-white">Aucun</i>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            {% include 'users/notifications/account_messages.html' %}
+            <!-- Content -->
+            {% block content %}{% endblock %}
+
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; 2022 David Bouzerar</div>
+                    <div>
+                        <a href="#">Mentions légales</a>
+                        &middot;
+                        <a href="{% url 'contact_us' %}">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+{% endblock %}
