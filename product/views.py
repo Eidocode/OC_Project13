@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 
 from product.forms import ContactUsForm
-from product.models import Device, Category
+from product.models import Device, Category, Brand
 from tools import const
 
 
@@ -14,8 +14,7 @@ def index(request):
     """
     devices_qs = Device.objects.filter()
     categories_qs = Category.objects.filter()
-
-    last_devices = devices_qs.order_by('-added_date')[:5]
+    brands_qs = Brand.objects.filter()
 
     categories = []
     catg_num = []
@@ -23,8 +22,13 @@ def index(request):
         categories.append(category.name)
         catg_num.append(devices_qs.filter(product__category__name=category.name).count())
 
+    brands = []
+    brand_num = []
+    for brand in brands_qs:
+        brands.append(brand.name)
+        brand_num.append(devices_qs.filter(product__brand__name=brand.name).count())
 
-    # devices_type = devices_qs.objects.filter(product__category__name)
+    last_devices = devices_qs.order_by('-added_date')[:5]
     current_user = request.user
 
     labels = categories
@@ -34,6 +38,8 @@ def index(request):
         'devices': last_devices,
         'labels': labels,
         'datas': datas,
+        'brands': brands,
+        'brand_num': brand_num,
     }
     return render(request, 'product/index.html', context)
 
