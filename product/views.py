@@ -16,30 +16,22 @@ def index(request):
     categories_qs = Category.objects.filter()
     brands_qs = Brand.objects.filter()
 
-    categories = []
-    catg_num = []
+    categories = {}
     for category in categories_qs:
-        categories.append(category.name)
-        catg_num.append(devices_qs.filter(product__category__name=category.name).count())
+        devices_in_catg = devices_qs.filter(product__category__name=category.name).count()
+        categories[category.name] = devices_in_catg
 
-    brands = []
-    brand_num = []
+    brands = {}
     for brand in brands_qs:
-        brands.append(brand.name)
-        brand_num.append(devices_qs.filter(product__brand__name=brand.name).count())
+        brand_in_device = devices_qs.filter(product__brand__name=brand.name).count()
+        brands[brand.name] = brand_in_device
 
     last_devices = devices_qs.order_by('-added_date')[:5]
-    current_user = request.user
-
-    labels = categories
-    datas = catg_num
 
     context = {
         'devices': last_devices,
-        'labels': labels,
-        'datas': datas,
+        'types': categories,
         'brands': brands,
-        'brand_num': brand_num,
     }
     return render(request, 'product/index.html', context)
 

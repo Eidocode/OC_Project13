@@ -1,50 +1,58 @@
 <!-- Index page from base template -->
 {% extends 'product/base_body.html' %}
 
+{% load product_extras %}
+
 {% block content %}
 
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Inventory</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Inventory</li>
-        </ol>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="my-4"><i class="fa-solid fa-layer-group me-2"></i>Résumé des équipements</h2>
+                <p class="lead mb-0" style="font-size: 0.9rem;"><i class="fas fa-info-circle mx-2"></i>Vue d'ensemble de l'inventaire, qui donne un aperçu rapide des périphériques enregistrés.</p>
+            </div>
+        </div>
+        <hr class="my-4">
+
         <div class="card mb-4 shadow">
             <div class="card-header shadow-sm">
-                <i class="fas fa-table me-1"></i>
+                <i class="fa-solid fa-table mx-2"></i>
                 5 derniers périphériques enregistrés
             </div>
-            <div class="card-body">
-                <table id="dataTableIndex" class="table">
+            <div class="card-body table-responsive">
+                <table id="datatablesIndex" class="table table-striped table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Hostname</th>
-                            <th>Serial</th>
-                            <th>UserID</th>
-                            <th>Inventory</th>
-                            <th>Location</th>
+                            <th><i class="fa-solid fa-hashtag"></i></th>
+                            <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
+                            <th><i class="fa-solid fa-tag me-1"></i>Brand</th>
+                            <th><i class="fa-solid fa-tags me-1"></i>Model</th>
+                            <th><i class="fa-solid fa-computer me-1"></i>Hostname</th>
+                            <th><i class="fa-solid fa-list-ol me-1"></i>Serial</th>
+                            <th><i class="fa-solid fa-address-card me-1"></i>UserID</th>
+                            <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
+                            <th><i class="fa-solid fa-building me-1"></i>Location</th>
+                            <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                         </tr>
                     </thead>
                     <tfoot class="thead-light">
                         <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Hostname</th>
-                            <th>Serial</th>
-                            <th>UserID</th>
-                            <th>Inventory</th>
-                            <th>Location</th>
+                            <th><i class="fa-solid fa-hashtag"></i></th>
+                            <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
+                            <th><i class="fa-solid fa-tag me-1"></i>Brand</th>
+                            <th><i class="fa-solid fa-tags me-1"></i>Model</th>
+                            <th><i class="fa-solid fa-computer me-1"></i>Hostname</th>
+                            <th><i class="fa-solid fa-list-ol me-1"></i>Serial</th>
+                            <th><i class="fa-solid fa-address-card me-1"></i>UserID</th>
+                            <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
+                            <th><i class="fa-solid fa-building me-1"></i>Location</th>
+                            <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         {% for device in devices %}
                             <tr>
-                                <th>{{ forloop.counter }}</th>
+                                <th><b>{{ forloop.counter }}</b></th>
                                 <td>{{ device.product.category.name }}</td>
                                 <td>{{ device.product.brand.name }}</td>
                                 <td>{{ device.product.name }}</td>
@@ -53,6 +61,11 @@
                                 <td>{{ device.device_user.uid }}</td>
                                 <td>{{ device.immo.inventory_number }}</td>
                                 <td>{{ device.immo.location.name }}</td>
+                                <td class="text-center">
+                                    <a id="more_details" class="blue_hover" href="{% url 'show_device_info' device_id=device.id %}">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -61,121 +74,136 @@
         </div>
     </div>
 
-
-    <div>
-        <div class="container row mt-5">
-            <div class="col-md-5 mt-2">
-                <h4>Types de périphériques</h4>
-                <hr>
+    <div class="container-fluid px-4">
+        <div class="card mb-4 shadow">
+            <div class="card-header shadow-sm">
+                <i class="fa-solid fa-chart-simple mx-2"></i>
+                Répartition des périphériques par marque
             </div>
+            <div class="card-body">
+                <div class="container row my-4">
+                    <div class="col-md-6">
+                        <h4>Périphériques par marque</h4>
+                        <hr class="mb-4">
+                        <ul class="list-group">
+                            {% for key, value in brands.items %}
+                                <li class="{% cycle "bg-light" "" %} list-group-item d-flex justify-content-between align-items-center">
+                                    {{ key }}
+                                    <span class="badge bg-primary rounded-pill">{{ value }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-            <div class="col-md-7">
-                <canvas id="myChart"></canvas>
-                    <script>
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: {{ labels|safe }},
-                            datasets: [{
-                                label: 'Périphériques',
-                                data: {{ datas|safe }},
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(240, 120, 50, 1)',
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(240, 120, 50, 1)',
-                                ],
-                                borderWidth: 1,
-                            }]
-                        },
-                        options: {
-                            spacing: 10,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                    <div class="col-md-6">
+                        <canvas id="myChart2"></canvas>
+                        <script>
+                            var ctx2 = document.getElementById('myChart2').getContext('2d');
+                            var myChart2 = new Chart(ctx2, {
+                                type: 'bar',
+                                data: {
+                                    labels: {{ brands|list_dict_keys|safe }},
+                                    datasets: [{
+                                        label: '# de périphériques',
+                                        data: {{ brands|list_dict_values|safe }},
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)',
+                                            'rgba(240, 120, 50, 0.2)',
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)',
+                                            'rgba(240, 120, 50, 1)',
+                                        ],
+                                        borderWidth: 1,
+                                        barThickness: 20,
+                                        minBarLength: 2,
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
                                 }
-                            },
-                            hover: {
-                                mode: 'nearest',
-                                intersect: true
-                            },
-                            // Ajout de l'option hoverBorderWidth pour ajuster la largeur de la bordure des segments
-                            elements: {
-                                arc: {
-                                    borderWidth: 0
-                                }
-                            },
-                            responsive: true
-                        }
-                    });
-                    </script>
+                            });
+                        </script>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="container row mt-5">
-            <div class="col-md-5 mt-2">
-                <h4>Marques des périphériques</h4>
-                <hr>
+        <div class="card mb-4 shadow">
+            <div class="card-header shadow-sm">
+                <i class="fa-solid fa-chart-pie mx-2"></i>
+                Répartition des périphériques par type
             </div>
+            <div class="card-body">
+                <div class="container row my-4">
+                    <div class="col-md-6">
+                        <h4>Périphériques par type</h4>
+                        <hr class="mb-4">
+                        <ul class="list-group">
+                            {% for key, value in types.items %}
+                                <li class="{% cycle "bg-light" "" %} list-group-item d-flex justify-content-between align-items-center">
+                                    {{ key }}
+                                    <span class="badge bg-primary rounded-pill">{{ value }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-            <div class="col-md-7">
-                <canvas id="myChart2"></canvas>
-                    <script>
-                    var ctx2 = document.getElementById('myChart2').getContext('2d');
-                    var myChart2 = new Chart(ctx2, {
-                        type: 'bar',
-                        data: {
-                            labels: {{ brands|safe }},
-                            datasets: [{
-                                label: '# de périphériques',
-                                data: {{ brand_num|safe }},
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.4)',
-                                    'rgba(54, 162, 235, 0.4)',
-                                    'rgba(255, 206, 86, 0.4)',
-                                    'rgba(75, 192, 192, 0.4)',
-                                    'rgba(153, 102, 255, 0.4)',
-                                    'rgba(255, 159, 64, 0.4)',
-                                    'rgba(240, 120, 50, 0.4)',
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgba(240, 120, 50, 1)',
-
-                                ],
-                                borderWidth: 1,
-                                barThickness: 10,
-                                minBarLength: 2,
-                                grouped: true,
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                    <div class="col-md-6">
+                        <canvas id="myChart"></canvas>
+                        <script>
+                            var ctx = document.getElementById('myChart').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                    labels: {{ types|list_dict_keys|safe }},
+                                    datasets: [{
+                                        label: 'Périphériques',
+                                        data: {{ types|list_dict_values|safe }},
+                                        backgroundColor: [
+                                            'rgba(46, 204, 113, 0.85)',
+                                            'rgba(52, 152, 219, 0.85)',
+                                            'rgba(241, 196, 15, 0.85)',
+                                            'rgba(231, 76, 60, 0.85)',
+                                            'rgba(142, 68, 173, 0.85)',
+                                            'rgba(192, 57, 43, 0.85)',
+                                            'rgba(211, 84, 0, 0.85)',
+                                            'rgba(230, 126, 34, 0.85)',
+                                            'rgba(52, 73, 94, 0.85)',
+                                        ],
+                                        borderColor: 'rgba(255, 255, 255, 1)',
+                                        borderWidth: 2,
+                                        hoverOffset: 20,
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    legend: {
+                                        position: 'right',
+                                        labels: {
+                                            fontColor: '#333',
+                                            fontSize: 12,
+                                        }
+                                    },
                                 }
-                            }
-                        }
-                    });
-                    </script>
+                            });
+                        </script>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

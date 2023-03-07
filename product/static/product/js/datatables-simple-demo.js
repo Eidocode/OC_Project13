@@ -7,12 +7,12 @@ window.addEventListener('DOMContentLoaded', event => {
         new simpleDatatables.DataTable(datatablesSimple);
     }
 
-    const dataTableIndex = document.getElementById('dataTableIndex');
+    const dataTableIndex = document.getElementById('datatablesIndex');
     if (dataTableIndex) {
         new simpleDatatables.DataTable(dataTableIndex, {
-            searchable: false,
-            perPager: 5,
-            perPageSelect: false,
+          searchable: false,
+          perPageSelect: false,
+          perPager: 5,
         });
     }
 });
