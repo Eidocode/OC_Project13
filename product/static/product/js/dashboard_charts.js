@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 ],
                 borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 2,
-                hoverOffset: 20,
+                hoverOffset: 10,
             }]
         },
         options: {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 ],
                 borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 2,
-                hoverOffset: 20,
+                hoverOffset: 10,
             }]
         },
         options: {

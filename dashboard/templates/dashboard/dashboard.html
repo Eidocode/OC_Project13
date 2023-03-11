@@ -5,13 +5,13 @@
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-6">
-            <h2>Overview</h2>
-            <p>A quick summary of your inventory</p>
+            <h2><i class="fa-solid fa-chart-line me-2"></i><b>Tableau de bord</b></h2>
+            <p><i class="fas fa-info-circle me-2"></i><span class="text-muted">Vue d'ensemble, état de l'inventaire</span></p>
         </div>
         <div class="col-md-6">
             <div class="d-flex align-items-center justify-content-end">
                 <label for="device-select" class="me-2">Device type:</label>
-                <select class="form-select" id="device-select">
+                <select class="form-select form-select-sm" id="device-select">
                     <option selected>All devices</option>
                     <option>Desktops</option>
                     <option>Laptops</option>
@@ -19,142 +19,186 @@
                 </select>
             </div>
         </div>
+        <hr class="my-4">
     </div>
-    <div class="row mt-4">
+    <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title">Total devices</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">1,234</h6>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Devices by type</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="devicesByTypeChart" width="400" height="300"></canvas>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Total de périphériques</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-end flex-column">
+                        <h6 class="card-subtitle mb-0 text-muted display-4">{{ devices_qs.count }}</h6>
+                    </div>
                 </div>
             </div>
-            <div class="card mt-4">
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">Device trend</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="deviceTrendChart" width="400" height="300"></canvas>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques par type</h5>
+                    <hr>
+                    <div class="chart-container" style="position: relative; height:300px; width:100%;">
+                        <canvas id="devicesByTypeChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="card mt-4">
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">Obsolete devices</h5>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Tendance des périphériques</h5>
+                    <hr>
+                    <div class="chart-container" style="position: relative; height:300px; width:100%;">
+                        <canvas id="deviceTrendChart"></canvas>
+                    </div>
                 </div>
+            </div>
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Serial number</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Laptop</td>
-                            <td>Dell</td>
-                            <td>Latitude</td>
-                            <td>ABC123</td>
-                        </tr>
-                        <tr>
-                            <td>Desktop</td>
-                            <td>HP</td>
-                            <td>ProDesk</td>
-                            <td>XYZ789</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Garantie des périphériques</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>Numéro de série</th>
+                                    <th>Date d'expiration de la garantie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Laptop</td>
+                                    <td>Dell</td>
+                                    <td>Latitude</td>
+                                    <td>ABC123</td>
+                                    <td>31/12/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>Desktop</td>
+                                    <td>HP</td>
+                                    <td>ProDesk</td>
+                                    <td>XYZ789</td>
+                                    <td>Pas de garantie</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow mt-4">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques obsolètes</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>Numéro de série</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Laptop</td>
+                                    <td>Dell</td>
+                                    <td>Latitude</td>
+                                    <td>ABC123</td>
+                                </tr>
+                                <tr>
+                                    <td>Ordinateur de bureau</td>
+                                    <td>HP</td>
+                                    <td>ProDesk</td>
+                                    <td>XYZ789</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title">Devices by location</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="devicesByLocationChart" width="400" height="300"></canvas>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Devices in repair/maintenance</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Serial number</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Laptop</td>
-                            <td>Dell</td>
-                            <td>Latitude</td>
-                            <td>ABC123</td>
-                        </tr>
-                        <tr>
-                            <td>Desktop</td>
-                            <td>HP</td>
-                            <td>ProDesk</td>
-                            <td>XYZ789</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques par localisation</h5>
+                    <hr>
+                    <div class="chart-container" style="position: relative; height:300px; width:100%;">
+                        <canvas id="devicesByLocationChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="card mt-4">
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">License usage</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="licenseUsageChart" width="400" height="300"></canvas>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques en maintenance</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>Numéro de série</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Laptop</td>
+                                    <td>Dell</td>
+                                    <td>Latitude</td>
+                                    <td>ABC123</td>
+                                </tr>
+                                <tr>
+                                    <td>Ordinateur de bureau</td>
+                                    <td>HP</td>
+                                    <td>ProDesk</td>
+                                    <td>XYZ789</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="card mt-4">
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">Security</h5>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Répartition par OS</h5>
+                    <hr>
+                    <div class="chart-container" style="position: relative; height:300px; width:100%;">
+                        <canvas id="licenseUsageChart"></canvas>
+                    </div>
                 </div>
+            </div>
+            <div class="card shadow mt-4">
                 <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>Model</th>
-                            <th>Security status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Laptop</td>
-                            <td>Dell</td>
-                            <td>Latitude</td>
-                            <td>Update required</td>
-                        </tr>
-                        <tr>
-                            <td>Desktop</td>
-                            <td>HP</td>
-                            <td>ProDesk</td>
-                            <td>No issues</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Sécurité</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Marque</th>
+                                    <th>Modèle</th>
+                                    <th>Statut de sécurité</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ordinateur portable</td>
+                                    <td>Dell</td>
+                                    <td>Latitude</td>
+                                    <td>Mise à jour requise</td>
+                                </tr>
+                                <tr>
+                                    <td>Ordinateur de bureau</td>
+                                    <td>HP</td>
+                                    <td>ProDesk</td>
+                                    <td>Aucun problème</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
