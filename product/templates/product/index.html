@@ -4,10 +4,8 @@
 {% load product_extras %}
 
 {% block content %}
-    <!-- Script ChartJS -->
-{#    <script src="{% static 'product/js/index_chart.js' %}"></script>#}
 
-    <div class="container-fluid px-4">
+    <div class="container-fluid px-4 mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <h2 class="my-4"><i class="fa-solid fa-layer-group me-2"></i>Résumé des équipements</h2>
@@ -16,7 +14,7 @@
         </div>
         <hr class="my-4">
 
-        <div class="card mb-4 shadow">
+        <div class="card shadow">
             <div class="card-header shadow-sm">
                 <i class="fa-solid fa-table mx-2"></i>
                 5 derniers périphériques enregistrés
@@ -77,17 +75,18 @@
     </div>
 
     <div class="container-fluid px-4">
-        <div class="card mb-4 shadow">
-            <div class="card-header shadow-sm">
-                <i class="fa-solid fa-chart-simple mx-2"></i>
-                Répartition des périphériques par marque
-            </div>
-            <div class="card-body">
-                <div class="container row my-4">
-                    <div class="col-md-6">
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow" style="height: 400px;">
+                    <div class="card-header shadow-sm">
+                        <i class="fa-solid fa-table-cells-large mx-2"></i>
+                        Répartition des périphériques par marque - Table
+                    </div>
+                    <div class="card-body">
                         <h4>Périphériques par marque</h4>
                         <hr class="mb-4">
-                        <ul class="list-group">
+                        <ul class="list-group mx-4">
                             {% for key, value in brands.items %}
                                 <li class="{% cycle "bg-light" "" %} list-group-item d-flex justify-content-between align-items-center">
                                     {{ key }}
@@ -96,10 +95,19 @@
                             {% endfor %}
                         </ul>
                     </div>
+                </div>
+            </div>
 
-                    <div class="col-md-6">
-                        <canvas id="myChart2"></canvas>
+            <div class="col-md-6">
+                <div class="card shadow" style="height: 400px;">
+                    <div class="card-header shadow-sm">
+                        <i class="fa-solid fa-chart-simple mx-2"></i>
+                        Répartition des périphériques par marque - Graphique
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myChart2" class="mx-4"></canvas>
                         <script>
+                        document.addEventListener("DOMContentLoaded", function() {
                             var ctx2 = document.getElementById('myChart2').getContext('2d');
                             var myChart2 = new Chart(ctx2, {
                                 type: 'bar',
@@ -132,6 +140,8 @@
                                     }]
                                 },
                                 options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
                                     scales: {
                                         y: {
                                             beginAtZero: true
@@ -139,34 +149,44 @@
                                     }
                                 }
                             });
+                        });
                         </script>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card mb-4 shadow">
-            <div class="card-header shadow-sm">
-                <i class="fa-solid fa-chart-pie mx-2"></i>
-                Répartition des périphériques par type
-            </div>
-            <div class="card-body">
-                <div class="container row my-4">
-                    <div class="col-md-6">
-                        <h4>Périphériques par type</h4>
-                        <hr class="mb-4">
-                        <ul class="list-group">
-                            {% for key, value in types.items %}
-                                <li class="{% cycle "bg-light" "" %} list-group-item d-flex justify-content-between align-items-center">
-                                    {{ key }}
-                                    <span class="badge bg-primary rounded-pill">{{ value }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
 
-                    <div class="col-md-6">
-                        <canvas id="myChart"></canvas>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow" style="height: 400px;">
+                    <div class="card-header shadow-sm">
+                        <i class="fa-solid fa-table-cells-large mx-2"></i>
+                        Répartition des périphériques par type - Table
+                    </div>
+                    <div class="card-body">
+                        <h4>Périphériques par type</h4>
+                            <hr class="mb-4">
+                            <ul class="list-group mx-4">
+                                {% for key, value in types.items %}
+                                    <li class="{% cycle "bg-light" "" %} list-group-item d-flex justify-content-between align-items-center">
+                                        {{ key }}
+                                        <span class="badge bg-primary rounded-pill">{{ value }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow" style="height: 400px;">
+                    <div class="card-header shadow-sm">
+                        <i class="fa-solid fa-chart-pie mx-2"></i>
+                        Répartition des périphériques par type - Graphique
+                    </div>
+                    <div class="card-body">
+                        <canvas id="myChart" class="mx-4"></canvas>
                         <script>
                             var ctx = document.getElementById('myChart').getContext('2d');
                             var myChart = new Chart(ctx, {
@@ -194,6 +214,7 @@
                                 },
                                 options: {
                                     responsive: true,
+                                    maintainAspectRatio: false,
                                     legend: {
                                         position: 'right',
                                         labels: {

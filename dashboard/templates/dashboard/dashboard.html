@@ -3,140 +3,162 @@
 {% block content %}
 
 <div class="container-fluid mt-4">
-  <div class="row">
-    <div class="col-md-6">
-      <h2>Overview</h2>
-      <p>A quick summary of your inventory</p>
-    </div>
-    <div class="col-md-6">
-      <div class="d-flex align-items-center justify-content-end">
-        <label for="device-select" class="me-2">Device type:</label>
-        <select class="form-select" id="device-select">
-          <option selected>All devices</option>
-          <option>Desktops</option>
-          <option>Laptops</option>
-          <option>Mobile devices</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Total devices</h5>
-          <h6 class="card-subtitle mb-2 text-muted">1,234</h6>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Overview</h2>
+            <p>A quick summary of your inventory</p>
         </div>
-      </div>
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Devices by type</h5>
-          <canvas id="devicesByTypeChart" width="400" height="200"></canvas>
+        <div class="col-md-6">
+            <div class="d-flex align-items-center justify-content-end">
+                <label for="device-select" class="me-2">Device type:</label>
+                <select class="form-select" id="device-select">
+                    <option selected>All devices</option>
+                    <option>Desktops</option>
+                    <option>Laptops</option>
+                    <option>Mobile devices</option>
+                </select>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Devices by location</h5>
-          <canvas id="devicesByLocationChart" width="400" height="200"></canvas>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total devices</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">1,234</h6>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Devices by type</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="devicesByTypeChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Device trend</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="deviceTrendChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Obsolete devices</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Serial number</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Laptop</td>
+                            <td>Dell</td>
+                            <td>Latitude</td>
+                            <td>ABC123</td>
+                        </tr>
+                        <tr>
+                            <td>Desktop</td>
+                            <td>HP</td>
+                            <td>ProDesk</td>
+                            <td>XYZ789</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Recent devices</h5>
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Serial number</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Laptop</td>
-                <td>Dell</td>
-                <td>Latitude</td>
-                <td>ABC123</td>
-              </tr>
-              <tr>
-                <td>Desktop</td>
-                <td>HP</td>
-                <td>ProDesk</td>
-                <td>XYZ789</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Devices by location</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="devicesByLocationChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Devices in repair/maintenance</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Serial number</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Laptop</td>
+                            <td>Dell</td>
+                            <td>Latitude</td>
+                            <td>ABC123</td>
+                        </tr>
+                        <tr>
+                            <td>Desktop</td>
+                            <td>HP</td>
+                            <td>ProDesk</td>
+                            <td>XYZ789</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">License usage</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="licenseUsageChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Security</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Security status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Laptop</td>
+                            <td>Dell</td>
+                            <td>Latitude</td>
+                            <td>Update required</td>
+                        </tr>
+                        <tr>
+                            <td>Desktop</td>
+                            <td>HP</td>
+                            <td>ProDesk</td>
+                            <td>No issues</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
-{% endblock %}
-
-
-{% block scripts %}
-  <script>
-    // Devices by type chart
-    var devicesByTypeCtx = document.getElementById('devicesByTypeChart').getContext('2d');
-    var devicesByTypeChart = new Chart(devicesByTypeCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Desktops', 'Laptops', 'Mobile devices'],
-        datasets: [{
-          data: [40, 30, 30],
-          backgroundColor: [
-            '#007bff',
-            '#dc3545',
-            '#ffc107'
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: [{
-          title: {
-            display: true,
-            text: 'Devices by type'
-          }
-        }]
-      }
-    });
-
-    // Devices by location chart
-    var devicesByLocationCtx = document.getElementById('devicesByLocationChart').getContext('2d');
-    var devicesByLocationChart = new Chart(devicesByLocationCtx, {
-      type: 'bar',
-      data: {
-        labels: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'],
-        datasets: [{
-          label: 'Desktops',
-          data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-          backgroundColor: '#007bff'
-        }, {
-          label: 'Laptops',
-          data: [20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
-          backgroundColor: '#dc3545'
-        }, {
-          label: 'Mobile devices',
-          data: [30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
-          backgroundColor: '#ffc107'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: [{
-          title: {
-            display: true,
-            text: 'Devices by location'
-          }
-        }]
-      }
-    });
-  </script>
 {% endblock %}
