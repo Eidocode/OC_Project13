@@ -2,6 +2,25 @@
 
 {% block content %}
 
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        const deviceSelect = document.getElementById('device-select');
+        deviceSelect.addEventListener('change', function () {
+            const selectedType = deviceSelect.value;
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    const devices = JSON.parse(this.responseText);
+                    const deviceCount = document.getElementById('device-count');
+                    deviceCount.innerText = devices.length;
+                }
+            };
+            xhr.open('GET', `/dashboard/${selectedType}/`);
+            xhr.send();
+        });
+    });
+</script>
+
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-6">
@@ -13,9 +32,9 @@
                 <label for="device-select" class="me-2">Device type:</label>
                 <select class="form-select form-select-sm" id="device-select">
                     <option selected>All devices</option>
-                    <option>Desktops</option>
-                    <option>Laptops</option>
-                    <option>Mobile devices</option>
+                    {% for category in categories %}
+                        <option>{{ category.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -28,7 +47,7 @@
                     <h5 class="card-title font-weight-bold text-uppercase mb-3">Total de périphériques</h5>
                     <hr>
                     <div class="d-flex justify-content-between align-items-end flex-column">
-                        <h6 class="card-subtitle mb-0 text-muted display-4">{{ devices_qs.count }}</h6>
+                        <h6 id="device-count" class="card-subtitle mb-0 text-muted display-4">{{ devices|length }}</h6>
                     </div>
                 </div>
             </div>
