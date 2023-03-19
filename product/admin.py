@@ -82,6 +82,11 @@ class DeviceUserAdmin(admin.ModelAdmin):
     readonly_fields = ("uid", "first_name", "last_name", "email")
 
 
+    @admin.register(Category)
+    class CategoryAdmin(admin.ModelAdmin):
+        pass
+
+
 
 # @admin.register(Category)
 # class CategoryAdmin(admin.ModelAdmin):

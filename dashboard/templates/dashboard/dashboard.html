@@ -1,25 +1,181 @@
 {% extends 'product/base_body.html' %}
 
+{% load product_extras %}
+
 {% block content %}
 
+<!-- Générer une liste de couleurs aléatoires -->
 <script>
-    window.addEventListener('DOMContentLoaded', function () {
+    var usedColors = [];
+    var colors = [];
+    function generateColors(numColors) {
+        for (var i = 0; i < numColors; i++) {
+            do {
+                var color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+            } while (usedColors.includes(color))
+            usedColors.push(color)
+            colors.push(color);
+        }
+        return colors;
+    }
+</script>
+
+
+<!-- Dashboard Charts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Devices by type chart
+        var devicesByBrandCtx = document.getElementById('devicesByBrandChart').getContext('2d');
+        var devicesByBrandChart = new Chart(devicesByBrandCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ devices_by_brand|list_dict_keys|safe }},
+                datasets: [{
+                    data: {{ devices_by_brand|list_dict_values|safe }},
+                    backgroundColor: [
+                        '#2ecc71',
+                        '#3498db',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#8e44ad',
+                        '#c0392b',
+                        '#d35400',
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 2,
+                    hoverOffset: 10,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+
+
+        // Devices by location chart
+        var devicesByLocationCtx = document.getElementById('devicesByLocationChart').getContext('2d');
+        var devicesByLocationChart = new Chart(devicesByLocationCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ devices_by_entities|list_dict_keys|safe }},
+                datasets: [{
+                    label: 'Devices',
+                    data: {{ devices_by_entities|list_dict_values|safe }},
+                    backgroundColor: generateColors(30),
+                    barThickness: 2,
+                    minBarLength: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+
+
+        // Device trend chart
+        var ctx = document.getElementById('deviceTrendChart').getContext('2d');
+        var deviceTrendChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ months_count|list_dict_keys|safe }},
+                datasets: [{
+                    label: '# of Devices',
+                    data: {{ months_count|list_dict_values|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 1)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+
+        // Device licence usage chart
+        var ctx = document.getElementById('licenseUsageChart').getContext('2d');
+        var licenseUsageChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Windows', 'MacOS', 'Linux'],
+                datasets: [{
+                    data: [300, 200, 100],
+                    backgroundColor: [
+                        '#2ecc71',
+                        '#3498db',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#8e44ad',
+                        '#c0392b',
+                        '#d35400',
+                        '#e67e22',
+                        '#34495e',
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 2,
+                    hoverOffset: 10,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        <!-- AJAX Device type selection script -->
         const deviceSelect = document.getElementById('device-select');
         deviceSelect.addEventListener('change', function () {
             const selectedType = deviceSelect.value;
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    const devices = JSON.parse(this.responseText);
+                    const jsonParse = JSON.parse(this.responseText);
+                    const devices = jsonParse['devices']
+                    const devices_by_brand = jsonParse['devices_by_brand']
+                    const devices_by_entities = jsonParse['devices_by_entities']
+                    const months_count = jsonParse['months_count']
                     const deviceCount = document.getElementById('device-count');
+
+                    // Update device count
                     deviceCount.innerText = devices.length;
+
+                    // Update Brand chart data
+                    devicesByBrandChart.data.labels = Object.keys(devices_by_brand);
+                    devicesByBrandChart.data.datasets[0].data = Object.values(devices_by_brand);
+                    devicesByBrandChart.update();
+
+                    // Update location chart
+                    devicesByLocationChart.data.labels = Object.keys(devices_by_entities);
+                    devicesByLocationChart.data.datasets[0].data = Object.values(devices_by_entities);
+                    devicesByLocationChart.update();
+
+                    // Update trend chart
+                    deviceTrendChart.data.labels = Object.keys(months_count);
+                    deviceTrendChart.data.datasets[0].data = Object.values(months_count);
+                    deviceTrendChart.update();
                 }
             };
             xhr.open('GET', `/dashboard/${selectedType}/`);
             xhr.send();
         });
+
     });
+    
 </script>
+
 
 <div class="container-fluid mt-4">
     <div class="row">
@@ -44,7 +200,10 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Total de périphériques</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title font-weight-bold text-uppercase mb-0">Total des périphériques</h5>
+                        <a href="{% url 'show_device_table' %}" class="btn btn-sm btn-primary">Détails</a>
+                    </div>
                     <hr>
                     <div class="d-flex justify-content-between align-items-end flex-column">
                         <h6 id="device-count" class="card-subtitle mb-0 text-muted display-4">{{ devices|length }}</h6>
@@ -53,10 +212,10 @@
             </div>
             <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques par type</h5>
+                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Périphériques par marque</h5>
                     <hr>
                     <div class="chart-container" style="position: relative; height:300px; width:100%;">
-                        <canvas id="devicesByTypeChart"></canvas>
+                        <canvas id="devicesByBrandChart"></canvas>
                     </div>
                 </div>
             </div>
