@@ -2,57 +2,76 @@
 
 {% block content %}
 
-<div class="container-fluid px-4 mb-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h2 class="my-4"><i class="fa-solid fa-layer-group me-2"></i><b>Liste des périphériques disponibles</b></h2>
-            <p><i class="fas fa-info-circle me-2"></i><span class="text-muted">Utilisez les filtres ci-dessous pour trouver rapidement un périphérique</span></p>
+    <div class="container-fluid px-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="my-4"><i class="fa-solid fa-magnifying-glass me-2"></i><b>Recherche de périphériques avancée</b></h2>
+                <p><i class="fas fa-info-circle me-2"></i>
+                    <span class="text-muted">Utilisez les filtres ci-dessous pour trouver rapidement un (des) périphérique(s)</span>
+                </p>
+            </div>
         </div>
-    </div>
-    <hr class="my-4">
-    <div class="row justify-content-center mb-4">
-
-        <div class="col-lg-8 my-4 align-self-baseline">
-            <br/>
-            <form action="{% url 'advanced_search' %}" method="get" class="ml-auto my-lg-0" >
-                <div class="input-group">
-                    {{ form.search_filter }}
-                    {{ form.search }}
-                    <div class="input-group-append">
-                        <button id="send_btn" class="btn btn-lg btn-primary border-left-0 shadow" type="submit">Valider</button>
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-8 my-4 align-self-baseline">
+                <form action="{% url 'advanced_search' %}" method="get" class="ml-auto my-lg-0">
+                    <div class="input-group">
+                        {{ form.search_filter }}
+                        {{ form.search }}
+                        <div class="input-group-append">
+                            <button id="send_btn" class="btn btn-lg btn-primary border-left-0 shadow" type="submit">Valider</button>
+                        </div>
                     </div>
-                </div>
-                <small class="text-muted font-italic pt-1">Saisissez un élément que vous souhaitez consulter dans la barre de recherche ci-dessus.</small>
-            </form>
-{#                {% else %}#}
-{#                    <div class="ml-auto my-2 my-lg-0">#}
-{#                        <div class="input-group">#}
-{#                            <input type="text" name="" class="form-control form-control-lg bg-light" placeholder="Rechercher un produit..." disabled>#}
-{#                            <div class="input-group-append">#}
-{#                                <button id="send_btn" class="btn btn-primary" type="submit" disabled>Chercher</button>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="text-warning font-weight-lighter font-italic pt-5">#}
-{#                        <p>Vous devez vous authentifier pour pouvoir utiliser cette application !</p>#}
-{#                        <p>Cliquez <a href="/login">ici</a> pour saisir vos identifiants</p>#}
-{#                    </div>#}
-{#                {% endif %}#}
+                    <small class="text-muted font-italic pt-1">Saisissez un élément que vous souhaitez consulter dans la barre de recherche ci-dessus.</small>
+                    <div class="form-group mb-3 mt-4 row">
+                        <div class="col-md-3">
+                            <label for="brand_filter">Marque :</label>
+                            <select class="form-select form-select-sm mt-1" id="brand_filter" name="brand_filter">
+                                <option selected>All</option>
+                                {% for brand in brands %}
+                                    <option>{{ brand.name }}</option>
+                                {% endfor %}
+                                <!-- Ajouter d'autres marques ici -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="type_filter">Type :</label>
+                            <select class="form-select form-select-sm mt-1" id="type_filter" name="type_filter">
+                                <option selected>All</option>
+                                {% for category in categories %}
+                                    <option>{{ category.name }}</option>
+                                {% endfor %}
+                                <!-- Ajouter d'autres types ici -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="radio_device_user">Utilisateur :</label>
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="radio" name="radio_device_user" id="device_combine_user_checkbox" checked>
+                                <label class="form-check-label" for="device_combine_user_checkbox">Par défaut</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radio_device_user" id="device_without_user_checkbox">
+                                <label class="form-check-label" for="device_without_user_checkbox">Sans</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radio_device_user" id="device_with_user_checkbox">
+                                <label class="form-check-label" for="device_with_user_checkbox">Avec</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
-
-
-    </div>
-<hr class="my-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-header shadow-sm">
-                    <i class="fa-solid fa-table mx-2"></i>
-                    Résultats de la recherche
-                </div>
-                <div class="card-body table-responsive">
-                    <table id="datatablesSimple" class="table table-striped table-hover">
-                        <thead class="thead-light">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-header shadow-sm"><i class="fa-solid fa-table mx-2"></i>
+                        Résultats de la recherche
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table id="datatablesSimple" class="table table-striped table-hover">
+                            <thead class="thead-light">
                             <tr>
                                 <th><i class="fa-solid fa-hashtag"></i></th>
                                 <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
@@ -63,11 +82,11 @@
                                 <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
                                 <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                             </tr>
-                        </thead>
-                        <tfoot class="thead-light">
+                            </thead>
+                            <tfoot class="thead-light">
                             <tr>
                                 <th><i class="fa-solid fa-hashtag"></i></th>
-                                <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
+                                <th><i class="fa-solid fa-font-awesome me-1"></i>Type</th>
                                 <th><i class="fa-solid fa-tag me-1"></i>Brand</th>
                                 <th><i class="fa-solid fa-tags me-1"></i>Model</th>
                                 <th><i class="fa-solid fa-computer me-1"></i>Hostname</th>
@@ -75,8 +94,8 @@
                                 <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
                                 <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                             </tr>
-                        </tfoot>
-                        <tbody>
+                            </tfoot>
+                            <tbody>
                             {% for device in result_process %}
                                 <tr data-type="{{ device.category }}" data-brand="{{ device.brand }}" data-inventory="{{ device.inventory }}">
                                     <th><b>{{ forloop.counter }}</b></th>
@@ -97,11 +116,11 @@
                                     <td colspan="8" class="text-center">Aucun périphérique ne correspond à votre recherche.</td>
                                 </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

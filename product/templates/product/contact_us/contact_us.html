@@ -5,44 +5,58 @@
 {% block content %}
 
 <section class="page-section sign mt-5">
-    <h4 class="mb-4 text-center"><b>Vous rencontrez un problème avec l'application ou vous avez des questions ?</b></h4>
-
 
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 my-5 py-5 col-lg-8 border">
-                <h2 class="mb-4 text-center">Contactez-nous</h2>
-                <hr class="divider"/>
+            <div class="px-5 mt-2 py-3 col-lg-8 col-md-12 border-0">
+                <h4 class="mb-4 text-center"><b>Vous rencontrez un problème avec l'application ou vous avez des questions ?</b></h4>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 my-5 py-5 col-lg-8 col-md-12 border-0">
+                <div class="card-header bg-transparent border-0 mb-4 p-0">
+                    <h3>Contactez-nous</h3>
+                    <hr class="divider mt-4">
+                </div>
                 <form method="POST" class="py-4">
                     {% csrf_token %}
 
                     <div class="form-group row mb-2">
                         <div class="col-sm-6">
-                          {{ form.first_name|as_crispy_field }}
+                            <div class="input-icon">
+                                {{ form.first_name|as_crispy_field }}
+                                <span class="fa fa-user form-icon"></span>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                          {{ form.last_name|as_crispy_field }}
+                        <div class="col-sm-6 input-icon">
+                            <div class="input-icon">
+                                {{ form.last_name|as_crispy_field }}
+                                <span class="fa fa-user form-icon"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-4">
-                        {{ form.email|as_crispy_field }}
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.subject|as_crispy_field }}
+                    <div class="form-group input-icon mb-4">
+                        {{ form.email|as_crispy_field }}
+                        <span class="fa fa-envelope form-icon"></span>
                     </div>
+
+                    <div class="form-group input-icon mb-3">
+                        {{ form.subject|as_crispy_field }}
+                        <span class="fa fa-question form-icon"></span>
+                    </div>
+
                     <div class="mb-4">
                         {{ form.message|as_crispy_field }}
                     </div>
 
-                    <div class="mt-5">
-                        <button id="logon_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
-                            <i style="padding-right: 1%" class="fa-solid fa-paper-plane"></i>
+                    <div class="d-grid gap-2">
+                        <button id="contact_us_btn" class="border shadow-sm btn btn-outline-teal bg-gradient rounded-pill text-center" type="submit">
+                            <i class="fa-solid fa-paper-plane me-2"></i>
                             <b>Envoyer le message</b>
                         </button>
                     </div>
                 </form>
-                <hr class="divider mb-0 mt-3"/>
 
             </div>
         </div>

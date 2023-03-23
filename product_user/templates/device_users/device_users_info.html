@@ -6,78 +6,83 @@
 <section class="page-section sign mt-5" id="UserInfo-page">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
-
-                <h2 class="mb-4 text-center">Informations concernant l'utilisateur</h2>
-
-
-                <h6 class="small mt-5">INFORMATIONS</h6>
-                <hr class="divider mt-0"/>
-
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-id-card"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.first_name }} {{ user.last_name }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-user"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.uid }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-envelope"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email|lower }}" disabled/>
+            <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
+                <div class="card-header bg-transparent border-0 mb-2 p-0">
+                    <h3>Profil de {{ user.first_name }} {{ user.last_name }}</h3>
                 </div>
 
-                <h6 class="small mt-4">AFFECTATION</h6>
-                <hr class="divider mt-0"/>
+                <div class="card-body p-0">
 
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.assignment.name }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-person-circle-question"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.status.name }}" disabled/>
-                </div>
+                    <h6 class="small mt-4">INFORMATIONS</h6>
+                    <hr class="divider mt-0"/>
 
-                <div class="row mt-4">
-                    <h6 class="small col-6">PERIPHERIQUES</h6>
-                    <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
-                        <i class="fa-solid fa-plus"></i>
-                    </a>
-                </div>
-
-                <hr class="divider mt-0"/>
-
-                {% for device in devices %}
                     <div class="row pt-2">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-computer"></i>
+                            <i class="fa-solid fa-id-card"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.fullname }}" disabled/>
-                        <a id="device_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_device_info' device_id=device.id%}">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </a>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.first_name }} {{ user.last_name }}" disabled/>
                     </div>
 
-                {% endfor %}
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.uid }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email|lower }}" disabled/>
+                    </div>
 
-                <div class="text-center mt-5">
-                    <a id="" class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" role="button" href='#'>
-                        <i style="padding-right: 1%" class="fa-solid fa-right-from-bracket"></i>
-                        Bouton
-                    </a>
+                    <h6 class="small mt-4">AFFECTATION</h6>
+                    <hr class="divider mt-0"/>
+
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.assignment.name }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-person-circle-question"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.status.name }}" disabled/>
+                    </div>
+
+                    <div class="row mt-4">
+                        <h6 class="small col-6">PERIPHERIQUES</h6>
+                        <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+                    <hr class="divider mt-0"/>
+
+                    {% if devices %}
+                        {% for device in devices %}
+                            <div class="row pt-2">
+                                <span class="col-2 text-center align-self-center">
+                                    <i class="fa-solid fa-computer"></i>
+                                </span>
+                                <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.fullname }}" disabled/>
+                                <a id="device_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_device_info' device_id=device.id%}">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="row pt-2">
+                            <span class="col-2 text-center align-self-center">
+                                <i class="fa-solid fa-computer"></i>
+                            </span>
+                            <input class="col-8 border text-center rounded-pill field_white_hover" value="Aucun périphérique..." disabled/>
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3"></div>
                 </div>
-
             </div>
         </div>
     </div>

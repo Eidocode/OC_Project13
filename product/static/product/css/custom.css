@@ -143,3 +143,28 @@
     padding: 1.5rem;
   }
 }
+
+.form-group.input-icon {
+    position: relative;
+}
+.form-group.input-icon .form-control {
+    padding-left: 40px;
+}
+.form-group.input-icon .form-icon {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    color: #7a7a7a;
+}
+.form-group.row .input-icon {
+    position: relative;
+}
+.form-group.row .input-icon .form-control {
+    padding-left: 40px;
+}
+.form-group.row .input-icon .form-icon {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    color: #7a7a7a;
+}

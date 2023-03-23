@@ -4,31 +4,34 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<section class="page-section sign mt-5" id="change_pwd_page">
+<section class="page-section sign mt-5" id="change_fullname_page">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
-                <h2 class="mb-4 text-center">Modification des informations de
-                    <i class="text-danger">{{ user.get_username }}</i>
-                </h2>
-                <hr class="divider"/>
-                <p class="mt-5 text-center">Informations actuelles : <i><b>{{ user.get_full_name }}</b></i></p>
+            <div class="card shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-5 col-md-10 col-sm-12 border-0">
+                <div class="card-header bg-transparent border-0 mb-4 p-0">
+                    <h3>Modification des informations</h3>
+                    <hr class="divider mt-4">
+                </div>
+                <p class="text-center">Informations actuelles : <i><b>{{ user.get_full_name }}</b></i></p>
                 <form method="POST" class="py-4">
                     {% csrf_token %}
 
-                    <div class="mb-2">
-                      {{ form.first_name|as_crispy_field }}
-                    </div>
-                    <div class="mb-4">
-                      {{ form.last_name|as_crispy_field }}
+                    <div class="form-group input-icon mb-2">
+                        <span class="fa fa-user form-icon"></span>
+                        {{ form.first_name|as_crispy_field }}
                     </div>
 
-                <div class="mt-5">
-                    <button id="change_flname_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
-                        <i style="padding-right: 1%" class="fa-solid fa-user-check"></i>
-                        <b>Mettre à jour</b>
-                    </button>
-                </div>
+                    <div class="form-group input-icon mb-4">
+                        <span class="fa fa-user form-icon"></span>
+                        {{ form.last_name|as_crispy_field }}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button id="fullname_update_btn" class="border shadow-sm btn btn-outline-teal bg-gradient rounded-pill text-center" type="submit">
+                            <i class="fa-solid fa-user-check me-2"></i>
+                            <b>Mettre à jour</b>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

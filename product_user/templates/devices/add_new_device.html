@@ -1,77 +1,79 @@
-<!-- Registration page -->
 {% extends 'product/base_body.html' %}
 
 {% load crispy_forms_tags %}
+
 {% block content %}
 
 <section class="page-section sign mt-5">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow-lg rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border">
-                <h2 class=" text-center">Nouveau périphérique</h2>
-                <form method="POST" class="py-4">
-                    {% csrf_token %}
+            <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border-0">
+                <div class="card-header bg-transparent border-0 mb-2 p-0">
+                    <h3 class="text-center">Nouveau périphérique</h3>
+                </div>
 
-                    <h6 class="small mt-4">INFORMATIONS</h6>
-                    <hr class="divider mt-0"/>
+                <div class="card-body p-0">
 
-                    <div class="form-group row mb-2">
-                        <div class="col-sm-7">
-                          {{ inventory_form.hostname|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-5">
-                          {{ product_form.name|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-group row pt-1">
-                        <div class="col-sm-5">
-                          {{ inventory_form.serial|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-6">
-                          {{ inventory_form.addr_mac|as_crispy_field }}
-                        </div>
-                    </div>
+                    <form method="POST" class="py-4">
 
-                    <h6 class="small mt-5">CONFIGURATION</h6>
-                    <hr class="divider mt-0"/>
+                        {% csrf_token %}
 
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                          {{ inventory_form.cpu|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-3">
-                          {{ inventory_form.ram|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-3">
-                          {{ inventory_form.storage|as_crispy_field }}
-                        </div>
-                    </div>
+                        <h6 class="small mt-4">INFORMATIONS</h6>
+                        <hr class="divider mt-0"/>
 
-                    <h6 class="small mt-5">IMMOBILISATION</h6>
-                    <hr class="divider mt-0"/>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-2">
+                                {{ inventory_form.hostname|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                {{ product_form.name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ inventory_form.serial|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ inventory_form.addr_mac|as_crispy_field }}
+                            </div>
+                        </div>
 
-                    <div class="form-group row mb-2">
-                        <div class="col-sm-3">
-                          {{ immo_form.bc_number|as_crispy_field }}
-                        </div>
-                        <div class="col-sm-2">
-                          {{ immo_form.inventory_number|as_crispy_field }}
-                        </div>
-                    </div>
-                    <div class="form-group row pt-1">
-                        <div class="col-sm-3">
-                          {{ location_form.loc_name|as_crispy_field }}
-                        </div>
-                    </div>
+                        <h6 class="small mt-5">CONFIGURATION</h6>
+                        <hr class="divider mt-0"/>
 
-                    <div class="mt-5">
-                        <button id="add_new_device_btn"  class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" type="submit">
-                            <i style="padding-right: 1%" class="fa-solid fa-circle-plus"></i>
-                            <b>Ajouter le périphérique</b>
-                        </button>
-                    </div>
-                </form>
+                        <div class="row mb-3">
+                            <div class="col-md-4 mb-2">
+                                {{ inventory_form.cpu|as_crispy_field }}
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                {{ inventory_form.ram|as_crispy_field }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ inventory_form.storage|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <h6 class="small mt-5">IMMOBILISATION</h6>
+                        <hr class="divider mt-0"/>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4 mb-2">
+                                {{ immo_form.bc_number|as_crispy_field }}
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                {{ immo_form.inventory_number|as_crispy_field }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ location_form.loc_name|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button id="add_new_device_btn" class="border shadow-sm btn btn-outline-teal bg-gradient rounded-pill text-center" type="submit">
+                                <i class="fa-solid fa-circle-plus"></i>
+                                <b class="ms-2">Ajouter le périphérique</b>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

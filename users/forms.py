@@ -54,7 +54,7 @@ class SignupForm(UserCreationForm):
     email = forms.CharField(
         label='',
         max_length=100,
-        help_text="L'adresse est utilisée pour confirmer la création du compte",
+        help_text="L'adresse est utilisée pour confirmer la création de compte",
         widget=forms.TextInput(attrs={
             'placeholder': 'Adresse e-mail...',
             'class': 'rounded-pill form-control field_white_hover shadow-sm'
@@ -170,7 +170,7 @@ class ChangeFullnameForm(forms.ModelForm):
 class ResetPasswordForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].help_text = "Saisir l'email du compte à réinitialiser"
+        self.fields['email'].help_text = "Saisir l'adresse email associée au compte"
 
     email = forms.CharField(
         label='',

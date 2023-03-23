@@ -6,88 +6,95 @@
 <section class="page-section sign mt-5" id="device_info-page">
     <div class="container h-100">
         <div class="row align-items-center justify-content-center">
-            <div class="shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
-
-                <h2 class="mb-4 text-center">{{ device.inventory.hostname }}</h2>
-
-                <h6 class="small mt-5">INFORMATIONS</h6>
-                <hr class="divider mt-0"/>
-
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.category.name }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-desktop"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.brand }} {{ device.product.name }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-hashtag"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.serial }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-microchip"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.cpu.cpu_brand.name }} {{ device.inventory.cpu.name }}@{{ device.inventory.cpu.frequency }} GHz" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-memory"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.ram }} Go" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-hard-drive"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.storage }} Go" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-network-wired"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.addr_mac }}" disabled/>
+            <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
+                <div class="card-header bg-transparent border-0 mb-2 p-0">
+                    <h3>{{ device.inventory.hostname }}</h3>
                 </div>
 
-                <h6 class="small mt-4">IMMOBILISATION</h6>
-                <hr class="divider mt-0"/>
+                <div class="card-body p-0">
+                    <h6 class="small mt-4">INFORMATIONS</h6>
+                    <hr class="divider mt-0"/>
 
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-boxes-stacked"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.inventory_number }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-money-check"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.bc_number }}" disabled/>
-                </div>
-                <div class="row pt-2">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.location.loc_number }}" disabled/>
-                </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.category.name }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-desktop"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.brand }} {{ device.product.name }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-hashtag"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.serial }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-microchip"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.cpu.cpu_brand.name }} {{ device.inventory.cpu.name }}@{{ device.inventory.cpu.frequency }} GHz" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-memory"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.ram }} Go" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-hard-drive"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.storage }} Go" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.addr_mac }}" disabled/>
+                    </div>
 
-                <div class="row mt-4">
-                    <h6 class="small col-6">UTILISATEUR</h6>
-                    <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
-                        <i class="fa-solid fa-plus"></i>
-                    </a>
-                </div>
+                    <h6 class="small mt-4">IMMOBILISATION</h6>
+                    <hr class="divider mt-0"/>
 
-                <hr class="divider mt-0"/>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.inventory_number }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-money-check"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.bc_number }}" disabled/>
+                    </div>
+                    <div class="row pt-2">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.location.loc_number }}" disabled/>
+                    </div>
+
+                    <div class="row mt-4">
+                        <h6 class="small col-6">UTILISATEUR</h6>
+                        <a id="link_user_btn" class="col-6 text-end blue_hover" href="">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+                    <hr class="divider mt-0"/>
+
                     {% if device.device_user is null %}
-                        <div class="row pt-2"></div>
+                        <div class="row pt-2">
+                            <span class="col-2 text-center align-self-center">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input class="col-8 border text-center rounded-pill field_white_hover" value="Aucun utilisateur..." disabled/>
+                        </div>
                     {% else %}
                         <div class="row pt-2">
                             <span class="col-2 text-center align-self-center">
@@ -100,13 +107,8 @@
                         </div>
                     {% endif %}
 
-                <div class="text-center mt-5">
-                    <a id="" class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" role="button" href='#'>
-                        <i style="padding-right: 1%" class="fa-solid fa-right-from-bracket"></i>
-                        Bouton
-                    </a>
+                    <div class="mb-3"></div>
                 </div>
-
             </div>
         </div>
     </div>

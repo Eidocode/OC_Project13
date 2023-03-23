@@ -15,12 +15,8 @@ class SearchForm(forms.Form):
     )
 
     FILTER_CHOICES = [
-        ('category', 'Type'),
-        ('brand', 'Marque'),
+        ('device', 'Périphérique'),
         ('entity', 'Entité'),
-        ('serial', 'N°série'),
-        ('hostname', 'Périphérique'),
-        ('inventory', 'N°Inventaire'),
         ('user', 'Utilisateur'),
     ]
     search_filter = forms.ChoiceField(
@@ -31,4 +27,9 @@ class SearchForm(forms.Form):
             }
         ),
         required=False
+    )
+
+    device_without_user = forms.BooleanField(
+        required=False,
+        label='Sans utilisateur',
     )

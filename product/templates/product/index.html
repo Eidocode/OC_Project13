@@ -24,28 +24,28 @@
                     <thead class="thead-light">
                         <tr>
                             <th><i class="fa-solid fa-hashtag"></i></th>
-                            <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
-                            <th><i class="fa-solid fa-tag me-1"></i>Brand</th>
-                            <th><i class="fa-solid fa-tags me-1"></i>Model</th>
+                            <th><i class="fa-solid fa-flag me-1"></i>Type</th>
+                            <th><i class="fa-solid fa-tag me-1"></i>Marque</th>
+                            <th><i class="fa-solid fa-tags me-1"></i>Modèle</th>
                             <th><i class="fa-solid fa-computer me-1"></i>Hostname</th>
-                            <th><i class="fa-solid fa-list-ol me-1"></i>Serial</th>
-                            <th><i class="fa-solid fa-address-card me-1"></i>UserID</th>
-                            <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
-                            <th><i class="fa-solid fa-building me-1"></i>Location</th>
+                            <th><i class="fa-solid fa-list-ol me-1"></i>N°Série</th>
+                            <th><i class="fa-solid fa-user me-1"></i>Utilisateur</th>
+                            <th><i class="fa-solid fa-barcode me-1"></i>N°Inventaire</th>
+                            <th><i class="fa-solid fa-building me-1"></i>Entité</th>
                             <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                         </tr>
                     </thead>
                     <tfoot class="thead-light">
                         <tr>
                             <th><i class="fa-solid fa-hashtag"></i></th>
-                            <th><i class="fa-brands fa-font-awesome me-1"></i>Type</th>
-                            <th><i class="fa-solid fa-tag me-1"></i>Brand</th>
-                            <th><i class="fa-solid fa-tags me-1"></i>Model</th>
+                            <th><i class="fa-solid fa-flag me-1"></i>Type</th>
+                            <th><i class="fa-solid fa-tag me-1"></i>Marque</th>
+                            <th><i class="fa-solid fa-tags me-1"></i>Modèle</th>
                             <th><i class="fa-solid fa-computer me-1"></i>Hostname</th>
-                            <th><i class="fa-solid fa-list-ol me-1"></i>Serial</th>
-                            <th><i class="fa-solid fa-address-card me-1"></i>UserID</th>
-                            <th><i class="fa-solid fa-barcode me-1"></i>Inventory</th>
-                            <th><i class="fa-solid fa-building me-1"></i>Location</th>
+                            <th><i class="fa-solid fa-list-ol me-1"></i>N°Série</th>
+                            <th><i class="fa-solid fa-user me-1"></i>Utilisateur</th>
+                            <th><i class="fa-solid fa-barcode me-1"></i>N°Inventaire</th>
+                            <th><i class="fa-solid fa-building me-1"></i>Entité</th>
                             <th><i class="fa-solid fa-gears me-1"></i>Action</th>
                         </tr>
                     </tfoot>
@@ -58,7 +58,7 @@
                                 <td>{{ device.product.name }}</td>
                                 <td>{{ device.inventory.hostname }}</td>
                                 <td>{{ device.inventory.serial }}</td>
-                                <td>{{ device.device_user.uid }}</td>
+                                <td>{{ device.device_user.first_name }} {{ device.device_user.last_name }}</td>
                                 <td>{{ device.immo.inventory_number }}</td>
                                 <td>{{ device.immo.location.name }}</td>
                                 <td class="text-center">

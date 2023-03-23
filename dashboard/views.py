@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -117,47 +118,64 @@ def show_device_table(request):
 def advanced_search(request):
 
     query = request.GET.get('search')
-    print(query)
     form = SearchForm(request.GET)
 
     search_filter = None
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
 
-    print(search_filter)
+    print(f"Search filter : {search_filter}")
+
+    brand_filter = request.GET.get('brand_filter')
+    type_filter = request.GET.get('type_filter')
+
+    categories_qs = Category.objects.all()
+    brand_qs = Brand.objects.all()
 
     if form.is_valid():
         result_process = None
 
-        if search_filter == 'category':
-            result_process = list(Device.objects.filter(product__category__name__icontains=query).order_by('added_date'))
-        elif search_filter == 'brand':
-            result_process = list(Device.objects.filter(product__brand__name__icontains=query).order_by('added_date'))
-        elif search_filter == 'entity':
-            result_process = list(Device.objects.filter(immo__location__site__name__icontains=query).order_by('added_date'))
-        elif search_filter == 'serial':
-            result_process = list(Device.objects.filter(inventory__serial__icontains=query).order_by('added_date'))
-        elif search_filter == 'hostname':
-            result_process = list(Device.objects.filter(inventory__hostname__icontains=query).order_by('added_date'))
-        elif search_filter == 'inventory':
-            result_process = list(Device.objects.filter(immo__inventory_number__icontains=query).order_by('added_date'))
+        if search_filter == 'entity':
+            result_process = Device.objects.filter(immo__location__site__name__icontains=query).order_by('added_date')
+        elif search_filter == 'device':
+            result_process = Device.objects.filter(
+                Q(immo__inventory_number__icontains=query) |
+                Q(inventory__hostname__icontains=query) |
+                Q(inventory__serial__icontains=query)
+            ).order_by('added_date')
         elif search_filter == 'user':
-            result_process = list(
-                Device.objects.filter(device_user__last_name__icontains=query).order_by('added_date') or
-                Device.objects.filter(device_user__first_name__icontains=query).order_by('added_date') or
-                Device.objects.filter(device_user__uid__icontains=query).order_by('added_date')
-            )
+            result_process = Device.objects.filter(
+                Q(device_user__last_name__icontains=query) |
+                Q(device_user__first_name__icontains=query) |
+                Q(device_user__uid__icontains=query)
+            ).order_by('added_date')
 
-        print(result_process)
+        if form.cleaned_data.get('device_without_user'):
+            result_process = result_process.filter(device_user__isnull=True)
+
+        if not brand_filter == 'All':
+            print(brand_filter)
+            result_process = result_process.filter(product__brand__name__icontains=brand_filter)
+
+        if not type_filter == 'All':
+            print(type_filter)
+            result_process = result_process.filter(product__category__name__icontains=type_filter)
 
         context = {
             'form': form,
-            'result_process': result_process,
+            'result_process': list(result_process),
+            'categories': categories_qs,
+            'brands': brand_qs,
         }
 
         print(context)
         return render(request, 'dashboard/advanced_search.html', context)
 
     else:
+        context = {
+            'form': form,
+            'categories': categories_qs,
+            'brands': brand_qs,
+        }
         print('Form is not valid')
-        return render(request, 'dashboard/advanced_search.html', {'form': form})
+        return render(request, 'dashboard/advanced_search.html', context)

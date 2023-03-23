@@ -5,72 +5,79 @@
 
 <section class="page-section sign mt-5" id="account-page">
     <div class="container h-100">
-        <div class="row align-items-center justify-content-center">
-            <div class="shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border">
-                <h2 class="mb-4 text-center">Profil du compte</h2>
+        <div class="row justify-content-center align-items-center">
+            <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
+                <div class="card-header bg-transparent border-0 mb-2 p-0">
+                    <h3>Profil de {{ user.get_username }}</h3>
+                    <hr class="divider mt-4">
+                </div>
 
-                <hr class="divider"/>
+                <div class="card-body p-0 text-center p-0">
 
-                <div class="row pt-4">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-user"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_username }}" disabled/>
-                    <span class="col-1 text-center align-self-center is_disabled">
-                        <i class="fa-solid fa-ban"></i>
-                    </span>
-                </div>
-                <div class="row mt-3 pb-4">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-key"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="••••••••" disabled/>
-                    <a id="reset_pwd_btn" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_password' %}">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                </div>
-                <hr>
-                <div class="row pt-4">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-envelope"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email }}" disabled/>
-                    <span class="col-1 text-center align-self-center is_disabled">
-                        <i class="fa-solid fa-ban"></i>
-                    </span>
-                </div>
-                <div class="row mt-3">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-id-card"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_full_name }}" disabled/>
-                    <a id="change_fullname" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_fullname' %}">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                </div>
-                <div class="row mt-3">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.date_joined }}" disabled/>
-                    <span class="col-1 text-center align-self-center is_disabled">
-                        <i class="fa-solid fa-ban"></i>
-                    </span>
-                </div>
-                <div class="row mt-3 pb-4">
-                    <span class="col-2 text-center align-self-center">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                    </span>
-                    <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.last_login }}" disabled/>
-                    <span class="col-1 text-center align-self-center is_disabled">
-                        <i class="fa-solid fa-ban"></i>
-                    </span>
-                </div>
-                <div class="text-center mt-4">
-                    <a id="logout_btn" class="border col-12 btn btn-outline-teal rounded-pill text-center py-2" role="button" href='/users/logout'>
-                        <i style="padding-right: 1%" class="fa-solid fa-right-from-bracket"></i>
-                        Se déconnecter
-                    </a>
+                    <div class="row pt-4">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_username }}" disabled/>
+                        <span class="col-1 text-center align-self-center is_disabled">
+                            <i class="fa-solid fa-ban"></i>
+                        </span>
+                    </div>
+                    <div class="row mt-3 pb-4">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-key"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="••••••••" disabled/>
+                        <a id="reset_pwd_btn" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_password' %}">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+
+                    <hr>
+
+                    <div class="row pt-4">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email }}" disabled/>
+                        <span class="col-1 text-center align-self-center is_disabled">
+                            <i class="fa-solid fa-ban"></i>
+                        </span>
+                    </div>
+                    <div class="row mt-3">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-id-card"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.get_full_name }}" disabled/>
+                        <a id="change_fullname" class="col-1 blue_hover text-center align-self-center" href="{% url 'change_fullname' %}">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="row mt-3">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.date_joined }}" disabled/>
+                        <span class="col-1 text-center align-self-center is_disabled">
+                            <i class="fa-solid fa-ban"></i>
+                        </span>
+                    </div>
+                    <div class="row mt-3 pb-4">
+                        <span class="col-2 text-center align-self-center">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                        </span>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.last_login }}" disabled/>
+                        <span class="col-1 text-center align-self-center is_disabled">
+                            <i class="fa-solid fa-ban"></i>
+                        </span>
+                    </div>
+                    <div class="d-grid gap-2 text-center my-4">
+                        <a id="logout_btn" class="border shadow-sm btn btn-outline-teal bg-gradient rounded-pill text-center" role="button" href='/users/logout'>
+                            <i style="padding-right: 1%" class="fa-solid fa-right-from-bracket"></i>
+                            Se déconnecter
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
