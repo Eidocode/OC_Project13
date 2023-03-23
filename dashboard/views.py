@@ -124,10 +124,9 @@ def advanced_search(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
 
-    print(f"Search filter : {search_filter}")
-
     brand_filter = request.GET.get('brand_filter')
     type_filter = request.GET.get('type_filter')
+    user_link_filter = request.GET.get('radio_device_user')
 
     categories_qs = Category.objects.all()
     brand_qs = Brand.objects.all()
@@ -150,15 +149,15 @@ def advanced_search(request):
                 Q(device_user__uid__icontains=query)
             ).order_by('added_date')
 
-        if form.cleaned_data.get('device_without_user'):
+        if user_link_filter == 'Without':
             result_process = result_process.filter(device_user__isnull=True)
+        elif user_link_filter == 'With':
+            result_process = result_process.filter(device_user__isnull=False)
 
         if not brand_filter == 'All':
-            print(brand_filter)
             result_process = result_process.filter(product__brand__name__icontains=brand_filter)
 
         if not type_filter == 'All':
-            print(type_filter)
             result_process = result_process.filter(product__category__name__icontains=type_filter)
 
         context = {
@@ -171,11 +170,10 @@ def advanced_search(request):
         print(context)
         return render(request, 'dashboard/advanced_search.html', context)
 
-    else:
-        context = {
-            'form': form,
-            'categories': categories_qs,
-            'brands': brand_qs,
-        }
-        print('Form is not valid')
-        return render(request, 'dashboard/advanced_search.html', context)
+    context = {
+        'form': form,
+        'categories': categories_qs,
+        'brands': brand_qs,
+    }
+    print('Form is not valid')
+    return render(request, 'dashboard/advanced_search.html', context)
