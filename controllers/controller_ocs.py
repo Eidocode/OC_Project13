@@ -1,5 +1,5 @@
-from product.models import Brand, Category, CpuBrand, Product, Cpu, Inventory
-
+from product.models import Brand, Category, CpuBrand, Product, Cpu, Inventory, \
+    OperatingSystem
 
 
 class ControllerDevice:
@@ -19,11 +19,17 @@ class ControllerDevice:
         this_data = CpuBrand.objects.get_or_create(name=data_to_check['cpu_brand'])
         return this_data[0]
 
+    def _get_or_set_in_os_table(self, data_to_check):
+        """Returns data_to_check id in Os model"""
+        this_data = OperatingSystem.objects.get_or_create(name=data_to_check['os'])
+        return this_data[0]
+
     def get_or_set_in_product_table(self, data_to_check):
         """Returns data_to_check id in Product model"""
         brand_instance = self._get_or_set_in_brand_table(data_to_check)
         catg_instance = self._get_or_set_in_category_table(data_to_check)
         product = data_to_check['product']
+        print(f"DEVICE : {catg_instance} {brand_instance} {product}")
         this_data = Product.objects.get_or_create(
             name=product, brand=brand_instance,
             category=catg_instance)
@@ -46,10 +52,11 @@ class ControllerDevice:
         host = data_to_check['hostname']
         serial = data_to_check['serial']
         ram = data_to_check['ram']
-        storage = data_to_check['storage']
+        os_instance = self._get_or_set_in_os_table(data_to_check)
         this_data = Inventory.objects.get_or_create(
             hostname=host, serial=serial,
             cpu=cpu_instance, ram=ram,
+            operating_system=os_instance,
             addr_mac=data_to_check['addr_mac'], storage=data_to_check['storage']
         )
         print(f"Added device {host} with serial {serial}")

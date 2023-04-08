@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, update_session_auth_hash, \
     authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
@@ -96,6 +97,7 @@ def activate_mail(request, user, to_email):
             l'adresse {to_email}, vérifiez que la saisie est correcte...")
 
 
+@login_required
 def account(request):
     """
     Used for user account page
@@ -103,6 +105,7 @@ def account(request):
     return render(request, 'users/account/account.html')
 
 
+@login_required
 def change_fullname(request):
     """
     Used when user change his firstname and lastname
@@ -123,6 +126,7 @@ def change_fullname(request):
     })
 
 
+@login_required
 def change_password(request):
     """
     Used when user change his password

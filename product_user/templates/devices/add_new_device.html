@@ -9,7 +9,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-8 border-0">
                 <div class="card-header bg-transparent border-0 mb-2 p-0">
-                    <h3 class="text-center">Nouveau périphérique</h3>
+                    <h3 class="mb-4"><span class="fa-solid fa-computer me-3"></span><b>Ajouter un périphérique</b></h3>
                 </div>
 
                 <div class="card-body p-0">
@@ -18,58 +18,100 @@
 
                         {% csrf_token %}
 
-                        <h6 class="small mt-4">INFORMATIONS</h6>
+                        <h6 class="small mt-4"><span class="fa-solid fa-circle-info me-2"></span>INFORMATIONS</h6>
                         <hr class="divider mt-0"/>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 mb-2">
-                                {{ inventory_form.hostname|as_crispy_field }}
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-6">
+                                <div class="input-icon" title="Nom du périphérique">
+                                    <span class="fa fa-computer form-icon me-2"></span>
+                                    {{ inventory_form.hostname|as_crispy_field }}
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-2">
-                                {{ product_form.name|as_crispy_field }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ inventory_form.serial|as_crispy_field }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ inventory_form.addr_mac|as_crispy_field }}
+                            <div class="col-sm-6">
+                                <div class="input-icon" title="Type et modèle de périphérique">
+                                    <span class="fa fa-tags form-icon me-2"></span>
+                                    {{ product_form.name|as_crispy_field }}
+                                </div>
                             </div>
                         </div>
 
-                        <h6 class="small mt-5">CONFIGURATION</h6>
-                        <hr class="divider mt-0"/>
-
-                        <div class="row mb-3">
-                            <div class="col-md-4 mb-2">
-                                {{ inventory_form.cpu|as_crispy_field }}
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-6">
+                                <div class="input-icon" title="Numéro de série">
+                                    <span class="fa fa-list-ol form-icon me-2"></span>
+                                    {{ inventory_form.serial|as_crispy_field }}
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-2">
-                                {{ inventory_form.ram|as_crispy_field }}
-                            </div>
-                            <div class="col-md-4">
-                                {{ inventory_form.storage|as_crispy_field }}
+                            <div class="col-sm-6">
+                                <div class="input-icon" title="Adresse Mac">
+                                    <span class="fa-solid fa-network-wired form-icon me-2"></span>
+                                    {{ inventory_form.addr_mac|as_crispy_field }}
+                                </div>
                             </div>
                         </div>
 
-                        <h6 class="small mt-5">IMMOBILISATION</h6>
+                        <h6 class="small mt-5"><span class="fa-solid fa-sliders me-2"></span>CARACTERISTIQUES</h6>
                         <hr class="divider mt-0"/>
 
-                        <div class="row mb-3">
-                            <div class="col-md-4 mb-2">
-                                {{ immo_form.bc_number|as_crispy_field }}
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-5">
+                                <div class="input-icon" title="Marque et modèle du CPU">
+                                    <span class="fa-solid fa-microchip form-icon me-2"></span>
+                                    {{ inventory_form.cpu|as_crispy_field }}
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-2">
-                                {{ immo_form.inventory_number|as_crispy_field }}
+                            <div class="col-sm-3">
+                                <div class="input-icon" title="Quantité de RAM">
+                                    <span class="fa-solid fa-memory form-icon me-2"></span>
+                                    {{ inventory_form.ram|as_crispy_field }}
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                {{ location_form.loc_name|as_crispy_field }}
+                            <div class="col-sm-4">
+                                <div class="input-icon" title="Quantité de stockage">
+                                    <span class="fa-solid fa-hard-drive form-icon me-2"></span>
+                                    {{ inventory_form.storage|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-5" title="Système d'exploitation">
+                                <div class="input-icon">
+                                    <span class="fa-brands fa-windows form-icon me-2"></span>
+                                    {{ inventory_form.operating_system|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="small mt-5"><span class="fa-solid fa-street-view me-2"></span>IMMOBILISATION</h6>
+                        <hr class="divider mt-0"/>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-4" title="Numéro du bon de commande">
+                                <div class="input-icon">
+                                    <span class="fa-solid fa-money-check form-icon me-2"></span>
+                                    {{ immo_form.bc_number|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-icon" title="Numéro d'inventaire">
+                                    <span class="fa-solid fa-barcode form-icon me-2"></span>
+                                    {{ immo_form.inventory_number|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-icon" title="Entité et localisation du périphérique">
+                                    <span class="fa-solid fa-location-dot form-icon me-2"></span>
+                                    {{ location_form.loc_name|as_crispy_field }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="d-grid gap-2 mt-5">
                             <button id="add_new_device_btn" class="border shadow-sm btn btn-outline-teal bg-gradient rounded-pill text-center" type="submit">
                                 <i class="fa-solid fa-circle-plus"></i>
-                                <b class="ms-2">Ajouter le périphérique</b>
+                                <b class="ms-2">Enregistrer le périphérique</b>
                             </button>
                         </div>
                     </form>

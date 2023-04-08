@@ -1,6 +1,7 @@
 from django import forms
 
-from product.models import Inventory, Cpu, Location, Immo, Entity, Product
+from product.models import Inventory, Cpu, Location, Immo, Entity, Product, \
+    OperatingSystem
 
 
 class ProductForm(forms.Form):
@@ -77,6 +78,16 @@ class InventoryForm(forms.ModelForm):
             }
         )
     )
+    operating_system = forms.ModelChoiceField(
+        label='',
+        queryset=OperatingSystem.objects.all(),
+        empty_label="Système d'exploitation...",
+        widget=forms.Select(
+            attrs={
+                'class': 'rounded-pill form-control field_white_hover shadow-sm'
+            }
+        )
+    )
 
     class Meta:
         model = Inventory
@@ -87,6 +98,7 @@ class InventoryForm(forms.ModelForm):
             'ram',
             'addr_mac',
             'storage',
+            'operating_system',
         )
 
 

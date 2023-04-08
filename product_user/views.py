@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from product.models import DeviceUser, Device, Location
@@ -5,6 +6,7 @@ from product_user.forms import InventoryForm, ImmoForm, LocationForm, \
     ProductForm
 
 
+@login_required
 def show_last_users(request):
     """
     Used for product_user page
@@ -17,6 +19,7 @@ def show_last_users(request):
     return render(request, 'device_users/last_device_users.html', context)
 
 
+@login_required
 def show_all_users(request):
     """
     Used for show_all_user page
@@ -29,6 +32,7 @@ def show_all_users(request):
     return render(request, 'device_users/device_users.html', context)
 
 
+@login_required
 def show_user_info(request, user_id):
     """
     Used for user_info page
@@ -43,6 +47,7 @@ def show_user_info(request, user_id):
         device_fullname = f"{item.product.brand.name} {item.product.name}"
         this_item = {
             'id': item.id,
+            'type': item.product.category.name,
             'fullname': device_fullname,
         }
         devices.append(this_item)
@@ -55,6 +60,7 @@ def show_user_info(request, user_id):
     return render(request, 'device_users/device_users_info.html', context)
 
 
+@login_required
 def show_last_devices(request):
     """
     Used for product_device page
@@ -67,6 +73,7 @@ def show_last_devices(request):
     return render(request, 'devices/last_devices.html', context)
 
 
+@login_required
 def show_all_devices(request):
     """
     Used for product_device page
@@ -79,6 +86,7 @@ def show_all_devices(request):
     return render(request, 'devices/all_devices.html', context)
 
 
+@login_required
 def show_device_info(request, device_id):
     """
     Used for device_info page
@@ -93,6 +101,7 @@ def show_device_info(request, device_id):
     return render(request, 'devices/device_info.html', context)
 
 
+@login_required
 def add_new_device(request):
     """
     Used for add_device page

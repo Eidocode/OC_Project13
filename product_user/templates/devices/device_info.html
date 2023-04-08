@@ -8,72 +8,103 @@
         <div class="row align-items-center justify-content-center">
             <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
                 <div class="card-header bg-transparent border-0 mb-2 p-0">
-                    <h3>{{ device.inventory.hostname }}</h3>
+                    <h3 title="Nom du périphérique">
+                        {% if device.product.category.name == 'Desktop' %}
+                            <i class="fa-solid fa-desktop me-2"></i>
+                        {% elif device.product.category.name == 'Workstation' %}
+                            <i class="fa-solid fa-computer me-2"></i>
+                        {% elif device.product.category.name == 'Tablet' %}
+                            <i class="fa-solid fa-tablet-screen-button me-2"></i>
+                        {% elif device.product.category.name == 'MobileWS' %}
+                            <i class="fa-solid fa-laptop-code me-2"></i>
+                        {% elif device.product.category.name == 'Notebook' %}
+                            <i class="fa-solid fa-laptop me-2"></i>
+                        {% endif %}
+                        {{ device.inventory.hostname }}
+                    </h3>
                 </div>
 
                 <div class="card-body p-0">
-                    <h6 class="small mt-4">INFORMATIONS</h6>
+                    <h6 class="small mt-4"><span class="fa-solid fa-circle-info me-2"></span>INFORMATIONS</h6>
                     <hr class="divider mt-0"/>
 
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Type de périphérique">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-layer-group"></i>
+                            {% if device.product.category.name == 'Desktop' %}
+                                <i class="fa-solid fa-desktop"></i>
+                            {% elif device.product.category.name == 'Workstation' %}
+                                <i class="fa-solid fa-computer"></i>
+                            {% elif device.product.category.name == 'Tablet' %}
+                                <i class="fa-solid fa-tablet-screen-button"></i>
+                            {% elif device.product.category.name == 'MobileWS' %}
+                                <i class="fa-solid fa-laptop-code"></i>
+                            {% elif device.product.category.name == 'Notebook' %}
+                                <i class="fa-solid fa-laptop"></i>
+                            {% endif %}
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.category.name }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.category.name }} {{ device.product.brand }} {{ device.product.name }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Système d'exploitation">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-desktop"></i>
+                            {% if device.inventory.operating_system.name == 'Ubuntu' %}
+                                <i class="fa-brands fa-ubuntu"></i>
+                            {% elif device.inventory.operating_system.name == "MacOS" or device.inventory.operating_system.name == "iOS" %}
+                                <i class="fa-brands fa-apple"></i>
+                            {% elif device.inventory.operating_system.name == 'Android' %}
+                                <i class="fa-brands fa-android"></i>
+                            {% else %}
+                                <i class="fa-brands fa-windows"></i>
+                            {% endif %}
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.product.brand }} {{ device.product.name }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.operating_system.name }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Numéro de série">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-hashtag"></i>
+                            <i class="fa-solid fa-list-ol"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.serial }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Processeur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-microchip"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.cpu.cpu_brand.name }} {{ device.inventory.cpu.name }}@{{ device.inventory.cpu.frequency }} GHz" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Quantité de RAM">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-memory"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.ram }} Go" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Quantité de stockage">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-hard-drive"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.storage }} Go" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Adresse MAC">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-network-wired"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.inventory.addr_mac }}" disabled/>
                     </div>
 
-                    <h6 class="small mt-4">IMMOBILISATION</h6>
+                    <h6 class="small mt-4"><span class="fa-solid fa-street-view me-2"></span>IMMOBILISATION</h6>
                     <hr class="divider mt-0"/>
 
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Numéro d'étiquette">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-boxes-stacked"></i>
+                            <i class="fa-solid fa-barcode"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.inventory_number }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Numéro du bon de commande">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-money-check"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.immo.bc_number }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Localisation de l'immobilisation">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-location-dot"></i>
                         </span>
@@ -81,29 +112,31 @@
                     </div>
 
                     <div class="row mt-4">
-                        <h6 class="small col-6">UTILISATEUR</h6>
-                        <a id="link_user_btn" class="col-6 text-end blue_hover" href="">
-                            <i class="fa-solid fa-plus"></i>
+                        <h6 class="small col-6"><span class="fa-solid fa-link me-2"></span>UTILISATEUR ASSOCIE</h6>
+                        <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
+                            <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </div>
                     <hr class="divider mt-0"/>
 
                     {% if device.device_user is null %}
-                        <div class="row pt-2">
+                        <div class="row pt-2" title="Utilisateur associé">
                             <span class="col-2 text-center align-self-center">
                                 <i class="fa-solid fa-user"></i>
                             </span>
                             <input class="col-8 border text-center rounded-pill field_white_hover" value="Aucun utilisateur..." disabled/>
                         </div>
                     {% else %}
-                        <div class="row pt-2">
+                        <div class="row pt-2" title="Utilisateur associé">
                             <span class="col-2 text-center align-self-center">
                                 <i class="fa-solid fa-user"></i>
                             </span>
                             <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.device_user.first_name }} {{ device.device_user.last_name }}" disabled/>
-                            <a id="user_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_user_info' user_id=device.device_user.id%}">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </a>
+                            <div class="col-2 text-center">
+                                <a id="user_detail" title="Voir plus d'informations sur {{ device.device_user.first_name }} {{ device.device_user.last_name }}..." class="col-1 blue_hover text-center align-self-center" href="{% url 'show_user_info' user_id=device.device_user.id%}">
+                                    <i class="btn btn-outline-primary px-2 py-1 rounded-3 fa-solid fa-magnifying-glass"></i>
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
 

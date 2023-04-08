@@ -106,6 +106,19 @@ class Cpu(models.Model):
         return f'{self.cpu_brand.name} {self.name}@{self.frequency}GHz'
 
 
+class OperatingSystem(models.Model):
+    """
+    Class used for the OperatingSystem model
+    ----------
+    name
+        Contains the names of the operating systems
+    """
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Inventory(models.Model):
     """
     Class used for the Inventory model
@@ -127,8 +140,9 @@ class Inventory(models.Model):
     serial = models.CharField(max_length=20, unique=True)
     cpu = models.ForeignKey(Cpu, on_delete=models.PROTECT)
     ram = models.PositiveSmallIntegerField(null=True)
-    addr_mac = models.CharField(max_length=12, unique=True, null=True)
+    addr_mac = models.CharField(max_length=17, unique=True, null=True)
     storage = models.PositiveIntegerField(null=True)
+    operating_system = models.ForeignKey(OperatingSystem, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.hostname

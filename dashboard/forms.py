@@ -8,7 +8,7 @@ class SearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'id': 'id_search',
-                'class': 'form-control border-left-0 border-right-0 form-control-lg bg-light shadow',
+                'class': 'form-control border-left-0 border-right-0 form-control-lg bg-light',
                 'placeholder': 'Saisir la recherche...'
             }
         ),
@@ -23,7 +23,7 @@ class SearchForm(forms.Form):
         choices=FILTER_CHOICES,
         widget=forms.Select(
             attrs={
-                'class': 'btn btn-dark border-right-0 shadow',
+                'class': 'btn btn-dark border-right-0',
             }
         ),
         required=False

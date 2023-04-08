@@ -14,9 +14,11 @@ class OcsDbHandler:
                 db_inventory.hostname, db_inventory.serial, db_inventory.ram, 
                 db_inventory.addr_mac, db_inventory.storage, db_product.name, 
                 db_brand.name, db_category.name, db_cpu.name, db_cpu.frequency, 
-                db_cpu.nb_cores, db_cpu_brand.name
+                db_cpu.nb_cores, db_cpu_brand.name, db_os.name
             FROM
                 db_inventory
+            INNER JOIN db_os ON
+                db_os.id = db_inventory.id_db_os
             INNER JOIN db_product ON
                 db_product.id = db_inventory.id_db_product
             INNER JOIN db_brand ON
@@ -42,5 +44,6 @@ class OcsDbHandler:
             'cpu': item[8],
             'freq': item[9],
             'cores': item[10],
-            'cpu_brand': item[11]
+            'cpu_brand': item[11],
+            'os': item[12],
         } for item in raw_data]

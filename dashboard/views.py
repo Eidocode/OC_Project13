@@ -1,9 +1,13 @@
+import calendar
+from collections import OrderedDict
+
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 from dashboard.forms import SearchForm
-from product.models import Device, Category, Brand, Entity
+from product.models import Device, Category, Brand, Entity, OperatingSystem
 
 
 def get_devices_by_brand(queryset_brands, queryset_devices):
@@ -34,37 +38,60 @@ def get_devices_by_entities(queryset_entities, queryset_devices):
     return devices_by_entities
 
 
-def count_devices_by_month(queryset_devices):
+def get_devices_by_os(queryset_devices):
     """
-    Returns a dict with the number of devices added each month in 2023
+    Returns a dict with the OS of all devices in queryset_devices and the
+    number of matching devices for each OS.
+    """
+    devices_by_os = {}
+    for os in OperatingSystem.objects.all():
+        # Count the number of devices for each OS
+        filtered_devices = queryset_devices.filter(
+            inventory__operating_system__name=os).count()
+        # Add an entry to the dict with the OS name and the number of devices
+        devices_by_os[os.name] = filtered_devices
+    return devices_by_os
+
+
+def count_devices_by_month(queryset_devices, year):
+    """
+    Returns a dict with the number of devices added each month in the specified year
     """
     months_count = {}
-    for device in queryset_devices:
+    filtered_qs = queryset_devices.filter(added_date__year=year)
+    for device in filtered_qs:
         # Get the device added date
-        this_date = device.added_date.date()
-        if this_date.year == 2023:
-            # Get the month in "mmm" format (ex: "Jan")
-            month = this_date.strftime("%b")
-            # If month already exists, the counter is incremented by 1
-            if month in months_count:
-                months_count[month] += 1
-            # else, we add a new entry with a counter set to 1
-            else:
-                months_count[month] = 1
-    return months_count
+        this_date = device.added_date
+        # Get the month in "mmm" format (ex: "Jan")
+        month = this_date.strftime("%b")
+        # If month already exists, the counter is incremented by 1
+        if month in months_count:
+            months_count[month] += 1
+        # else, we add a new entry with a counter set to 1
+        else:
+            months_count[month] = 1
+    sorted_months_count = OrderedDict()
+    for month_number in range(1, 13):
+        month_name = calendar.month_name[month_number][:3]
+        sorted_months_count[month_name] = months_count.get(month_name, 0)
+    return sorted_months_count
 
 
-def dashboard(request, device_type=None):
+@login_required
+def dashboard(request, device_type=None, selected_year=2023):
     # Get objects models for Device, Category, Brand, Entity
     devices_qs = Device.objects.all()
     categories_qs = Category.objects.all()
     brands_qs = Brand.objects.all()
     entities_qs = Entity.objects.all()
 
+    print(selected_year)
+
     # Get devices by brand, entity and month
     devices_by_brand = get_devices_by_brand(brands_qs, devices_qs)
     devices_by_entities = get_devices_by_entities(entities_qs, devices_qs)
-    months_count = count_devices_by_month(devices_qs)
+    months_count = count_devices_by_month(devices_qs, selected_year)
+    devices_by_os = get_devices_by_os(devices_qs)
 
     # If device_type is specified, filter the devices by category and update
     # the devices values by brand, entity, and month
@@ -77,7 +104,10 @@ def dashboard(request, device_type=None):
 
         devices_by_brand = get_devices_by_brand(brands_qs, new_devices_qs)
         devices_by_entities = get_devices_by_entities(entities_qs, new_devices_qs)
-        months_count = count_devices_by_month(new_devices_qs)
+        devices_by_os = get_devices_by_os(new_devices_qs)
+
+        if selected_year:
+            months_count = count_devices_by_month(new_devices_qs, selected_year)
 
         # Prepare the data to be returned in the JsonResponse
         data = {
@@ -85,6 +115,7 @@ def dashboard(request, device_type=None):
             'devices_by_brand': devices_by_brand,
             'devices_by_entities': devices_by_entities,
             'months_count': months_count,
+            'devices_by_os': devices_by_os
         }
         return JsonResponse(data, safe=False)
 
@@ -95,6 +126,7 @@ def dashboard(request, device_type=None):
         'devices_by_brand': devices_by_brand,
         'devices_by_entities': devices_by_entities,
         'months_count': months_count,
+        'devices_by_os': devices_by_os
     }
 
     # If request is an AJAX request, return a JsonResponse
@@ -105,6 +137,7 @@ def dashboard(request, device_type=None):
     return render(request, 'dashboard/dashboard.html', context)
 
 
+@login_required
 def show_device_table(request):
     devices = Device.objects.all()
 
@@ -115,6 +148,7 @@ def show_device_table(request):
     return render(request, 'dashboard/show_device_table.html', context)
 
 
+@login_required
 def advanced_search(request):
 
     query = request.GET.get('search')

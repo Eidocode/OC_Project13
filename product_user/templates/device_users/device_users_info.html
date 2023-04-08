@@ -8,44 +8,44 @@
         <div class="row align-items-center justify-content-center">
             <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
                 <div class="card-header bg-transparent border-0 mb-2 p-0">
-                    <h3>Profil de {{ user.first_name }} {{ user.last_name }}</h3>
+                    <h3><span title="Identification de l'utilisateur" class="fa-solid fa-user me-3"></span>{{ user.first_name }} {{ user.last_name }}</h3>
                 </div>
 
                 <div class="card-body p-0">
 
-                    <h6 class="small mt-4">INFORMATIONS</h6>
+                    <h6 class="small mt-4"><span class="fa-solid fa-circle-info me-2"></span>INFORMATIONS</h6>
                     <hr class="divider mt-0"/>
 
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Nom - Prénom de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-id-card"></i>
+                            <i class="fa-solid fa-user"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.first_name }} {{ user.last_name }}" disabled/>
                     </div>
 
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="ID de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-id-card"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.uid }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="E-mail de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-envelope"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email|lower }}" disabled/>
                     </div>
 
-                    <h6 class="small mt-4">AFFECTATION</h6>
+                    <h6 class="small mt-4"><span class="fa-solid fa-street-view me-2"></span>AFFECTATION</h6>
                     <hr class="divider mt-0"/>
 
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Entité de l'affectation">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-location-dot"></i>
                         </span>
                         <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.assignment.name }}" disabled/>
                     </div>
-                    <div class="row pt-2">
+                    <div class="row pt-2" title="Statut de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-person-circle-question"></i>
                         </span>
@@ -53,9 +53,9 @@
                     </div>
 
                     <div class="row mt-4">
-                        <h6 class="small col-6">PERIPHERIQUES</h6>
+                        <h6 class="small col-6"><span class="fa-solid fa-link me-2"></span>PERIPHERIQUES ASSOCIES</h6>
                         <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
-                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </div>
                     <hr class="divider mt-0"/>
@@ -64,12 +64,24 @@
                         {% for device in devices %}
                             <div class="row pt-2">
                                 <span class="col-2 text-center align-self-center">
-                                    <i class="fa-solid fa-computer"></i>
+                                    {% if device.type == 'Desktop' %}
+                                        <i title="Poste de travail fixe" class="fa-solid fa-desktop"></i>
+                                    {% elif device.type == 'Workstation' %}
+                                        <i title="Station de travail fixe" class="fa-solid fa-computer"></i>
+                                    {% elif device.type == 'Tablet' %}
+                                        <i title="Tablette" class="fa-solid fa-tablet-screen-button"></i>
+                                    {% elif device.type == 'MobileWS' %}
+                                        <i title="Station de travail mobile" class="fa-solid fa-laptop-code"></i>
+                                    {% elif device.type == 'Notebook' %}
+                                        <i title="Poste de travail mobile" class="fa-solid fa-laptop"></i>
+                                    {% endif %}
                                 </span>
                                 <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device.fullname }}" disabled/>
-                                <a id="device_detail" class="col-1 blue_hover text-center align-self-center" href="{% url 'show_device_info' device_id=device.id%}">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </a>
+                                <div class="col-2 text-center">
+                                    <a id="device_detail" title="Voir plus d'informations sur {{ device.fullname }}..." href="{% url 'show_device_info' device_id=device.id%}">
+                                        <i class="btn btn-outline-primary px-2 py-1 rounded-3 fa-solid fa-magnifying-glass"></i>
+                                    </a>
+                                </div>
                             </div>
                         {% endfor %}
                     {% else %}

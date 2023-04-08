@@ -49,6 +49,11 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'left'
+                    }
+                }
             }
         });
 
@@ -63,20 +68,25 @@
                     label: 'Devices',
                     data: {{ devices_by_entities|list_dict_values|safe }},
                     backgroundColor: generateColors(30),
-                    barThickness: 2,
+                    barThickness: 3,
                     minBarLength: 2,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
             }
         });
 
 
         // Device trend chart
-        var ctx = document.getElementById('deviceTrendChart').getContext('2d');
-        var deviceTrendChart = new Chart(ctx, {
+        var deviceTrendCtx = document.getElementById('deviceTrendChart').getContext('2d');
+        var deviceTrendChart = new Chart(deviceTrendCtx, {
             type: 'line',
             data: {
                 labels: {{ months_count|list_dict_keys|safe }},
@@ -95,19 +105,24 @@
                     y: {
                         beginAtZero: true
                     }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
         });
 
 
-        // Device licence usage chart
-        var ctx = document.getElementById('licenseUsageChart').getContext('2d');
-        var licenseUsageChart = new Chart(ctx, {
+        // Device OS usage chart
+        var devicesByOsCtx = document.getElementById('licenseUsageChart').getContext('2d');
+        var devicesByOsChart = new Chart(devicesByOsCtx, {
             type: 'pie',
             data: {
-                labels: ['Windows', 'MacOS', 'Linux'],
+                labels: {{ devices_by_os|list_dict_keys|safe }},
                 datasets: [{
-                    data: [300, 200, 100],
+                    data: {{ devices_by_os|list_dict_values|safe }},
                     backgroundColor: [
                         '#2ecc71',
                         '#3498db',
@@ -139,6 +154,7 @@
         const deviceSelect = document.getElementById('device-select');
         deviceSelect.addEventListener('change', function () {
             const selectedType = deviceSelect.value;
+            const selectedYear = yearSelect.value;
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -147,6 +163,7 @@
                     const devices_by_brand = jsonParse['devices_by_brand']
                     const devices_by_entities = jsonParse['devices_by_entities']
                     const months_count = jsonParse['months_count']
+                    const devices_by_os = jsonParse['devices_by_os']
                     const deviceCount = document.getElementById('device-count');
 
                     // Update device count
@@ -166,27 +183,51 @@
                     deviceTrendChart.data.labels = Object.keys(months_count);
                     deviceTrendChart.data.datasets[0].data = Object.values(months_count);
                     deviceTrendChart.update();
+
+                    // Update os chart
+                    devicesByOsChart.data.labels = Object.keys(devices_by_os);
+                    devicesByOsChart.data.datasets[0].data = Object.values(devices_by_os);
+                    devicesByOsChart.update();
                 }
             };
-            xhr.open('GET', `/dashboard/${selectedType}/`);
+            xhr.open('GET', `/dashboard/type/${selectedType}/year/${selectedYear}/`);
             xhr.send();
         });
 
+        const yearSelect = document.getElementById('yearSelect');
+        yearSelect.addEventListener('change', function () {
+            const selectedType = deviceSelect.value;
+            const selectedYear = yearSelect.value;
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                   const jsonParse = JSON.parse(this.responseText);
+                   const months_count = jsonParse['months_count']
+
+                    // Update trend chart
+                    deviceTrendChart.data.labels = Object.keys(months_count);
+                    deviceTrendChart.data.datasets[0].data = Object.values(months_count);
+                    deviceTrendChart.update();
+           }
+        };
+        xhr.open('GET', `/dashboard/type/${selectedType}/year/${selectedYear}/`);
+        xhr.send();
+        });
+
     });
-    
 </script>
 
 
 <div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-md-6">
-            <h2><i class="fa-solid fa-chart-line me-2"></i><b>Tableau de bord</b></h2>
+        <div class="col-md-8">
+            <h2><i class="fa-solid fa-chart-line me-3"></i><b>Tableau de bord</b></h2>
             <p><i class="fas fa-info-circle me-2"></i><span class="text-muted">Vue d'ensemble, état de l'inventaire</span></p>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="d-flex align-items-center justify-content-end">
-                <label for="device-select" class="me-2">Device type:</label>
-                <select class="form-select form-select-sm" id="device-select">
+                <span class="col-5 text-center"><b>Type de périphérique :</b></span>
+                <select class="form-select form-select-sm shadow" id="device-select">
                     <option selected>All devices</option>
                     {% for category in categories %}
                         <option>{{ category.name }}</option>
@@ -221,7 +262,13 @@
             </div>
             <div class="card shadow mt-4">
                 <div class="card-body">
-                    <h5 class="card-title font-weight-bold text-uppercase mb-3">Tendance des périphériques</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title font-weight-bold text-uppercase">Tendance des périphériques</h5>
+                        <select class="form-select form-select-sm w-auto" id="yearSelect" name="year">
+                            <option value="2022">2022</option>
+                            <option selected value="2023">2023</option>
+                        </select>
+                    </div>
                     <hr>
                     <div class="chart-container" style="position: relative; height:300px; width:100%;">
                         <canvas id="deviceTrendChart"></canvas>
