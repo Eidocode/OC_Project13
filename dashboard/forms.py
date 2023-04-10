@@ -31,5 +31,4 @@ class SearchForm(forms.Form):
 
     device_without_user = forms.BooleanField(
         required=False,
-        label='Sans utilisateur',
     )

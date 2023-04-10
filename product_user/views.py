@@ -39,8 +39,8 @@ def show_user_info(request, user_id):
     """
 
     # Gets a user designated by product_id or returns 404
-    user = get_object_or_404(DeviceUser, pk=user_id)
-    get_devices = Device.objects.filter(device_user_id=user.id)
+    device_user = get_object_or_404(DeviceUser, pk=user_id)
+    get_devices = Device.objects.filter(device_user_id=device_user.id)
 
     devices = []
     for item in get_devices:
@@ -53,7 +53,7 @@ def show_user_info(request, user_id):
         devices.append(this_item)
 
     context = {
-        'user': user,
+        'device_user': device_user,
         'devices': devices,
     }
 

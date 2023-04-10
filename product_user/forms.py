@@ -1,7 +1,6 @@
 from django import forms
 
-from product.models import Inventory, Cpu, Location, Immo, Entity, Product, \
-    OperatingSystem
+from product.models import Inventory, Cpu, Location, Immo, Product, OperatingSystem
 
 
 class ProductForm(forms.Form):
@@ -101,6 +100,12 @@ class InventoryForm(forms.ModelForm):
             'operating_system',
         )
 
+    def clean_serial(self):
+        serial = self.cleaned_data.get('serial').upper()
+        if Inventory.objects.filter(serial=serial.upper()).exists():
+            raise forms.ValidationError("Ce numéro de série existe déjà...")
+        return self.cleaned_data.get('serial')
+
 
 class ImmoForm(forms.ModelForm):
     bc_number = forms.CharField(
@@ -130,6 +135,16 @@ class ImmoForm(forms.ModelForm):
             'bc_number',
             'inventory_number',
         )
+
+    def clean_inventory_number(self):
+        inventory_number = self.cleaned_data.get('inventory_number')
+
+        if not inventory_number.isdigit():
+            raise forms.ValidationError("Le numéro d'inventaire ne doit contenir que des chiffres...")
+
+        if Immo.objects.filter(inventory_number=inventory_number).exists():
+            raise forms.ValidationError("Ce numéro d'inventaire existe déjà...")
+        return inventory_number
 
 
 class LocationForm(forms.Form):

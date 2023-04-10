@@ -168,20 +168,23 @@ def advanced_search(request):
     if form.is_valid():
         result_process = None
 
-        if search_filter == 'entity':
-            result_process = Device.objects.filter(immo__location__site__name__icontains=query).order_by('added_date')
-        elif search_filter == 'device':
-            result_process = Device.objects.filter(
-                Q(immo__inventory_number__icontains=query) |
-                Q(inventory__hostname__icontains=query) |
-                Q(inventory__serial__icontains=query)
-            ).order_by('added_date')
-        elif search_filter == 'user':
-            result_process = Device.objects.filter(
-                Q(device_user__last_name__icontains=query) |
-                Q(device_user__first_name__icontains=query) |
-                Q(device_user__uid__icontains=query)
-            ).order_by('added_date')
+        if query == '**':
+            result_process = Device.objects.all()
+        else:
+            if search_filter == 'entity':
+                result_process = Device.objects.filter(immo__location__site__name__icontains=query).order_by('added_date')
+            elif search_filter == 'device':
+                result_process = Device.objects.filter(
+                    Q(immo__inventory_number__icontains=query) |
+                    Q(inventory__hostname__icontains=query) |
+                    Q(inventory__serial__icontains=query)
+                ).order_by('added_date')
+            elif search_filter == 'user':
+                result_process = Device.objects.filter(
+                    Q(device_user__last_name__icontains=query) |
+                    Q(device_user__first_name__icontains=query) |
+                    Q(device_user__uid__icontains=query)
+                ).order_by('added_date')
 
         if user_link_filter == 'Without':
             result_process = result_process.filter(device_user__isnull=True)

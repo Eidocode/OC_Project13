@@ -48,6 +48,7 @@ class DeviceAdmin(admin.ModelAdmin):
 class ProductInline(admin.TabularInline):
     model = Device
     max_num = 0
+    extra = 1
     fieldsets = (
         ('Informations', {
             'fields': ('inventory', 'product', 'added_date'),
@@ -59,6 +60,7 @@ class ProductInline(admin.TabularInline):
     readonly_fields = ("added_date", "product", "inventory", "immo")
     verbose_name = 'Périphérique associé'
     verbose_name_plural = 'Périphériques associés'
+    can_delete = False
 
 
 @admin.register(DeviceUser)

@@ -8,7 +8,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="card shadow rounded-3 bg-light bg-gradient px-5 mt-5 py-5 col-lg-6 border-0">
                 <div class="card-header bg-transparent border-0 mb-2 p-0">
-                    <h3><span title="Identification de l'utilisateur" class="fa-solid fa-user me-3"></span>{{ user.first_name }} {{ user.last_name }}</h3>
+                    <h3><span title="Identification de l'utilisateur" class="fa-solid fa-user me-3"></span>{{ device_user.first_name }} {{ device_user.last_name }}</h3>
                 </div>
 
                 <div class="card-body p-0">
@@ -20,20 +20,20 @@
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-user"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.first_name }} {{ user.last_name }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device_user.first_name }} {{ device_user.last_name }}" disabled/>
                     </div>
 
                     <div class="row pt-2" title="ID de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-id-card"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.uid }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device_user.uid }}" disabled/>
                     </div>
                     <div class="row pt-2" title="E-mail de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-envelope"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.email|lower }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device_user.email|lower }}" disabled/>
                     </div>
 
                     <h6 class="small mt-4"><span class="fa-solid fa-street-view me-2"></span>AFFECTATION</h6>
@@ -43,18 +43,18 @@
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-location-dot"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.assignment.name }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device_user.assignment.name }}" disabled/>
                     </div>
                     <div class="row pt-2" title="Statut de l'utilisateur">
                         <span class="col-2 text-center align-self-center">
                             <i class="fa-solid fa-person-circle-question"></i>
                         </span>
-                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ user.status.name }}" disabled/>
+                        <input class="col-8 border text-center rounded-pill field_white_hover" value="{{ device_user.status.name }}" disabled/>
                     </div>
 
                     <div class="row mt-4">
                         <h6 class="small col-6"><span class="fa-solid fa-link me-2"></span>PERIPHERIQUES ASSOCIES</h6>
-                        <a id="link_device_btn" class="col-6 text-end blue_hover" href="">
+                        <a id="link_device_btn" class="col-6 text-end blue_hover" href="/manage-admin/product/deviceuser/{{ device_user.id }}/change/" target="_blank">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </div>

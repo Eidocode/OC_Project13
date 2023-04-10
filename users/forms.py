@@ -1,7 +1,11 @@
+import re
+
 from django import forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, \
     PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
+from django.core.validators import validate_email
 
 
 class LoginForm(forms.Form):
@@ -32,6 +36,18 @@ class LoginForm(forms.Form):
             'username',
             'password'
         )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        user = authenticate(username=username.lower(), password=password)
+        if re.search('[A-Z]', username):
+            raise forms.ValidationError("Le nom d'utilisateur ne contient pas de majuscule...")
+        if not user:
+            raise forms.ValidationError("Nom d'utilisateur ou mot de passe incorrect...")
+        return cleaned_data
 
 
 class SignupForm(UserCreationForm):
@@ -97,6 +113,24 @@ class SignupForm(UserCreationForm):
             'username', 'first_name', 'last_name',
             'email', 'password1', 'password2'
         )
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username').lower()
+        if User.objects.filter(username=username.lower()).exists():
+            raise forms.ValidationError("Ce nom d'utilisateur existe déjà...")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if User.objects.filter(email=email.lower()).exists():
+            raise forms.ValidationError("L'adresse email est déjà utilisée...")
+        return email
+
+    def clean_first_name(self):
+        return self.cleaned_data.get('first_name').capitalize()
+
+    def clean_last_name(self):
+        return self.cleaned_data.get('last_name').capitalize()
 
 
 class ChangePasswordForm(PasswordChangeForm):
