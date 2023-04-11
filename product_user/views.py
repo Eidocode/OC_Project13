@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 
 from product.models import DeviceUser, Device, Location
@@ -11,7 +12,7 @@ def show_last_users(request):
     """
     Used for product_user page
     """
-    users = DeviceUser.objects.filter().order_by('-id')[:10]
+    users = DeviceUser.objects.select_related('assignment', 'status').order_by('-id')[:10]
 
     context = {
         'device_users': users
@@ -24,7 +25,7 @@ def show_all_users(request):
     """
     Used for show_all_user page
     """
-    users = DeviceUser.objects.filter().order_by('id')
+    users = DeviceUser.objects.select_related('assignment', 'status').order_by('-id')
 
     context = {
         'device_users': users
@@ -65,7 +66,7 @@ def show_last_devices(request):
     """
     Used for product_device page
     """
-    devices = Device.objects.filter().order_by('-id')[:10]
+    devices = Device.objects.select_related('product__category', 'product__brand', 'product', 'device_user', 'inventory', 'immo', 'immo__location__site').order_by('-id')[:10]
 
     context = {
         'devices': devices
@@ -78,7 +79,7 @@ def show_all_devices(request):
     """
     Used for product_device page
     """
-    devices = Device.objects.filter()
+    devices = Device.objects.select_related('product__category', 'product__brand', 'product', 'device_user', 'inventory', 'immo', 'immo__location__site').order_by('-id')
 
     context = {
         'devices': devices
@@ -117,21 +118,21 @@ def add_new_device(request):
         immo_form = ImmoForm(request.POST)
         if product_form.is_valid() and inventory_form.is_valid() and location_form.is_valid() and immo_form.is_valid():
             this_product = product_form.cleaned_data['name']
-            this_inventory = inventory_form.save()
             this_location = location_form.cleaned_data['loc_name']
 
-            this_immo = immo_form.save(commit=False)
-            this_immo.location = Location.objects.get(pk=this_location.id)
-            this_immo.save()
+            with transaction.atomic():
+                this_inventory = inventory_form.save()
+                this_immo = immo_form.save(commit=False)
+                this_immo.location = this_location
+                this_immo.save()
 
-            new_device = Device(
-                product_id=this_product.id,
-                inventory_id=this_inventory.id,
-                immo_id=this_immo.id,
-            )
-            new_device.save()
-
-            print(f'{this_inventory.hostname} recorded to the database...')
+                new_device = Device(
+                    product=this_product,
+                    inventory=this_inventory,
+                    immo=this_immo,
+                )
+                new_device.save()
+                print(f'{this_inventory.hostname} recorded to the database...')
 
             return redirect('show_all_devices')
 

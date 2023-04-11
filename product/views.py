@@ -12,7 +12,7 @@ def index(request):
     """
     Used for index page
     """
-    devices_qs = Device.objects.filter()
+    devices_qs = Device.objects.select_related('product__category', 'product__brand', 'product', 'device_user', 'inventory', 'immo', 'immo__location__site')
     categories_qs = Category.objects.filter()
     brands_qs = Brand.objects.filter()
 
