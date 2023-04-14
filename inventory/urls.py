@@ -35,8 +35,3 @@ if settings.DEBUG:
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-
-
-# admin.site.index_title = 'OC-Inventory Admin'
-# admin.site.site_header = 'OC-Inventory Admin Panel'
-# admin.site.site_title = 'OC-Inventory Admin Panel'

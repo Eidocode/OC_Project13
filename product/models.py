@@ -142,7 +142,8 @@ class Inventory(models.Model):
     ram = models.PositiveSmallIntegerField(null=True)
     addr_mac = models.CharField(max_length=17, unique=True, null=True)
     storage = models.PositiveIntegerField(null=True)
-    operating_system = models.ForeignKey(OperatingSystem, on_delete=models.PROTECT, null=True)
+    operating_system = models.ForeignKey(OperatingSystem,
+                                         on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.hostname
@@ -194,7 +195,8 @@ class DeviceUser(models.Model):
     email = models.EmailField(max_length=70, unique=True, null=True)
     uid = models.CharField(max_length=10, unique=True)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
-    assignment = models.ForeignKey(Assignment, on_delete=models.PROTECT, null=True)
+    assignment = models.ForeignKey(Assignment,
+                                   on_delete=models.PROTECT, null=True)
 
     class Meta:
         verbose_name = 'Utilisateur'
@@ -280,8 +282,10 @@ class Device(models.Model):
     """
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     added_date = models.DateTimeField(default=timezone.now())
-    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True, blank=True)
-    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT, null=True, blank=True)
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE,
+                                  null=True, blank=True)
+    device_user = models.ForeignKey(DeviceUser, on_delete=models.PROTECT,
+                                    null=True, blank=True)
     immo = models.ForeignKey(Immo, on_delete=models.CASCADE, null=True)
 
     class Meta:

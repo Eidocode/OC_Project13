@@ -1,7 +1,14 @@
+"""
+Form used in the contact us section
+"""
+
 from django import forms
 
 
 class ContactUsForm(forms.Form):
+    """
+    Contact us form fields
+    """
     first_name = forms.CharField(
         label='',
         max_length=50,

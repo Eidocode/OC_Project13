@@ -1,6 +1,6 @@
 """
-    Script file used to fill the main databases with data from the OCS external
-    databases.
+Script file used to populate the main database with data from the OCS and Immo
+databases.
 """
 
 from django.core.management.base import BaseCommand
@@ -10,18 +10,19 @@ from controllers.controller import Controller
 
 class Command(BaseCommand):
     """
-        Class used to add a new parameter fill_db_from_ocs to manage.py
+    Used to add a new parameter fill_db_from_ocs to manage.py
     """
 
-    help = 'Adds new entries in oc_inventory databases'
+    help = 'Specified the number of new entries to be created.(Default: 2)'
 
     def __init__(self):
         super().__init__()
         self.controller = Controller()
 
     def add_arguments(self, parser):
-        """Adds int argument for command line"""
-
+        """
+        Adds int argument for command line
+        """
         parser.add_argument(
             'nb_devices',
             type=int,
@@ -31,9 +32,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Contains the method called when executed the command line
-        (XXXX) with the specified int argument"""
-
+        """
+        Contains the method called when executed the command line (XXXX) with
+        the specified int argument
+        """
         nb_device = options['nb_devices']
         self.stdout.write(f"Processing for {nb_device} devices/immos...")
         self.controller.set_items_to_inventory_db(nb_device)

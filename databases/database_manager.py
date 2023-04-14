@@ -1,5 +1,5 @@
 """
-File used to manage external databases
+Used to manage the connection of external databases
 """
 
 import psycopg2
@@ -8,17 +8,27 @@ from tools import const
 
 
 class DatabaseManager:
+    """
+    External database connection manager
+    """
     def __init__(self, db_name):
-        self.db_name = db_name
+        self.db_name = db_name  # Database name specified by db_name
+        # Database connection
         self.psql_connex = psycopg2.connect(
-            host=const.SRV_IP,
-            database=self.db_name,
-            user=const.USER_ID,
-            password=const.USER_PWD,
-            port=const.PSQL_PORT,
+            host=const.SRV_IP,  # Database server IP
+            database=self.db_name,  # Database name
+            user=const.USER_ID,  # Database user
+            password=const.USER_PWD,  # Database user password
+            port=const.PSQL_PORT,  # Database port
         )
 
     def get_query(self, query):
+        """
+        SQL query to get data from a database
+
+        :param query: query to be sent
+        :return: List of raw data
+        """
         result = None
         try:
             cursor = self.psql_connex.cursor()
@@ -36,6 +46,11 @@ class DatabaseManager:
         return result
 
     def set_query(self, query):
+        """
+        SQL query to set data to a database
+
+        :param query: query to be sent
+        """
         try:
             cursor = self.psql_connex.cursor()
             print("Connection Established...")

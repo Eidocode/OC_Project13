@@ -1,19 +1,30 @@
-from databases.database_manager import DatabaseManager
+"""
+Immo database handler
+"""
 
+from databases.database_manager import DatabaseManager
 from tools import const
 
 
 class ImmoDbHandler:
+    """
+    Interacts with the immo database and returns a list of containing the
+    information for each item in the database.
+    """
     def __init__(self):
-        self.immos = self.convert_to_array(self._get_raw_data_from_db())
+        self.immos = self.convert_to_array(self._get_raw_data_from_db)
 
-    def _get_raw_data_from_db(self):
+    @staticmethod
+    def _get_raw_data_from_db():
+        """
+        Gets and returns a list of raw data from the source database.
+        """
         immo_db_manager = DatabaseManager(const.IMMO_DB_NAME)
         this_query = """
             SELECT
                 db_immo.bc_number, db_immo.inventory_number, db_immo.serial,
                 db_user.first_name, db_user.last_name, db_user.uid,
-                db_location.name, db_location.loc_number, db_entity.name, 
+                db_location.name, db_location.loc_number, db_entity.name,
                 db_user.email, db_status.name, db_assignment.name
             FROM
                 db_immo
@@ -30,7 +41,15 @@ class ImmoDbHandler:
             """
         return immo_db_manager.get_query(this_query)
 
-    def convert_to_array(self, raw_data):
+    @staticmethod
+    def convert_to_array(raw_data):
+        """
+        Converts the raw data from the source database into a list of
+        dictionaries
+
+        :param raw_data: The raw data from the source database
+        :return: List of dictionaries containing the information for each item
+        """
         return [{
             'bc_number': item[0],
             'inventory_number': item[1],

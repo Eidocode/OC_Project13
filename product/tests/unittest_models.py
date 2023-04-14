@@ -1,7 +1,7 @@
 from django.test import TestCase
 
-from product.models import Brand, Category, Product, CpuBrand, Cpu, Inventory, \
-    Status, Assignment, DeviceUser, Entity, Location, Immo
+from product.models import Brand, Category, Product, CpuBrand, Cpu, Inventory,\
+    Status, Assignment, DeviceUser, Entity, Location
 
 
 class BrandModelTest(TestCase):

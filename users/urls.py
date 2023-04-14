@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^reset_pwd/$', views.reset_password, name='reset_password'),
 
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
-    path('reset/<uidb64>/<token>', views.reset_password_confirm, name='reset_password_confirm'),
+    path('reset/<uidb64>/<token>', views.reset_password_confirm,
+         name='reset_password_confirm'),
     path('', include("django.contrib.auth.urls")),
 ]

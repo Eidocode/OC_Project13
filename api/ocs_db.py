@@ -1,19 +1,31 @@
+"""
+OCS database handler
+"""
+
 from databases.database_manager import DatabaseManager
 
-from tools import const, func_db
+from tools import const
 
 
 class OcsDbHandler:
+    """
+    Interacts with the ocs database and returns a list containing the
+    information for each item in the database.
+    """
     def __init__(self):
-        self.devices = self.convert_to_array(self._get_raw_data_from_db())
+        self.devices = self.convert_to_array(self._get_raw_data_from_db)
 
-    def _get_raw_data_from_db(self):
+    @staticmethod
+    def _get_raw_data_from_db():
+        """
+        Gets and returns a list of raw data from the source database.
+        """
         ocs_db_manager = DatabaseManager(const.OCS_DB_NAME)
         this_query = """
-            SELECT 
-                db_inventory.hostname, db_inventory.serial, db_inventory.ram, 
-                db_inventory.addr_mac, db_inventory.storage, db_product.name, 
-                db_brand.name, db_category.name, db_cpu.name, db_cpu.frequency, 
+            SELECT
+                db_inventory.hostname, db_inventory.serial, db_inventory.ram,
+                db_inventory.addr_mac, db_inventory.storage, db_product.name,
+                db_brand.name, db_category.name, db_cpu.name, db_cpu.frequency,
                 db_cpu.nb_cores, db_cpu_brand.name, db_os.name
             FROM
                 db_inventory
@@ -31,7 +43,15 @@ class OcsDbHandler:
                 db_cpu_brand.id = db_cpu.id_db_cpu_brand"""
         return ocs_db_manager.get_query(this_query)
 
-    def convert_to_array(self, raw_data):
+    @staticmethod
+    def convert_to_array(raw_data):
+        """
+        Converts the raw data from the source database into a list of
+        dictionaries
+
+        :param raw_data: The raw data from the source database
+        :return: List of dictionaries containing the information for each item
+        """
         return [{
             'hostname': item[0],
             'serial': item[1],
