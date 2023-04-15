@@ -220,9 +220,9 @@ def reset_password(request):
                     return redirect('login')
                 else:
                     messages.error(
-                        request,
-                        """Problème lors de l'envoi de l'email nécessaire pour
-                        engager la réinitialisation du mot de passe...""")
+                        request, "Problème lors de l'envoi de l'email \
+                        nécessaire pour engager la réinitialisation du mot de \
+                        passe...")
 
     form = ResetPasswordForm()
     return render(

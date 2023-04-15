@@ -62,8 +62,8 @@ def contact_us(request):
                 'user': request.user,
             }
             # Mail subject to send
-            mail_subject = f"""[CONTACT] Requête de {data_form['f_name']}
-                {data_form['l_name']}"""
+            mail_subject = f"[CONTACT] Requête de {data_form['f_name']} \
+                {data_form['l_name']}"
             # Mail body to send in plain text
             message_plain_text = render_to_string(
                 'product/contact_us/request_contact_us_fulltext.html',
@@ -80,8 +80,8 @@ def contact_us(request):
             # checks if the email was sent
             if email.send():
                 messages.success(request,
-                                 f"""{data_form['f_name']},
-                                 votre message a été envoyé avec succès...""")
+                                 f"{data_form['f_name']}, votre message a été \
+                                 envoyé avec succès...")
                 return redirect('contact_us')
             else:
                 messages.error(request,
