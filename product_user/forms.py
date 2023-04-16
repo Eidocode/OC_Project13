@@ -18,8 +18,8 @@ class ProductForm(forms.Form):
         empty_label="Product...",
         widget=forms.Select(
             attrs={
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         ),
     )
@@ -35,8 +35,8 @@ class InventoryForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Hostname...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -46,8 +46,8 @@ class InventoryForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'N° Série...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -57,8 +57,8 @@ class InventoryForm(forms.ModelForm):
         empty_label="CPU...",
         widget=forms.Select(
             attrs={
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -68,8 +68,8 @@ class InventoryForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Ram(Go)...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -79,8 +79,8 @@ class InventoryForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': '@MAC...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -90,8 +90,8 @@ class InventoryForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Stockage(Go)...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -101,8 +101,8 @@ class InventoryForm(forms.ModelForm):
         empty_label="Système d'exploitation...",
         widget=forms.Select(
             attrs={
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -143,8 +143,8 @@ class ImmoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'N°BC...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -154,8 +154,8 @@ class ImmoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'N°Inventaire...',
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         )
     )
@@ -198,8 +198,8 @@ class LocationForm(forms.Form):
         empty_label="Localisation...",
         widget=forms.Select(
             attrs={
-                'class': """rounded-pill form-control field_white_hover
-                shadow-sm"""
+                'class': "rounded-pill form-control field_white_hover \
+                shadow-sm"
             }
         ),
     )

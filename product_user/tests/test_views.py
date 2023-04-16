@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from product.models import DeviceUser, Device, Category, Brand, CpuBrand, \
-    Product, Inventory, Cpu
+    Product, Inventory, Cpu, Location, OperatingSystem, Entity
 
 
 class DeviceUserViewTestCase(TestCase):
@@ -263,3 +263,104 @@ class DeviceViewTestCase(TestCase):
         )
         self.assertTemplateUsed(response,
                                 'devices/device_info.html')
+
+
+class AddNewDeviceViewTestCase(TestCase):
+    """
+    Test cases for the add new device view
+    """
+    def setUp(self):
+        # Create User object
+        self.client = Client()
+        self.username = 'test_user'
+        self.email = 'test_email@test.com'
+        self.password = 'test_password'
+        self.first_name = 'Test_fname'
+        self.last_name = 'Test_lname'
+        self.user = User.objects.create_user(
+            username=self.username,
+            password=self.password,
+            email=self.email,
+            first_name=self.first_name,
+            last_name=self.last_name,
+            is_active=True
+        )
+        self.client.force_login(self.user)
+
+        # Create device data for the tests
+        Category.objects.create(name='Test Category')
+        Brand.objects.create(name='Test Brand')
+        CpuBrand.objects.create(name='Test CPU Brand')
+        Entity.objects.create(name='Test Site')
+        self.product = Product.objects.create(
+            name='Test Product',
+            category=Category.objects.get(name='Test Category'),
+            brand=Brand.objects.get(name='Test Brand'),
+        )
+        self.cpu = Cpu.objects.create(
+            name='Test CPU',
+            cpu_brand=CpuBrand.objects.get(name='Test CPU Brand'),
+        )
+        self.location = Location.objects.create(
+            name='Test',
+            loc_number='12345',
+            site=Entity.objects.get(name='Test Site'),
+        )
+        self.operating_system = OperatingSystem.objects.create(
+            name='Test OS',
+        )
+        self.inventory_data = {
+            'hostname': 'Test Hostname',
+            'serial': 'Test012345',
+            'cpu': self.cpu.id,
+            'ram': '8',
+            'addr_mac': '00:00:00:00:00:00',
+            'storage': '480',
+            'operating_system': self.operating_system.id,
+        }
+        self.immo_data = {
+            'bc_number': '45000000',
+            'inventory_number': '12345',
+        }
+        self.location_data = {
+            'loc_name': self.location.id,
+        }
+        self.product_data = {
+            'name': self.product.id,
+        }
+
+    def test_add_new_device_url_exists_at_location(self):
+        """
+        Test that the add new device url exists at the location
+        """
+        response = self.client.get('/product_user/add_device/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_new_device_url_accessible_by_name(self):
+        """
+        Test that the add new device url is accessible by name
+        """
+        response = self.client.get(reverse('add_new_device'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_new_device_view_uses_correct_template(self):
+        """
+        Test that the add new device view uses the correct template
+        """
+        response = self.client.get(reverse('add_new_device'))
+        self.assertTemplateUsed(response,
+                                'devices/add_new_device.html')
+
+    def test_add_new_device_form(self):
+        """
+        Test that the add new device form
+        """
+        response = self.client.post(
+            reverse('add_new_device'), {
+                'product_form': self.product_data,
+                'inventory_form': self.inventory_data,
+                'location_form': self.location_data,
+                'immo_form': self.immo_data,
+            }, follow=True
+        )
+        self.assertEqual(response.status_code, 200)

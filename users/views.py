@@ -30,7 +30,7 @@ def login_page(request):
             # If user is authenticated, redirect to home page
             if user is not None:
                 login(request, user)
-                messages.success(request, f'{user.username}est connecté...')
+                messages.success(request, f'{user.username} est connecté...')
                 return redirect('/')
         else:
             # If user is not authenticated, display an error and reload form
