@@ -11,7 +11,7 @@ from product.models import Category, Brand, CpuBrand, Entity, Product, Cpu, \
     Location, OperatingSystem, Device
 
 # Set the path to the chromedriver
-chrome_driver_path = "C:\webdriver\chromedriver.exe"
+# chrome_driver_path = "C:\webdriver\chromedriver.exe"
 
 
 class AddNewDeviceFunctionalTest(LiveServerTestCase):
@@ -22,7 +22,7 @@ class AddNewDeviceFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        self.browser = webdriver.Chrome(executable_path=chrome_driver_path)
+        self.browser = webdriver.Chrome()
         self.username = 'test_user'
         self.password = 'test_password'
         self.user = User.objects.create_user(

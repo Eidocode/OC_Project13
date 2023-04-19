@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 
 
 # Set the path to the chromedriver
-chrome_driver_path = "C:\webdriver\chromedriver.exe"
+# chrome_driver_path = "C:\webdriver\chromedriver.exe"
 
 
 class IndexFunctionalTest(LiveServerTestCase):
@@ -15,7 +15,7 @@ class IndexFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        self.browser = webdriver.Chrome(executable_path=chrome_driver_path)
+        self.browser = webdriver.Chrome()
 
     def tearDown(self):
         """
@@ -60,7 +60,7 @@ class ContactUsFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        self.browser = webdriver.Chrome(executable_path=chrome_driver_path)
+        self.browser = webdriver.Chrome()
 
     def tearDown(self):
         """

@@ -1,6 +1,8 @@
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
+from django.core import management
+from django.db import connections
 
 from product.forms import ContactUsForm
 from product.models import Category, Brand, Product, Device, Cpu, DeviceUser,\
@@ -38,6 +40,15 @@ class IndexViewTestCase(TestCase):
                     )
                 ),
             )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_index_url_exists_at_location(self):
         """

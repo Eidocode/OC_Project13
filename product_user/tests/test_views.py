@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.core import management
+from django.db import connections
 
 from product.models import DeviceUser, Device, Category, Brand, CpuBrand, \
     Product, Inventory, Cpu, Location, OperatingSystem, Entity
@@ -30,6 +32,15 @@ class DeviceUserViewTestCase(TestCase):
         self.device_user1 = DeviceUser.objects.create(first_name='John',
                                                       last_name='Doe',
                                                       uid='12345')
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_last_device_users_url_exists_at_location(self):
         """
@@ -173,6 +184,15 @@ class DeviceViewTestCase(TestCase):
                     )
                 ),
             )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_last_devices_url_exists_at_location(self):
         """
@@ -328,6 +348,15 @@ class AddNewDeviceViewTestCase(TestCase):
         self.product_data = {
             'name': self.product.id,
         }
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_add_new_device_url_exists_at_location(self):
         """

@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import check_password
-from django.core import mail
+from django.core import mail, management
 from django.test import TestCase, Client
+from django.db import connections
 
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -26,6 +27,15 @@ class LoginViewTestCase(TestCase):
             last_name=self.last_name,
             is_active=True
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_login_url_exists_at_location(self):
         """
@@ -168,6 +178,15 @@ class AccountViewTestCase(TestCase):
         )
         self.client.login(username=self.username, password=self.password)
 
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
     def test_account_url_exists_at_location(self):
         """
         Test that the account url exists at the location
@@ -211,6 +230,15 @@ class FullnameChangeViewTestCase(TestCase):
             is_active=True
         )
         self.client.login(username=self.username, password=self.password)
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_fullname_change_url_exists_at_location(self):
         """
@@ -282,6 +310,14 @@ class PasswordChangeViewTestCase(TestCase):
         )
         self.client.login(username=self.username, password=self.password)
 
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
     def test_password_change_url_exists_at_location(self):
         """
         Test that the password change url exists at the location

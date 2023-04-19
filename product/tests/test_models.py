@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.core import management
+from django.db import connections
 
 from product.models import Brand, Category, Product, CpuBrand, Cpu, Inventory,\
     Status, Assignment, DeviceUser, Entity, Location
@@ -15,6 +17,15 @@ class BrandModelTest(TestCase):
         Set up non-modified objects used by all test methods.
         """
         Brand.objects.create(name="Brand1")
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_max_length(self):
         """
@@ -57,6 +68,15 @@ class CategoryModelTest(TestCase):
         Set up non-modified objects used by all test methods.
         """
         Category.objects.create(name="Category1")
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_max_length(self):
         """
@@ -104,6 +124,15 @@ class ProductModelTest(TestCase):
             name="Product1",
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
     def test_name_max_length(self):
         """
         Test the Product name max_length.
@@ -145,6 +174,15 @@ class CpuBrandModelTest(TestCase):
         Set up non-modified objects used by all test methods.
         """
         CpuBrand.objects.create(name="CpuBrand1")
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_max_length(self):
         """
@@ -192,6 +230,15 @@ class CpuModelTest(TestCase):
             frequency=3.21,
             nb_cores=8,
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_max_length(self):
         """
@@ -287,6 +334,15 @@ class InventoryModelTest(TestCase):
             serial="Serial2",
             addr_mac=None,
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_hostname_max_length(self):
         """
@@ -425,6 +481,15 @@ class StatusModelTest(TestCase):
             name="Status1",
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
     def test_name_max_length(self):
         """
         Test the Status name max_length.
@@ -468,6 +533,15 @@ class AssignmentModelTest(TestCase):
         Assignment.objects.create(
             name="Assignment1",
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_is_unique(self):
         """
@@ -521,6 +595,15 @@ class DeviceUserModelTest(TestCase):
             email=None,
             uid="uid2",
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_first_name_max_length(self):
         """
@@ -661,6 +744,15 @@ class EntityModelTest(TestCase):
             name="Entity1",
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
     def test_name_max_length(self):
         """
         Test the Entity name max_length.
@@ -708,6 +800,15 @@ class LocationModelTest(TestCase):
                 name="Entity1",
             )
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_name_max_length(self):
         """

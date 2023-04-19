@@ -230,5 +230,5 @@ def advanced_search(request):
         'categories': categories_qs,
         'brands': brand_qs,
     }
-    print('Form is not valid')
+    # print('Form is not valid')
     return render(request, 'dashboard/advanced_search.html', context)
