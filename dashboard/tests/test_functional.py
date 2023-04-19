@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
 from django.core import management
 from django.db import connections
 
@@ -94,7 +95,6 @@ class DashboardFunctionalTest(LiveServerTestCase):
 
     def logUser(self):
         self.browser.get(self.live_server_url + '/users/login')
-        time.sleep(5)
 
         username_input = self.browser.find_element(By.ID, 'id_username')
         username_input.send_keys(self.username)
@@ -109,7 +109,26 @@ class DashboardFunctionalTest(LiveServerTestCase):
         """
         self.logUser()
         self.browser.get(self.live_server_url + '/dashboard/')
-        time.sleep(5)
+        device_input = Select(
+            self.browser.find_element(By.ID, 'device-select')
+        )
+        device_input.select_by_visible_text('Test_Category')
+        time.sleep(2)
+        device_input.select_by_visible_text('All devices')
+        time.sleep(2)
+        self.assertEqual(self.browser.current_url, self.live_server_url + '/dashboard/')
+
+        year_input = Select(
+            self.browser.find_element(By.ID, 'yearSelect')
+        )
+        year_input.select_by_visible_text('2022')
+        time.sleep(2)
+        year_input.select_by_visible_text('2023')
+        time.sleep(2)
+        self.assertEqual(self.browser.current_url, self.live_server_url + '/dashboard/')
+
+
+
 
 
 
