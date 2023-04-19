@@ -6,6 +6,8 @@ from django.db import connections
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+import tools.func_for_tests as tools
+
 
 class LoginViewTestCase(TestCase):
     """
@@ -15,18 +17,8 @@ class LoginViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
+        self.user = tools.create_user_for_test(self.username, self.password)
 
     @classmethod
     def tearDownClass(cls):
@@ -164,19 +156,9 @@ class AccountViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
-        self.client.login(username=self.username, password=self.password)
+        self.user = tools.create_user_for_test(self.username, self.password)
+        self.client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
@@ -217,19 +199,9 @@ class FullnameChangeViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
-        self.client.login(username=self.username, password=self.password)
+        self.user = tools.create_user_for_test(self.username, self.password)
+        self.client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
@@ -296,19 +268,9 @@ class PasswordChangeViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
-        self.client.login(username=self.username, password=self.password)
+        self.user = tools.create_user_for_test(self.username, self.password)
+        self.client.force_login(self.user)
 
     @classmethod
     def tearDownClass(cls):
@@ -318,6 +280,7 @@ class PasswordChangeViewTestCase(TestCase):
         management.call_command('flush', verbosity=0, interactive=False)
         # Disconnect from the test database
         connections['default'].close()
+
     def test_password_change_url_exists_at_location(self):
         """
         Test that the password change url exists at the location

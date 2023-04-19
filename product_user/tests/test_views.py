@@ -7,6 +7,8 @@ from django.db import connections
 from product.models import DeviceUser, Device, Category, Brand, CpuBrand, \
     Product, Inventory, Cpu, Location, OperatingSystem, Entity
 
+import tools.func_for_tests as tools
+
 
 class DeviceUserViewTestCase(TestCase):
     """
@@ -16,22 +18,11 @@ class DeviceUserViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
+        self.user = tools.create_user_for_test(self.username, self.password)
         self.client.force_login(self.user)
-        self.device_user1 = DeviceUser.objects.create(first_name='John',
-                                                      last_name='Doe',
-                                                      uid='12345')
+        # Create tests data
+        tools.create_tests_data()
 
     @classmethod
     def tearDownClass(cls):
@@ -69,9 +60,9 @@ class DeviceUserViewTestCase(TestCase):
         Test that the device users context is correct
         """
         response = self.client.get(reverse('show_last_users'))
-        self.assertContains(response, self.device_user1.first_name)
-        self.assertContains(response, self.device_user1.last_name)
-        self.assertContains(response, self.device_user1.uid)
+        self.assertContains(response, 'Test FName 1')
+        self.assertContains(response, 'Test LName 1')
+        self.assertContains(response, 'UID_1')
 
     def test_all_device_users_url_exists_at_location(self):
         """
@@ -100,9 +91,9 @@ class DeviceUserViewTestCase(TestCase):
         Test that the device users context is correct
         """
         response = self.client.get(reverse('show_all_users'))
-        self.assertContains(response, self.device_user1.first_name)
-        self.assertContains(response, self.device_user1.last_name)
-        self.assertContains(response, self.device_user1.uid)
+        self.assertContains(response, 'Test FName 1')
+        self.assertContains(response, 'Test LName 1')
+        self.assertContains(response, 'UID_1')
 
     def test_show_user_info_url_exists_at_location(self):
         """
@@ -145,45 +136,11 @@ class DeviceViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
+        self.user = tools.create_user_for_test(self.username, self.password)
         self.client.force_login(self.user)
-
-        # Create devices data
-        Category.objects.create(name='Test Category')
-        Brand.objects.create(name='Test Brand')
-        CpuBrand.objects.create(name='Test CPU Brand')
-        for i in range(20):
-            Device.objects.create(
-                product=Product.objects.create(
-                    name=f'Product {i}',
-                    category=Category.objects.get(name='Test Category'),
-                    brand=Brand.objects.get(name='Test Brand'),
-                ),
-                device_user=DeviceUser.objects.create(
-                    first_name=f'FName {i}',
-                    last_name=f'LName {i}',
-                    uid=f'UID {i}',
-                ),
-                inventory=Inventory.objects.create(
-                    hostname=f'Hostname {i}',
-                    serial=f'Serial Number {i}',
-                    cpu=Cpu.objects.create(
-                        name=f'CPU {i}',
-                        cpu_brand=CpuBrand.objects.get(name='Test CPU Brand'),
-                    )
-                ),
-            )
+        # Create tests data
+        tools.create_tests_data()
 
     @classmethod
     def tearDownClass(cls):
@@ -293,18 +250,8 @@ class AddNewDeviceViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.first_name = 'Test_fname'
-        self.last_name = 'Test_lname'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            is_active=True
-        )
+        self.user = tools.create_user_for_test(self.username, self.password)
         self.client.force_login(self.user)
 
         # Create device data for the tests

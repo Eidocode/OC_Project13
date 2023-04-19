@@ -1,17 +1,16 @@
 import time
 
-from django.contrib.auth.models import User
-from django.test import LiveServerTestCase, Client
+from django.test import LiveServerTestCase
 from django.urls import reverse
+from django.core import management
+from django.db import connections
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
-from product.models import Category, Brand, CpuBrand, Entity, Product, Cpu, \
-    Location, OperatingSystem, Device
+from product.models import Device
 
-# Set the path to the chromedriver
-# chrome_driver_path = "C:\webdriver\chromedriver.exe"
+import tools.func_for_tests as tools
 
 
 class AddNewDeviceFunctionalTest(LiveServerTestCase):
@@ -22,104 +21,184 @@ class AddNewDeviceFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        self.browser = webdriver.Chrome()
+        # Selenium webdriver
+        self.driver = webdriver.Chrome()
+        # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email='test_email@test.com',
-            first_name='Test_fname',
-            last_name='Test_lname',
-            is_active=True
-        )
-
-        # Create device data for the tests
-        Category.objects.create(name='Test Category')
-        Brand.objects.create(name='Test Brand')
-        CpuBrand.objects.create(name='Test CPU Brand')
-        Entity.objects.create(name='Test Site')
-        self.product = Product.objects.create(
-            name='Test Product',
-            category=Category.objects.get(name='Test Category'),
-            brand=Brand.objects.get(name='Test Brand'),
-        )
-        self.cpu = Cpu.objects.create(
-            name='Test CPU',
-            cpu_brand=CpuBrand.objects.get(name='Test CPU Brand'),
-        )
-        self.location = Location.objects.create(
-            name='Test',
-            loc_number='12345',
-            site=Entity.objects.get(name='Test Site'),
-        )
-        self.operating_system = OperatingSystem.objects.create(
-            name='Test OS',
-        )
-
-    def logUser(self):
-        self.browser.get(self.live_server_url + '/users/login')
-        username_input = self.browser.find_element(By.ID, 'id_username')
-        username_input.send_keys(self.username)
-        password_input = self.browser.find_element(By.ID, 'id_password')
-        password_input.send_keys(self.password)
-        submit_button = self.browser.find_element(By.ID, 'login_btn')
-        submit_button.click()
+        # Create the tests data
+        tools.create_tests_data()
+        # Create the user
+        tools.create_user_for_test(self.username, self.password)
 
     def tearDown(self):
         """
         Close the browser
         """
-        self.browser.quit()
+        self.driver.quit()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
 
     def test_add_new_device(self):
         """
         Test that the add new device form works and adds a new device
         """
+        # Log the user
+        self.driver.get(f"{self.live_server_url}/users/login")
+        tools.log_user_for_functional_tests(
+            self.username, self.password, self.driver)
+
         # Log in and navigate to the add new device page
-        self.logUser()
-        self.browser.get(self.live_server_url + '/product_user/add_device/')
+        self.driver.get(f"{self.live_server_url}/product_user/add_device/")
 
         # Fills out the product form
-        hostname_input = self.browser.find_element(By.NAME,
-                                                       "hostname")
+        hostname_input = self.driver.find_element(By.NAME, "hostname")
         hostname_input.send_keys('Test_Hostname')
-        product_select = Select(
-            self.browser.find_element(By.ID, 'id_name'))
+        product_select = Select(self.driver.find_element(By.ID, 'id_name'))
         product_select.select_by_value("1")
-        serial_input = self.browser.find_element(By.ID, "id_serial")
+        serial_input = self.driver.find_element(By.ID, "id_serial")
         serial_input.send_keys("Test012345")
-        addr_mac_input = self.browser.find_element(By.ID, "id_addr_mac")
+        addr_mac_input = self.driver.find_element(By.ID, "id_addr_mac")
         addr_mac_input.send_keys("00:00:00:00:00:00")
-        cpu_select = Select(
-            self.browser.find_element(By.ID, "id_cpu"))
+        cpu_select = Select(self.driver.find_element(By.ID, "id_cpu"))
         cpu_select.select_by_value("1")
-        ram_input = self.browser.find_element(By.ID, "id_ram")
+        ram_input = self.driver.find_element(By.ID, "id_ram")
         ram_input.send_keys("8")
-        storage_input = self.browser.find_element(By.ID, "id_storage")
+        storage_input = self.driver.find_element(By.ID, "id_storage")
         storage_input.send_keys("480")
-        os_select = Select(
-            self.browser.find_element(By.ID, "id_operating_system"))
+        os_select = Select(self.driver.find_element(By.ID,
+                                                    "id_operating_system"))
         os_select.select_by_value("1")
-        bc_input = self.browser.find_element(By.ID, "id_bc_number")
+        bc_input = self.driver.find_element(By.ID, "id_bc_number")
         bc_input.send_keys("12345")
-        inventory_input = self.browser.find_element(By.ID,
-                                                    "id_inventory_number")
+        inventory_input = self.driver.find_element(By.ID,
+                                                   "id_inventory_number")
         inventory_input.send_keys("55555")
-        location_select = Select(
-            self.browser.find_element(By.ID, "id_loc_name"))
+        location_select = Select(self.driver.find_element(By.ID,
+                                                          "id_loc_name"))
         location_select.select_by_value("1")
-        submit_device = self.browser.find_element(By.ID, 'add_new_device_btn')
+        submit_device = self.driver.find_element(By.ID, 'add_new_device_btn')
         submit_device.click()
 
         # Check that the device was added
-        self.assertEqual(Device.objects.count(), 1)
-
+        self.assertEqual(Device.objects.count(), 21)
         # Check if the user is redirected to the home page
-        self.assertEqual(self.browser.current_url,
-                         self.live_server_url + reverse('show_all_devices'))
+        self.assertEqual(self.driver.current_url,
+                         f"{self.live_server_url}{reverse('show_all_devices')}")
 
 
+class DeviceInformationPageTest(LiveServerTestCase):
+    """
+    Functional test for the device information page
+    """
+    def setUp(self):
+        """
+        Set up the browser
+        """
+        # Selenium webdriver
+        self.driver = webdriver.Chrome()
+        # Set username and password for the test
+        self.username = 'test_user'
+        self.password = 'test_password'
+        # Create the tests data
+        tools.create_tests_data()
+        # Create the user
+        tools.create_user_for_test(self.username, self.password)
+
+    def tearDown(self):
+        """
+        Close the browser
+        """
+        self.driver.quit()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
+    def test_device_information_page(self):
+        """
+        Test the device information page
+        """
+        # Log the user
+        self.driver.get(f"{self.live_server_url}{reverse('login')}")
+        tools.log_user_for_functional_tests(
+            self.username, self.password, self.driver)
+        # Navigate to the all devices page
+        self.driver.get(f"{self.live_server_url}{reverse('show_all_devices')}")
+        # Navigate to the device information page
+        details_btn = self.driver.find_element(By.ID, 'more_details')
+        details_btn.click()
+        self.assertIn(f"{self.live_server_url}/product_user/device_info/",
+                      self.driver.current_url)
+        # Navigate to the linked user page
+        linked_user = self.driver.find_element(By.ID, 'user_detail')
+        linked_user.click()
+        self.assertIn(f"{self.live_server_url}/product_user/user_info/",
+                      self.driver.current_url)
 
 
+class DeviceUserInformationPageTest(LiveServerTestCase):
+    """
+    Functional test for the device_user information page
+    """
+    def setUp(self):
+        """
+        Set up the browser
+        """
+        # Selenium webdriver
+        self.driver = webdriver.Chrome()
+        # Set username and password for the test
+        self.username = 'test_user'
+        self.password = 'test_password'
+        # Create the tests data
+        tools.create_tests_data()
+        # Create the user
+        tools.create_user_for_test(self.username, self.password)
 
+    def tearDown(self):
+        """
+        Close the browser
+        """
+        self.driver.quit()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Call super to close connections and remove data from the database
+        super().tearDownClass()
+        # Delete the test database
+        management.call_command('flush', verbosity=0, interactive=False)
+        # Disconnect from the test database
+        connections['default'].close()
+
+    def test_device_information_page(self):
+        """
+        Test the device_user information page
+        """
+        # Log the user
+        self.driver.get(f"{self.live_server_url}{reverse('login')}")
+        tools.log_user_for_functional_tests(
+            self.username, self.password, self.driver)
+        # Navigate to the all device_users page
+        self.driver.get(f"{self.live_server_url}{reverse('show_all_users')}")
+        # Navigate to the device information page
+        btn_detail = self.driver.find_element(By.ID, 'more_details')
+        btn_detail.click()
+        self.assertIn(f"{self.live_server_url}/product_user/user_info/",
+                      self.driver.current_url)
+        # Navigate to the linked user page
+        linked_user = self.driver.find_element(By.ID, 'device_detail')
+        linked_user.click()
+        self.assertIn(f"{self.live_server_url}/product_user/device_info/",
+                      self.driver.current_url)

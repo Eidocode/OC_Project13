@@ -5,8 +5,8 @@ from django.core import management
 from django.db import connections
 
 from product.forms import ContactUsForm
-from product.models import Category, Brand, Product, Device, Cpu, DeviceUser,\
-    Inventory, CpuBrand
+
+import tools.func_for_tests as tools
 
 
 class IndexViewTestCase(TestCase):
@@ -16,30 +16,7 @@ class IndexViewTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Create test data
-        Category.objects.create(name='Test Category')
-        Brand.objects.create(name='Test Brand')
-        CpuBrand.objects.create(name='Test CPU Brand')
-        for i in range(6):
-            Device.objects.create(
-                product=Product.objects.create(
-                    name=f'Test Product {i}',
-                    category=Category.objects.get(name='Test Category'),
-                    brand=Brand.objects.get(name='Test Brand'),
-                ),
-                device_user=DeviceUser.objects.create(
-                    first_name=f'Test FName {i}',
-                    last_name=f'Test LName {i}',
-                    uid=f'Test UID {i}',
-                ),
-                inventory=Inventory.objects.create(
-                    hostname=f'Test Hostname {i}',
-                    serial=f'Test Serial Number {i}',
-                    cpu=Cpu.objects.create(
-                        name=f'Test CPU {i}',
-                        cpu_brand=CpuBrand.objects.get(name='Test CPU Brand'),
-                    )
-                ),
-            )
+        tools.create_tests_data()
 
     @classmethod
     def tearDownClass(cls):
@@ -77,9 +54,9 @@ class IndexViewTestCase(TestCase):
         """
         response = self.client.get(reverse('index'))
         # Check that the context (types) is correct
-        self.assertEqual(response.context['types']['Test Category'], 6)
+        self.assertEqual(response.context['types']['Test_Category'], 20)
         # Check that the context (brands) is correct
-        self.assertEqual(response.context['brands']['Test Brand'], 6)
+        self.assertEqual(response.context['brands']['Test_Brand'], 20)
         # Check that the context (devices) returns the correct nb of devices
         self.assertEqual(response.context['devices'].count(), 5)
 

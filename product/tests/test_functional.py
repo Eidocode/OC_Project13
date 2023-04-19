@@ -3,10 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-# Set the path to the chromedriver
-# chrome_driver_path = "C:\webdriver\chromedriver.exe"
-
-
 class IndexFunctionalTest(LiveServerTestCase):
     """
     Functional test for the index page

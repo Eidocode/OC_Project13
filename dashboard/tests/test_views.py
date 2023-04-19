@@ -1,6 +1,4 @@
 from datetime import datetime
-
-from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.core import management
 from django.db import connections
@@ -9,8 +7,9 @@ from django.urls import reverse
 from dashboard.forms import SearchForm
 from dashboard.views import get_devices_by_brand, get_devices_by_entities, \
     get_devices_by_os, count_devices_by_month
-from product.models import Product, Category, Brand, Device, DeviceUser, \
-    Inventory, Cpu, CpuBrand, OperatingSystem, Entity, Location, Immo
+from product.models import Brand, Device, Entity
+
+import tools.func_for_tests as tools
 
 
 class DashboardViewTestCase(TestCase):
@@ -21,62 +20,11 @@ class DashboardViewTestCase(TestCase):
         # Create User object
         self.client = Client()
         self.username = 'test_user'
-        self.email = 'test_email@test.com'
         self.password = 'test_password'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            email=self.email,
-            first_name='Test_fname',
-            last_name='Test_lname',
-            is_active=True
-        )
+        self.user = tools.create_user_for_test(self.username, self.password)
         self.client.force_login(self.user)
-
         # Create tests data
-        Category.objects.create(name='Test_Category')
-        Brand.objects.create(name='Test_Brand')
-        CpuBrand.objects.create(name='Test_CPU_Brand')
-        OperatingSystem.objects.create(name='Test_OS')
-        Location.objects.create(
-            name='Loc',
-            loc_number=1234,
-            site=Entity.objects.create(name='Test_Entity')
-        )
-        Immo.objects.create(
-            bc_number='45000000',
-            inventory_number='12345',
-            location=Location.objects.get(
-                name='Loc'
-            ),
-        )
-        for i in range(20):
-            Device.objects.create(
-                product=Product.objects.create(
-                    name=f'Test Product {i}',
-                    category=Category.objects.get(name='Test_Category'),
-                    brand=Brand.objects.get(name='Test_Brand'),
-                ),
-                device_user=DeviceUser.objects.create(
-                    first_name=f'Test FName {i}',
-                    last_name=f'Test LName {i}',
-                    uid=f'UID_{i}',
-                ),
-                inventory=Inventory.objects.create(
-                    hostname=f'Test Hostname {i}',
-                    serial=f'Test Serial {i}',
-                    cpu=Cpu.objects.create(
-                        name=f'Test CPU {i}',
-                        cpu_brand=CpuBrand.objects.get(name='Test_CPU_Brand'),
-                    ),
-                    operating_system=OperatingSystem.objects.get(
-                        name='Test_OS'
-                    ),
-                ),
-                immo=Immo.objects.get(
-                    bc_number='45000000',
-                )
-            )
+        tools.create_tests_data()
 
     @classmethod
     def tearDownClass(cls):
