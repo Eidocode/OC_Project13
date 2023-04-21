@@ -68,7 +68,7 @@ class DashboardFunctionalTest(LiveServerTestCase):
         tools.log_user_for_functional_tests(
             self.username, self.password, self.driver)
         # Navigate to the dashboard
-        self.driver.get(self.live_server_url + '/dashboard/')
+        self.driver.get(f"{self.live_server_url}/dashboard/")
         # Select year_select and change the selector
         year_input = Select(
             self.driver.find_element(By.ID, 'yearSelect'))

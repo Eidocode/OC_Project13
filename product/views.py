@@ -90,3 +90,10 @@ def contact_us(request):
     form = ContactUsForm()
     return render(request,
                   'product/contact_us/contact_us.html', {'form': form})
+
+
+def mentions(request):
+    """
+    View for the mentions page
+    """
+    return render(request, 'product/mentions.html')

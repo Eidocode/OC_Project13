@@ -114,7 +114,7 @@
                 <div class="d-flex align-items-center justify-content-between small">
                     <div class="text-muted">Copyright &copy; 2022 David Bouzerar</div>
                     <div>
-                        <a href="#">Mentions légales</a>
+                        <a href="{% url 'mentions' %}">Mentions légales</a>
                         &middot;
                         <a href="{% url 'contact_us' %}">Contact</a>
                     </div>
@@ -125,50 +125,3 @@
 </div>
 
 {% endblock %}
-
-
-
-
-<footer class="py-4 mt-4 bg-dark text-white">
-            <div class="container-fluid px-4">
-                <div class="d-flex justify-content-between small">
-                    <div class="text-muted">Copyright &copy; 2023 David Bouzerar</div>
-                    <div>
-                        <ul class="list-inline">
-                            <li class="list-inline-item"><a href="#">Mentions légales</a></li>
-                            <li class="list-inline-item">-
-                            <li class="list-inline-item"><a href="{% url 'contact_us' %}">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/">OC-Inventory</a>
-
-        <!-- Navbar-->
-        <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                {% if user.is_authenticated %}
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        {% if user.is_staff %}
-                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Administration</a></li>
-                        {% endif %}
-                        <li><a class="dropdown-item" href="{% url 'account' %}">Afficher le profil</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'login' %}" title="Login">Se connecter</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'signup' %}" title="Logon">S'enregistrer</a></li>
-                    </ul>
-                {% endif %}
-            </li>
-        </ul>
-    </nav>

@@ -1,0 +1,58 @@
+<!-- 'Mentions' page -->
+{% extends 'product/base_body.html' %}
+{% load static %}
+
+{% block content %}
+
+<header class="page-section sign" id="mentions_page">
+    <div class="container h-100">
+        <div class="row h-75 align-items-center justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="mt-5 text-center"><b>Mentions légales</b></h2>
+                <hr class="divider my-4" />
+                <br/>
+            </div>
+            <div class="col-lg-8">
+                <p style="text-align: justify">L'application <b>OC Inventory</b> est un projet <b><a href="https://openclassrooms.com/fr/">Openclassrooms</a></b> créé
+                par David Bouzerar dans le cadre du parcours - <b>développeur d'application Python.</b>
+                Elle a été développé, principalement, en <b>Python</b> et s'appuie, en grande majorité, sur le
+                <b>framework Django</b>.</p>
+                <p style="text-align: justify">L'aspect visuel est assuré par <b>HTML5, Javascript et CSS (framework Bootstrap)</b>
+                L'intégration des graphiques et des tableaux dynamiques se fait par l'intermédiaire des librairies <b>Javascript</b>
+                <b>ChartJS</b> et <b>Simple-Datatables</b>.</p>
+
+                <hr class="divider my-4" />
+
+                <h4><b>Hébergeur</b></h4>
+                <p style="text-align: justify">L'application <a href="{% url 'index' %}"><b>OC Inventory</b></a> est hébergée sur la plateforme
+                <a href="https://www.digitalocean.com"><b>DigitalOcean</b></a>, dont le siège se situe à New York City, New York, USA</p>
+
+                <hr class="divider my-4" />
+
+                <h4><b>Ressources</b></h4>
+                <p style="text-align: justify">L'application web utilise différentes ressources (principalement pour les icônes) dont voici les références :</p>
+
+                <div>
+                    <ul style="text-align-last: left;">
+                        <li><a href="https://icomoon.io"><b>IcoMoon</b></a></li>
+                        <li><a href="https://fontawesome.com/"><b>FontAwesome</b></a></li>
+                    </ul>
+                </div>
+
+                <p style="text-align: justify"><b>Contenu</b> : Les informations contenues dans les bases de données ont été générées par le biais de l'outil en ligne
+                <b><a href="https://mockaroo.com/">Mockaroo</a></b></p>
+
+                <hr class="divider my-4" />
+
+                <h4><b>Vie privée</b></h4>
+                <p style="text-align: justify">Les données renseignées lors de la création d'un compte utilisateur ne requièrent pas d'informations privées et ne sont là
+                que dans un but de démonstration des possibilités offertes par l'application. L'adresse mail est requise, uniquement, pour valider et activer le compte
+                utilisateur lors de l'inscription.
+                Si toutefois l'utilisateur souhaite supprimer son compte, merci de le signaler dans le <b><a href="{% url 'contact_us' %}">formulaire de contact</a></b> :
+                en indiquant dans l'objet <b>"Suppression compte utilisateur"</b>. L'action sera effective sous 72h.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% endblock content %}
