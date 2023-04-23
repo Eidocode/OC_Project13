@@ -10,7 +10,7 @@ branches:
         - dev
 
 env:
-      - DJANGO_SETTINGS_MODULE=purbeurre_project.settings.travis
+      - DJANGO_SETTINGS_MODULE=inventory.settings.travis
 
 services:
       - postgresql
