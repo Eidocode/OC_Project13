@@ -1,0 +1,24 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.9
+
+  working_directory: ~/repo
+
+  steps:
+    - checkout
+
+    # Install dependencies
+    - run: pip install -r requirements.txt
+
+    # Set environment variable
+    - run:
+      name: Set Secret Key
+      command: |
+        echo 'export SECRET_KEY=${SECRET_KEY}' >> $BASH_ENV
+        source $BASH_ENV
+
+    # Run tests
+    - run: python manage.py test
