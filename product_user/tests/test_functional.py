@@ -1,6 +1,6 @@
 import time
 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 from django.core import management
 from django.db import connections
@@ -14,7 +14,20 @@ from product.models import Device
 import tools.func_for_tests as tools
 
 
-class AddNewDeviceFunctionalTest(LiveServerTestCase):
+def set_chrome_options():
+    """
+    Set Chrome options
+    """
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument("window-size=1920,1080")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    return chrome_options
+
+
+class AddNewDeviceFunctionalTest(StaticLiveServerTestCase):
     """
     Functional test for the add new device page
     """
@@ -22,8 +35,9 @@ class AddNewDeviceFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
+        chrome_options = set_chrome_options()
         # Selenium webdriver
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chrome_options)
         # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'
@@ -95,7 +109,7 @@ class AddNewDeviceFunctionalTest(LiveServerTestCase):
                          f"{self.live_server_url}{reverse('show_all_devices')}")
 
 
-class DeviceInformationPageTest(LiveServerTestCase):
+class DeviceInformationPageTest(StaticLiveServerTestCase):
     """
     Functional test for the device information page
     """
@@ -103,8 +117,9 @@ class DeviceInformationPageTest(LiveServerTestCase):
         """
         Set up the browser
         """
+        chrome_options = set_chrome_options()
         # Selenium webdriver
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chrome_options)
         # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'
@@ -150,7 +165,7 @@ class DeviceInformationPageTest(LiveServerTestCase):
                       self.driver.current_url)
 
 
-class DeviceUserInformationPageTest(LiveServerTestCase):
+class DeviceUserInformationPageTest(StaticLiveServerTestCase):
     """
     Functional test for the device_user information page
     """
@@ -158,13 +173,9 @@ class DeviceUserInformationPageTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        # Add the following lines to set Chrome options
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options = set_chrome_options()
         # Selenium webdriver
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chrome_options)
         # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'

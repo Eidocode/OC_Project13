@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import management
 from django.db import connections
 from django.urls import reverse
@@ -10,7 +10,20 @@ from selenium.webdriver.chrome.options import Options
 import tools.func_for_tests as tools
 
 
-class UsersFunctionalTest(LiveServerTestCase):
+def set_chrome_options():
+    """
+    Set Chrome options
+    """
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument("window-size=1920,1080")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    return chrome_options
+
+
+class UsersFunctionalTest(StaticLiveServerTestCase):
     """
     Functional test for the users page when the user is not registered
     """
@@ -18,13 +31,9 @@ class UsersFunctionalTest(LiveServerTestCase):
         """
         Set up the browser
         """
-        # Add the following lines to set Chrome options
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options = set_chrome_options()
         # Selenium webdriver
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chrome_options)
         # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'
