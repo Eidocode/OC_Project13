@@ -31,11 +31,10 @@ jobs:
           name: Install Google Chrome
           command: |
             sudo apt-get update
-            sudo apt-get install -y curl unzip xvfb
-            CHROME_VERSION="112.0.5615.138"
-            curl -sS -o /tmp/google-chrome.deb "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb"
-            sudo dpkg -i /tmp/google-chrome.deb
-            sudo apt-get install -f
+            sudo apt-get install -y curl unzip xvfb wget
+            wget -q https://github.com/MyRobotLab/chrome-linux/raw/master/chrome-linux.zip
+            sudo unzip chrome-linux.zip -d /opt
+            sudo ln -s /opt/chrome-linux/chrome /usr/bin/google-chrome
             google-chrome --version
       - run:
           name: Install ChromeDriver
