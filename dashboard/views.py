@@ -84,7 +84,9 @@ def dashboard(request, device_type=None, selected_year=2023):
     """
     View used for dashboard management
     """
-    devices_qs = Device.objects.all()
+    devices_qs = Device.objects.select_related(
+        'product__category', 'product__brand', 'product', 'device_user',
+        'inventory', 'immo', 'immo__location__site')
     categories_qs = Category.objects.all()
     brands_qs = Brand.objects.all()
     entities_qs = Entity.objects.all()
@@ -178,26 +180,28 @@ def advanced_search(request):
 
     if form.is_valid():
         result_process = None
+        main_qs = Device.objects.select_related(
+            'product__category', 'product__brand', 'product', 'device_user',
+            'inventory', 'immo', 'immo__location__site').order_by('added_date')
 
         # Handle different search filters
         if query == '**':
-            result_process = Device.objects.all()
+            result_process = main_qs
         elif search_filter == 'entity':
-            result_process = Device.objects.filter(
-                immo__location__site__name__icontains=query).order_by(
-                'added_date')
+            result_process = main_qs.filter(
+                immo__location__site__name__icontains=query)
         elif search_filter == 'device':
-            result_process = Device.objects.filter(
+            result_process = main_qs.filter(
                 Q(immo__inventory_number__icontains=query) |
                 Q(inventory__hostname__icontains=query) |
                 Q(inventory__serial__icontains=query)
-            ).order_by('added_date')
+            )
         elif search_filter == 'user':
-            result_process = Device.objects.filter(
+            result_process = main_qs.filter(
                 Q(device_user__last_name__icontains=query) |
                 Q(device_user__first_name__icontains=query) |
                 Q(device_user__uid__icontains=query)
-            ).order_by('added_date')
+            )
 
         # Apply DeviceUser filter
         if user_link_filter == 'Without':
