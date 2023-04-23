@@ -31,15 +31,16 @@ jobs:
           name: Install Google Chrome
           command: |
             sudo apt-get update
-            sudo apt-get install -y curl unzip xvfb wget
-            wget -q https://github.com/MyRobotLab/chrome-linux/raw/master/chrome-linux.zip
-            sudo unzip chrome-linux.zip -d /opt
-            sudo ln -s /opt/chrome-linux/chrome /usr/bin/google-chrome
-            google-chrome --version
+            sudo apt-get install -y curl unzip xvfb
+            curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+            sudo apt-get -y update
+            sudo apt-get -y install google-chrome-stable
       - run:
           name: Install ChromeDriver
           command: |
-            CHROMEDRIVER_VERSION="112.0.5615.49"
+            CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | awk -F '.' '{print $1}')
+            CHROMEDRIVER_VERSION=$(curl --location --request GET 'https://chromedriver.storage.googleapis.com/LATEST_RELEASE_'$CHROME_VERSION)
             curl --silent --show-error --location --fail --retry 3 --output /tmp/chromedriver_linux64.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
             cd /tmp
             unzip chromedriver_linux64.zip
