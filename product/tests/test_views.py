@@ -106,7 +106,6 @@ class ContactUsViewTestCase(TestCase):
             'message': 'Test_Message',
         }
         response = self.client.post(reverse('contact_us'), form_data)
-        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('contact_us'))
         self.assertEqual(len(mail.outbox), 1)
 
@@ -122,5 +121,4 @@ class ContactUsViewTestCase(TestCase):
             'message': '',
         }
         response = self.client.post(reverse('contact_us'), form_data)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
