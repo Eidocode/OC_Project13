@@ -17,4 +17,4 @@ jobs:
       - run:
           name: Run tests
           command: |
-            python manage.py test --noinput --settings=config.settings.test
+            python manage.py test --noinput --settings=inventory.settings.test
