@@ -1,12 +1,12 @@
-from . import *
+from .base import *
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
+        'NAME': 'circle_test',
+        'USER': 'circleci',
         'PASSWORD': '',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
-    },
+    }
 }
