@@ -24,7 +24,7 @@ class IndexFunctionalTest(LiveServerTestCase):
         Test the browser title
         """
         self.browser.get(self.live_server_url)
-        self.assertIn("Project OC-Inventory", self.browser.title)
+        self.assertIn("OC-Inventory Home", self.browser.title)
 
     def test_index_page_loads_without_user_account(self):
         """

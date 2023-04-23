@@ -28,6 +28,26 @@ jobs:
             sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
             rm dockerize-linux-amd64-v0.6.1.tar.gz
       - run:
+          name: Install Google Chrome
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y curl unzip xvfb
+            CHROME_VERSION="112.0.5615.138"
+            curl -sS -o /tmp/google-chrome.deb "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb"
+            sudo dpkg -i /tmp/google-chrome.deb
+            sudo apt-get install -f
+            google-chrome --version
+      - run:
+          name: Install ChromeDriver
+          command: |
+            CHROMEDRIVER_VERSION="112.0.5615.49"
+            curl --silent --show-error --location --fail --retry 3 --output /tmp/chromedriver_linux64.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+            cd /tmp
+            unzip chromedriver_linux64.zip
+            sudo mv chromedriver /usr/local/bin/chromedriver
+            sudo chmod +x /usr/local/bin/chromedriver
+            chromedriver --version
+      - run:
           name: Wait for database
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
