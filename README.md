@@ -29,15 +29,15 @@ Une rubrique nommée "**Nouveau périphérique**" permet également d'ajouter un
 L'application **Dashboard** a également une place importante dans l'utilisation de l'application. Elle est composée de plusieurs "*cartes*" ayant pour but d'indiquer l'état du parc informatique. On peut en effet rapidement connaitre, le nombre total de périphériques enregistrés, la répartition des périphériques par entité/service ou encore les types de systèmes d'exploitation présents sur le parc informatique etc... Cela permet en un coup d'oeil, d'avoir une idée de l'état général du parc. Et si nous n'y trouvons pas l'information recherchée, nous avons la possibilité d'effectuer des recherches précises dans la partie "*Recherche avancée*" de l'application, avec la possibilité de faire des recherches sous différents critères et également de les affiner en utilisant les filtres.
 
 * **Remplissage de la base de données** :
- `python manage.py fill_main_db (num)`
+`python manage.py fill_main_db (num)`
 Pour fonctionner, l'application exploite une base de données (**PostgreSQL**), dont un script de remplissage, nommé "*fill_main_db.py*", permet de fournir les différentes tables de la base de données. Ce script a été intégré en tant que commande de *manage.py*, il peut donc être appelé de la façon suivante : 
-L'argument "*num*" permet de spécifier le nombre de périphériques que nous souhaitons intégrer depuis les différentes **API**. Car en effet, les différentes informations de notre base proviennent de différentes sources extérieures à l'application. Dans notre cas, un outil nommé **OCS Inventory** récolte les informations "techniques" des différents périphériques et une base administrative nommée "**Immo**" fait le lien entre le périphérique (Serial number) et le numéro de bon de commande, date d'acquisition, entité etc... Concernant l'utilisateur du périphérique, nous interrogeons un annuaire. 
+L'argument "*num*" permet de spécifier le nombre de périphériques que nous souhaitons intégrer depuis les différentes **API**. En effet, les différentes informations de notre base proviennent de différentes sources extérieures à l'application. Dans notre cas, un outil nommé **OCS Inventory** récolte les informations "techniques" des différents périphériques et une base administrative nommée "**Immo**" fait le lien entre le périphérique (Serial number) et le numéro de bon de commande, date d'acquisition, entité etc... Concernant l'utilisateur du périphérique, nous interrogeons un annuaire. 
 Bien évidemment, il est tout à fait possible de l'adapter à n'importe quel source d'information et donc structure, l'important étant d'adapter les scripts en conséquence.
 
 ## Installation de l'application
 Pour la mise en place du projet, il est recommandé de créer un  **environnement virtuel python**. Les commandes ci-dessous sont à adapter selon le système d'exploitation utilisé. Il faut également avoir préalablement installé les dépendances éventuellement nécessaires.
 
-A savoir que le projet a été testé sur des versions  **3.8** et **3.9** de **Python**. Il est donc recommandé de créer un environnement virtuel basé sur une version compatible.
+A savoir que le projet a été testé sur des versions  **3.8**, **3.9** et **3.10** de **Python**. Il est donc recommandé de créer un environnement virtuel basé sur une version compatible.
 1.  **Installation de l'environnement virtuel**  :    
     ```
      Python -m venv (nom_environnement)
@@ -59,7 +59,7 @@ A savoir que le projet a été testé sur des versions  **3.8** et **3.9** de **
     ```
      
 5.  **Configuration de l'application**  :    
-Pour fonctionner, l'application utilise des variables d'environnement qui sont appelées dans le fichier de configuration du projet [**settings.py**](https://github.com/Eidocode/OC_Project13/blob/main/purbeurre_project/settings.py). Une première variable **['SECRET_KEY']** doit être générée aléatoirement et liée uniquement à l'installation en cours du projet. Il est indispensable que cette clé ne soit pas visible ou facilement accessible. 
+Pour fonctionner, l'application utilise des variables d'environnement qui sont appelées dans le fichier de configuration du projet [**settings**](https://github.com/Eidocode/OC_Project13/blob/main/inventory/__init__.py). Une première variable **['SECRET_KEY']** doit être générée aléatoirement et liée uniquement à l'installation en cours du projet. Il est indispensable que cette clé ne soit pas visible ou facilement accessible. 
 Une autre variable **['ENV']** aura comme valeur '***PRODUCTION***' si le déploiement a lieu sur un serveur de production. Cela dans le but d'avoir un seul fichier de configuration quelque soit le type d'environnement dans lequel l'application est installée.
 
 6.  **Execution de l'environnement Django**  :
@@ -77,7 +77,7 @@ Une [**documentation Django**](https://docs.djangoproject.com/fr/4.2/howto/deplo
 
 Il est également indispensable d'utiliser des variables d'environnements que ce soit par l'intermédiaire de l'interface graphique de l'hébergeur ou directement dans le système d'exploitation du serveur. Les valeurs de ces variables ne doivent jamais apparaitre dans les fichiers de l'application. Que ce soit dans le code ou les fichiers de configuration de l'application.
 
-Comme indiqué précédemment, ces variables d'environnement sont appelées dans le fichier  **[settings.py](https://github.com/Eidocode/OC_Project8/blob/main/purbeurre_project/settings.py)**  de l'application, de la façon suivante :
+Comme indiqué précédemment, ces variables d'environnement sont appelées dans le fichier  **[settings](https://github.com/Eidocode/OC_Project13/blob/main/inventory/__init__.py)**  de l'application, de la façon suivante :
 
 ```
     import os
