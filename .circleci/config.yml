@@ -20,6 +20,19 @@ jobs:
             source $BASH_ENV
           when: always
       - run:
+          name: Set Email Host
+          command: |
+            echo 'export EMAIL_HOST=${EMAIL_HOST}' >> $BASH_ENV
+            source $BASH_ENV
+          when: always
+      - run:
+          name: Set Email User and Password
+          command: |
+            echo 'export EMAIL_HOST_USER=${EMAIL_HOST_USER}' >> $BASH_ENV
+            echo 'export EMAIL_HOST_PWD=${EMAIL_HOST_PWD}' >> $BASH_ENV
+            source $BASH_ENV
+          when: always
+      - run:
           name: Install Dockerize
           command: |
             sudo apt-get update
