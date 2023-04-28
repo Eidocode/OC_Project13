@@ -13,7 +13,7 @@ class OcsDbHandler:
     information for each item in the database.
     """
     def __init__(self):
-        self.devices = self.convert_to_array(self._get_raw_data_from_db)
+        self.devices = self.convert_to_array(self._get_raw_data_from_db())
 
     @staticmethod
     def _get_raw_data_from_db():

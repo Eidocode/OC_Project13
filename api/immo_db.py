@@ -12,7 +12,7 @@ class ImmoDbHandler:
     information for each item in the database.
     """
     def __init__(self):
-        self.immos = self.convert_to_array(self._get_raw_data_from_db)
+        self.immos = self.convert_to_array(self._get_raw_data_from_db())
 
     @staticmethod
     def _get_raw_data_from_db():

@@ -16,6 +16,7 @@
         <div class="row justify-content-center my-5">
             <div class="col-lg-8 my-4 align-self-baseline">
                 <form action="{% url 'advanced_search' %}" method="get" class="ml-auto my-lg-0">
+                    {% csrf_token %}
                     <div class="input-group shadow">
                         {{ form.search_filter }}
                         {{ form.search }}
