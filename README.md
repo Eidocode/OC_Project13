@@ -59,7 +59,7 @@ A savoir que le projet a été testé sur des versions  **3.8**, **3.9** et **3.
     ```
      
 5.  **Configuration de l'application**  :    
-Pour fonctionner, l'application utilise des variables d'environnement qui sont appelées dans le fichier de configuration du projet [**settings**](https://github.com/Eidocode/OC_Project13/blob/main/inventory/__init__.py). Une première variable **['SECRET_KEY']** doit être générée aléatoirement et liée uniquement à l'installation en cours du projet. Il est indispensable que cette clé ne soit pas visible ou facilement accessible. 
+Pour fonctionner, l'application utilise des variables d'environnement qui sont appelées dans le fichier de configuration du projet [**settings**](https://github.com/Eidocode/OC_Project13/blob/main/inventory/settings/__init__.py). Une première variable **['SECRET_KEY']** doit être générée aléatoirement et liée uniquement à l'installation en cours du projet. Il est indispensable que cette clé ne soit pas visible ou facilement accessible. 
 Une autre variable **['ENV']** aura comme valeur '***PRODUCTION***' si le déploiement a lieu sur un serveur de production. Cela dans le but d'avoir un seul fichier de configuration quelque soit le type d'environnement dans lequel l'application est installée.
 
 6.  **Execution de l'environnement Django**  :
@@ -70,14 +70,14 @@ Une autre variable **['ENV']** aura comme valeur '***PRODUCTION***' si le déplo
 
 ## Déploiement de l'application
 
-L'application a été déployée sur la plateforme d'hébergement  **DigitalOcean**, nous pouvons la retrouver à l'adresse suivante :  [**https://app-ocinventory.com/**](#)
+L'application a été déployée sur la plateforme d'hébergement  **DigitalOcean**, nous pouvons la retrouver à l'adresse suivante :  [**http://oc-inventory.ovh/**](http://oc-inventory.ovh/)
 
 Pour effectuer ce déploiement, il est nécessaire de suivre la documentation de l'hébergeur souhaité.
 Une [**documentation Django**](https://docs.djangoproject.com/fr/4.2/howto/deployment/checklist/) très complète existe également et détaille certains aspects très importants.
 
 Il est également indispensable d'utiliser des variables d'environnements que ce soit par l'intermédiaire de l'interface graphique de l'hébergeur ou directement dans le système d'exploitation du serveur. Les valeurs de ces variables ne doivent jamais apparaitre dans les fichiers de l'application. Que ce soit dans le code ou les fichiers de configuration de l'application.
 
-Comme indiqué précédemment, ces variables d'environnement sont appelées dans le fichier  **[settings](https://github.com/Eidocode/OC_Project13/blob/main/inventory/__init__.py)**  de l'application, de la façon suivante :
+Comme indiqué précédemment, ces variables d'environnement sont appelées dans le fichier  **[settings](https://github.com/Eidocode/OC_Project13/blob/main/inventory/settings/__init__.py)** de l'application, de la façon suivante :
 
 ```
     import os
