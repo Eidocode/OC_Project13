@@ -1,6 +1,9 @@
+import re
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import management
 from django.db import connections
+from django.test.client import Client
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
@@ -104,6 +107,8 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
         chrome_options = set_chrome_options()
         # Selenium webdriver
         self.driver = webdriver.Chrome(options=chrome_options)
+        # Django client
+        self.client = Client()
         # Set username and password for the test
         self.username = 'test_user'
         self.password = 'test_password'
@@ -148,7 +153,9 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
         this_url = f"{self.live_server_url}/dashboard/advanced_search/" \
                    f"?search_filter=device&search=hostname&brand_filter=All&" \
                    f"type_filter=All&radio_device_user=All_users"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
 
     def test_advanced_search_by_entity(self):
         """
@@ -167,7 +174,9 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
         this_url = f"{self.live_server_url}/dashboard/advanced_search/" \
                    f"?search_filter=entity&search=entity&brand_filter=All&" \
                    f"type_filter=All&radio_device_user=All_users"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
 
     def test_advanced_search_by_user(self):
         """
@@ -186,7 +195,9 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
         this_url = f"{self.live_server_url}/dashboard/advanced_search/" \
                    f"?search_filter=user&search=fname&brand_filter=All&" \
                    f"type_filter=All&radio_device_user=All_users"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
 
     def test_advanced_search_by_brand(self):
         """
@@ -209,7 +220,9 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
                    f"?search_filter=device&search=hostname&" \
                    f"brand_filter=Test_Brand&type_filter=All&" \
                    f"radio_device_user=All_users"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
 
     def test_advanced_search_by_type(self):
         """
@@ -229,7 +242,9 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
                    f"?search_filter=device&search=serial&" \
                    f"brand_filter=All&type_filter=Test_Category&" \
                    f"radio_device_user=All_users"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
 
     def test_advanced_search_by_radio_device_user(self):
         """
@@ -249,4 +264,6 @@ class AdvancedSearchFunctionalTest(StaticLiveServerTestCase):
                    f"?search_filter=device&search=test&" \
                    f"brand_filter=All&type_filter=All&" \
                    f"radio_device_user=Without"
-        self.assertEqual(self.driver.current_url, this_url)
+        current_url_without_token = re.sub(
+            r'csrfmiddlewaretoken=[^&]*&?', '', self.driver.current_url)
+        self.assertEqual(current_url_without_token, this_url)
